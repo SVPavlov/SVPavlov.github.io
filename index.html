@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Second Brain — Stas Pavlov</title>
+  <meta name="description" content="AI Second Brain: A personal knowledge system by Stas Pavlov. Professional Scrum Trainer & AI Product Consultant.">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <style>
+    /* ── STAS BRAIN DESIGN SYSTEM v1.1 (inline) ──────────── */
+    :root {
+      --bg: #141914; --bg-panel: #1C211C; --bg-elevated: #252B25; --bg-inset: #111411;
+      --fg: #E8E8DE; --fg-bright: #F5F5ED; --fg-muted: #9A9A90; --fg-dim: #5C5C55;
+      --accent: #C7FF00; --accent-hover: #D4FF44; --accent-soft: rgba(199,255,0,0.12);
+      --accent-glow: rgba(199,255,0,0.06); --accent-text: #111411;
+      --danger: #F0787D; --danger-soft: rgba(240,120,125,0.15);
+      --warning: #F0B840; --warning-soft: rgba(240,184,64,0.15);
+      --info: #5BA8FF; --info-soft: rgba(91,168,255,0.15);
+      --success: #6BDB6B; --success-soft: rgba(107,219,107,0.15);
+      --border: #2A302A; --border-hover: #3A423A; --border-accent: #C7FF00;
+      --radius: 6px; --radius-md: 8px; --radius-lg: 12px; --radius-sm: 4px; --radius-pill: 100px;
+      --shadow-panel: 2px 2px 6px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.02), 0 0 0 1px var(--border);
+      --shadow-elevated: 4px 4px 16px rgba(0,0,0,0.6), -2px -2px 8px rgba(255,255,255,0.02), 0 0 0 1px var(--border-hover);
+      --shadow-inset: inset 2px 2px 6px rgba(0,0,0,0.5), inset -1px -1px 3px rgba(255,255,255,0.03);
+      --shadow-glow: 0 0 24px var(--accent-soft), 0 0 0 1px var(--border-accent);
+      --shadow-badge: inset 1px 1px 2px rgba(0,0,0,0.3), inset -1px -1px 1px rgba(255,255,255,0.04);
+      --shadow-btn: 2px 2px 6px rgba(0,0,0,0.4), -1px -1px 3px rgba(255,255,255,0.02);
+      --shadow-btn-press: inset 2px 2px 4px rgba(0,0,0,0.5), inset -1px -1px 2px rgba(255,255,255,0.02);
+      --font-mono: 'Hurmit Nerd Font', 'Hermit', 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+      --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg); color: var(--fg); font-family: var(--font-mono);
+      font-size: 15px; font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased;
+      padding-bottom: 40px;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-mono); letter-spacing: -0.03em; line-height: 1.15; color: var(--fg-bright); }
+    h1 { font-size: 48px; font-weight: 800; }
+    h2 { font-size: 36px; font-weight: 700; }
+    h3 { font-size: 22px; font-weight: 700; }
+    h4 { font-size: 18px; font-weight: 600; color: var(--fg); }
+    .subtitle { font-size: 18px; font-weight: 300; color: var(--fg-muted); letter-spacing: 0.01em; }
+    .text-muted { color: var(--fg-muted); } .text-dim { color: var(--fg-dim); }
+    .text-accent { color: var(--accent); } .text-bright { color: var(--fg-bright); }
+    strong { color: var(--fg-bright); font-weight: 700; }
+    a { color: var(--accent); text-decoration: none; transition: color 0.15s; }
+    a:hover { color: var(--accent-hover); }
+    code { font-family: var(--font-mono); font-size: 0.9em; background: var(--bg-inset); color: var(--accent); padding: 2px 6px; border-radius: 4px; box-shadow: var(--shadow-badge); border: 1px solid var(--border); }
+    .label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-dim); }
+    .eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+    .section-title { font-size: 22px; font-weight: 700; color: var(--fg-bright); padding-bottom: 8px; border-bottom: 2px solid var(--accent); display: inline-block; margin-bottom: 16px; }
+
+    /* Nav */
+    .nav {
+      background: var(--bg-inset); border-bottom: 1px solid var(--border);
+      padding: 0 24px; height: 48px; display: flex; align-items: center;
+      justify-content: space-between; position: sticky; top: 0; z-index: 50;
+    }
+    .nav__brand { color: var(--accent); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .nav__links { display: flex; gap: 4px; }
+    .nav__links a {
+      color: var(--fg-dim); text-decoration: none; font-size: 13px; font-weight: 500;
+      padding: 6px 12px; border-radius: 6px; transition: all 0.15s;
+    }
+    .nav__links a:hover { color: var(--fg); background: var(--bg-elevated); }
+    .nav__links a.active { color: var(--accent); background: var(--accent-soft); font-weight: 700; box-shadow: var(--shadow-badge); }
+
+    /* Layout */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    section { margin-top: 64px; }
+    section:first-of-type { margin-top: 48px; }
+
+    /* Panels */
+    .panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-panel); padding: 24px; }
+    .panel-elevated { background: var(--bg-elevated); border: 1px solid var(--border-hover); border-radius: 8px; box-shadow: var(--shadow-elevated); padding: 24px; }
+    .panel-inset { background: var(--bg-inset); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-inset); padding: 16px; }
+    .panel-accent { background: var(--bg-panel); border: 1px solid var(--border-accent); border-radius: 8px; box-shadow: var(--shadow-glow); padding: 24px; }
+    .panel-window { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--shadow-panel); overflow: hidden; }
+    .panel-window__header {
+      background: var(--bg-inset); border-bottom: 1px solid var(--border); padding: 8px 16px;
+      display: flex; align-items: center; gap: 12px; font-size: 10px; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-dim);
+    }
+    .panel-window__header::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent-soft); }
+    .panel-window__body { padding: 24px; }
+
+    /* Cards */
+    .card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-panel); padding: 16px; transition: all 0.15s; }
+    .card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-elevated); transform: translateY(-1px); }
+    .card-title { font-weight: 700; font-size: 13px; color: var(--fg-bright); }
+    .card-desc { font-size: 13px; font-weight: 300; color: var(--fg-muted); margin-top: 4px; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 100px;
+      border: 1px solid var(--border); background: var(--bg-elevated); color: var(--fg-muted);
+      box-shadow: var(--shadow-badge);
+    }
+    .badge-accent { color: var(--accent); border-color: rgba(199,255,0,0.3); background: rgba(199,255,0,0.08); }
+    .badge-danger { color: var(--danger); border-color: rgba(240,120,125,0.3); background: rgba(240,120,125,0.15); }
+    .badge-warning { color: var(--warning); border-color: rgba(240,184,64,0.3); background: rgba(240,184,64,0.15); }
+    .badge-info { color: var(--info); border-color: rgba(91,168,255,0.3); background: rgba(91,168,255,0.15); }
+    .badge-success { color: var(--success); border-color: rgba(107,219,107,0.3); background: rgba(107,219,107,0.15); }
+
+    /* Tables */
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; font-weight: 400; }
+    th { text-align: left; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); padding: 12px 16px; border-bottom: 2px solid var(--border); background: var(--bg-inset); }
+    td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+    tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+    tr:hover td { background: var(--bg-elevated); }
+    td.cell-primary { font-weight: 600; color: var(--fg-bright); }
+    td.cell-dim { font-size: 11px; font-weight: 500; color: var(--fg-dim); font-variant-numeric: tabular-nums; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; font-family: var(--font-mono);
+      font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      padding: 12px 20px; border-radius: 6px; border: 1px solid var(--border);
+      cursor: pointer; transition: all 0.15s; text-decoration: none; box-shadow: var(--shadow-btn);
+    }
+    .btn:active { box-shadow: var(--shadow-btn-press); transform: translateY(1px); }
+    .btn-primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); font-weight: 800; }
+    .btn-primary:hover { background: var(--accent-hover); box-shadow: var(--shadow-btn), 0 0 16px var(--accent-soft); }
+    .btn-ghost { background: var(--bg-elevated); color: var(--fg-muted); border-color: var(--border); }
+    .btn-ghost:hover { color: var(--fg); border-color: var(--fg-dim); }
+
+    /* Grids */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 768px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+
+    /* Utilities */
+    .flex { display: flex; } .flex-col { flex-direction: column; } .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; } .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; } .gap-6 { gap: 24px; } .gap-8 { gap: 32px; }
+    .mt-1 { margin-top: 4px; } .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; }
+    .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    .divider-accent { border: none; border-top: 2px solid var(--accent); opacity: 0.2; margin: 48px 0; }
+
+    /* Status bar */
+    .status-bar {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 28px; background: var(--bg-inset);
+      border-top: 1px solid var(--border); display: flex; align-items: center;
+      justify-content: space-between; padding: 0 16px; font-size: 10px; font-weight: 500; color: var(--fg-dim); z-index: 100;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-inset); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+
+    /* Callout */
+    .callout {
+      padding: 20px 24px; border-radius: 8px; border: 1px solid var(--border);
+      box-shadow: var(--shadow-panel); margin-bottom: 16px;
+    }
+    .callout-blue { background: rgba(91,168,255,0.06); border-color: rgba(91,168,255,0.2); }
+    .callout-purple { background: rgba(147,100,255,0.06); border-color: rgba(147,100,255,0.2); }
+    .callout-green { background: rgba(107,219,107,0.06); border-color: rgba(107,219,107,0.2); }
+    .callout-yellow { background: rgba(240,184,64,0.06); border-color: rgba(240,184,64,0.2); }
+    .callout-orange { background: rgba(240,144,64,0.06); border-color: rgba(240,144,64,0.2); }
+    .callout-red { background: rgba(240,120,125,0.06); border-color: rgba(240,120,125,0.2); }
+    .callout-pink { background: rgba(240,120,200,0.06); border-color: rgba(240,120,200,0.2); }
+    .callout-icon { font-size: 20px; margin-right: 12px; }
+    .callout-title { font-weight: 700; color: var(--fg-bright); margin-bottom: 4px; }
+
+    /* Ring cards */
+    .ring-card { text-align: center; padding: 32px 24px; }
+    .ring-icon { font-size: 40px; margin-bottom: 16px; display: block; }
+    .ring-title { font-size: 18px; font-weight: 700; color: var(--fg-bright); margin-bottom: 8px; }
+    .ring-desc { font-size: 13px; font-weight: 300; color: var(--fg-muted); line-height: 1.6; }
+
+    /* Loop step */
+    .loop-step { text-align: center; padding: 24px 16px; }
+    .loop-cmd { font-size: 18px; font-weight: 800; color: var(--accent); margin-bottom: 8px; font-family: var(--font-mono); }
+    .loop-desc { font-size: 13px; font-weight: 300; color: var(--fg-muted); line-height: 1.5; }
+    .loop-arrow { display: flex; align-items: center; justify-content: center; color: var(--fg-dim); font-size: 24px; }
+
+    /* Collapsible */
+    details { margin-bottom: 16px; }
+    details summary {
+      cursor: pointer; padding: 12px 16px; background: var(--bg-panel); border: 1px solid var(--border);
+      border-radius: 8px; box-shadow: var(--shadow-panel); font-weight: 700; font-size: 15px;
+      color: var(--fg-bright); list-style: none; display: flex; align-items: center; gap: 8px;
+      transition: all 0.15s;
+    }
+    details summary:hover { border-color: var(--border-hover); box-shadow: var(--shadow-elevated); }
+    details summary::before { content: '\25B6'; font-size: 10px; color: var(--accent); transition: transform 0.2s; }
+    details[open] summary::before { transform: rotate(90deg); }
+    details[open] summary { border-radius: 8px 8px 0 0; border-bottom-color: transparent; }
+    details .details-content {
+      padding: 0; background: var(--bg-panel); border: 1px solid var(--border); border-top: none;
+      border-radius: 0 0 8px 8px; box-shadow: var(--shadow-panel); overflow: hidden;
+    }
+    details .details-content table { margin: 0; }
+
+    /* Stat number */
+    .stat-number { font-size: 36px; font-weight: 800; color: var(--accent); line-height: 1; }
+    .stat-label { font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-dim); margin-top: 4px; }
+
+    /* Hero callout */
+    .hero-callout {
+      background: linear-gradient(135deg, rgba(199,255,0,0.04) 0%, rgba(91,168,255,0.04) 100%);
+      border: 1px solid rgba(199,255,0,0.15); border-radius: 12px; padding: 32px;
+      box-shadow: 0 0 40px rgba(199,255,0,0.03);
+    }
+
+    /* Blockquote */
+    blockquote {
+      border-left: 3px solid var(--accent); padding: 16px 24px; margin: 24px 0;
+      background: var(--accent-glow); border-radius: 0 8px 8px 0;
+      font-weight: 300; color: var(--fg-muted); font-style: italic;
+    }
+    blockquote strong { font-style: normal; }
+
+    /* Code block */
+    .code-block {
+      background: var(--bg-inset); border: 1px solid var(--border); border-radius: 8px;
+      padding: 20px 24px; font-family: var(--font-mono); font-size: 18px; font-weight: 600;
+      color: var(--accent); text-align: center; letter-spacing: 0.02em;
+      box-shadow: var(--shadow-inset); margin: 16px 0;
+    }
+
+    /* Mermaid */
+    .mermaid { margin: 24px 0; }
+    .mermaid svg { max-width: 100%; }
+
+    /* Mobile nav */
+    .nav-mobile-toggle { display: none; background: none; border: none; color: var(--fg-dim); font-size: 20px; cursor: pointer; padding: 4px 8px; }
+    @media (max-width: 768px) {
+      h1 { font-size: 32px; }
+      h2 { font-size: 28px; }
+      .nav__links { display: none; flex-direction: column; position: absolute; top: 48px; right: 0; background: var(--bg-inset); border: 1px solid var(--border); border-radius: 0 0 8px 8px; padding: 8px; box-shadow: var(--shadow-elevated); }
+      .nav__links.open { display: flex; }
+      .nav-mobile-toggle { display: block; }
+      .stat-number { font-size: 28px; }
+      section { margin-top: 40px; }
+    }
+
+    /* Animations */
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 8px var(--accent-soft); }
+      50% { box-shadow: 0 0 20px rgba(199, 255, 0, 0.2); }
+    }
+    .glow { animation: pulse-glow 2s ease-in-out infinite; }
+
+    /* Print */
+    @media print {
+      .nav, .status-bar { display: none; }
+      body { background: white; color: black; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav class="nav">
+    <div class="nav__brand">// stas.brain</div>
+    <button class="nav-mobile-toggle" onclick="document.querySelector('.nav__links').classList.toggle('open')">&#9776;</button>
+    <div class="nav__links">
+      <a href="#concept" class="active">Concept</a>
+      <a href="#how-it-works">How It Works</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#setup">Setup</a>
+      <a href="#commands">Commands</a>
+      <a href="#knowledge">Knowledge</a>
+      <a href="#security">Security</a>
+      <a href="#agents">Agents</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- Hero -->
+    <section>
+      <div class="hero-callout">
+        <div class="flex items-center gap-4 mb-4" style="flex-wrap:wrap">
+          <span style="font-size:40px">&#129504;</span>
+          <div>
+            <h1 style="margin:0">AI Second Brain</h1>
+            <p class="subtitle mt-1"><strong>Stas Pavlov</strong> &mdash; Professional Scrum Trainer (PST) & AI Product Consultant</p>
+          </div>
+        </div>
+        <p class="text-muted" style="font-weight:300;max-width:700px">Prowareness Academy &nbsp;|&nbsp; The Netherlands</p>
+        <p class="text-accent mt-4" style="font-style:italic;font-weight:600">"Skip the hype, ship the value"</p>
+      </div>
+    </section>
+
+    <!-- Concept -->
+    <section id="concept">
+      <h2>The Concept</h2>
+      <div class="callout callout-purple mt-6">
+        <p style="font-size:15px;line-height:1.7">
+          <span class="callout-icon">&#128161;</span>
+          An AI Second Brain is a <strong>personal knowledge system</strong> that sits between you and AI. Instead of starting every conversation from zero, the brain remembers your context &mdash; your clients, your style, your patterns, your tools &mdash; and compounds that knowledge with every interaction.
+        </p>
+      </div>
+
+      <p class="text-muted mt-6 mb-6" style="font-weight:300;font-size:15px">Think of it as three concentric rings:</p>
+
+      <div class="grid-3 gap-4">
+        <div class="card ring-card callout-blue">
+          <span class="ring-icon">&#129516;</span>
+          <div class="ring-title">Ring 1: Identity</div>
+          <div class="ring-desc">Who you are. Your voice, vocabulary, communication style, domain expertise. The brain writes emails that sound like you, creates content in your tone, and applies your professional frameworks automatically.</div>
+        </div>
+        <div class="card ring-card callout-purple">
+          <span class="ring-icon">&#128218;</span>
+          <div class="ring-title">Ring 2: Knowledge</div>
+          <div class="ring-desc">What you know. Client histories, meeting notes, research reports, contact details, market analysis. 192 markdown files organized by domain &mdash; all searchable, all version-controlled.</div>
+        </div>
+        <div class="card ring-card callout-green">
+          <span class="ring-icon">&#9889;</span>
+          <div class="ring-title">Ring 3: Capability</div>
+          <div class="ring-desc">What you can do. 50 slash commands, 29 specialized agents, 73 skills, and 11 MCP integrations that connect to Outlook, WhatsApp, LinkedIn, Notion, Google Workspace, Todoist, and more.</div>
+        </div>
+      </div>
+
+      <blockquote class="mt-6">
+        The key insight: <strong>each task you complete makes the next one faster.</strong> The <code>/learn</code> command extracts patterns from completed work and stores them in memory. Over time, proposals get sharper, emails get more natural, and research gets deeper &mdash; because the brain has seen your work before.
+      </blockquote>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- How It Works -->
+    <section id="how-it-works">
+      <h2>How It Works</h2>
+
+      <h3 class="mt-8">The Core Loop</h3>
+      <div class="code-block mt-4">/plan &nbsp;&rarr;&nbsp; /work &nbsp;&rarr;&nbsp; /review &nbsp;&rarr;&nbsp; /learn</div>
+
+      <div class="grid-4 gap-4 mt-6">
+        <div class="card loop-step callout-blue">
+          <div class="loop-cmd">&#128203; /plan</div>
+          <div class="loop-desc">Break a complex task into 5 steps of ~10 minutes each. The brain considers your calendar, priorities, and past patterns.</div>
+        </div>
+        <div class="card loop-step callout-yellow">
+          <div class="loop-cmd">&#9881;&#65039; /work</div>
+          <div class="loop-desc">Execute the plan step by step. Each step loads only the context it needs. The brain tracks progress and adapts if you get blocked.</div>
+        </div>
+        <div class="card loop-step callout-orange">
+          <div class="loop-cmd">&#128269; /review</div>
+          <div class="loop-desc">Quality check with multi-perspective validation. Catches gaps, inconsistencies, and AI-slop before you ship.</div>
+        </div>
+        <div class="card loop-step callout-green">
+          <div class="loop-cmd">&#129504; /learn</div>
+          <div class="loop-desc">Extract patterns, update memory, log what worked. This is the compounding step &mdash; it makes future work faster.</div>
+        </div>
+      </div>
+
+      <h3 class="mt-8">The Daily Rhythm</h3>
+      <div class="panel-window mt-4">
+        <div class="panel-window__header">daily-rhythm.schedule</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>When</th><th>What</th><th>Command</th></tr></thead>
+            <tbody>
+              <tr><td class="cell-dim">7:00 AM</td><td>Automated morning briefing lands in <code>briefings/</code></td><td><span class="badge">Headless pipeline</span></td></tr>
+              <tr><td class="cell-dim">Start of day</td><td>Review briefing, triage inbox, check WhatsApp</td><td><code>/morning</code></td></tr>
+              <tr><td class="cell-dim">Before meetings</td><td>Pull all context: emails, notes, history with contact</td><td><code>/work-meeting-prep</code></td></tr>
+              <tr><td class="cell-dim">After meetings</td><td>Process transcript &rarr; report &rarr; action items &rarr; Todoist</td><td><code>/process-meeting</code></td></tr>
+              <tr><td class="cell-dim">Deep work</td><td>Plan &rarr; execute &rarr; review cycle on current priority</td><td><code>/plan</code> &rarr; <code>/work</code> &rarr; <code>/review</code></td></tr>
+              <tr><td class="cell-dim">End of day</td><td>Extract learnings, update memory</td><td><code>/learn</code></td></tr>
+              <tr><td class="cell-dim">Friday</td><td>Upgrade the brain itself: new skills, better patterns</td><td><code>/friday-upgrade-research</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Architecture -->
+    <section id="architecture">
+      <h2>Architecture</h2>
+      <div class="callout callout-blue mt-6">
+        <p><span class="callout-icon">&#127959;&#65039;</span> The Second Brain is a <strong>markdown-first knowledge system</strong> orchestrated by Claude Code. Five layers, each serving a distinct purpose &mdash; from persistent storage to user-facing commands.</p>
+      </div>
+
+      <div class="panel-inset mt-6">
+        <div class="mermaid">
+graph TB
+    subgraph "Layer 5: User Interface"
+        CMD["/commands (50)"]
+        NOTION["Notion Dashboard"]
+    end
+    subgraph "Layer 4: Automation"
+        PIPE["Headless Pipelines"]
+    end
+    subgraph "Layer 3: Intelligence"
+        SK["Skills (73)"]
+        AG["Agents (29)"]
+        APEX["Apex OS (46)"]
+    end
+    subgraph "Layer 2: Integration"
+        MCP["MCP Servers (11)"]
+    end
+    subgraph "Layer 1: Storage"
+        MD["Markdown (192 files)"]
+        SB["Supabase (9 tables)"]
+        AM["Auto-Memory"]
+    end
+    CMD --> SK
+    CMD --> AG
+    SK --> MCP
+    AG --> MCP
+    MCP --> MD
+    MCP --> SB
+    PIPE --> CMD
+    NOTION --> SB
+    SK --> MD
+    AG --> MD
+    APEX --> SK
+        </div>
+      </div>
+
+      <h3 class="mt-8">Layer 1: Persistent Storage</h3>
+      <div class="grid-3 gap-4 mt-4">
+        <div class="callout callout-blue">
+          <p class="eyebrow">&#128193; Markdown Files</p>
+          <p class="card-desc mt-2">192 files in <code>memory/</code> organized by domain. Plain text, version-controlled in Git, human-readable. This is where all knowledge lives.</p>
+        </div>
+        <div class="callout callout-purple">
+          <p class="eyebrow">&#128452;&#65039; Supabase</p>
+          <p class="card-desc mt-2">9 PostgreSQL tables (clients, contacts, meetings, kanban_cards, action_items, sessions, learning_events, research_reports, follow_ups). Dual-write: markdown first, Supabase second.</p>
+        </div>
+        <div class="callout callout-green">
+          <p class="eyebrow">&#128190; Auto-Memory</p>
+          <p class="card-desc mt-2"><code>MEMORY.md</code> persists operational knowledge across sessions &mdash; API patterns, tool configs, contact lookup rules. 200-line limit, kept concise.</p>
+        </div>
+      </div>
+
+      <h3 class="mt-8">Layer 2: Integration (MCP Servers)</h3>
+      <div class="panel-window mt-4">
+        <div class="panel-window__header">mcp-servers.registry</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>Server</th><th>Connects To</th><th>Scope</th><th>Capabilities</th></tr></thead>
+            <tbody>
+              <tr><td><code>todoist</code></td><td class="cell-primary">Task management</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Create/update tasks, sync with kanban</td></tr>
+              <tr><td><code>anysite</code></td><td class="cell-primary">Web scraping & research</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">LinkedIn profiles, company pages, any URL</td></tr>
+              <tr><td><code>google-workspace</code></td><td class="cell-primary">Gmail, Docs, Drive, Calendar, Sheets</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">110 tools &mdash; personal account email, docs, events</td></tr>
+              <tr><td><code>outlook</code></td><td class="cell-primary">Local Outlook (Prowareness)</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Read/send work email, calendar</td></tr>
+              <tr><td><code>ms365</code></td><td class="cell-primary">Microsoft 365 cloud</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Mail, calendar, files, work preset</td></tr>
+              <tr><td><code>supabase</code></td><td class="cell-primary">PostgreSQL database</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Structured queries, metadata storage</td></tr>
+              <tr><td><code>granola</code></td><td class="cell-primary">Meeting transcripts</td><td><span class="badge badge-info">Hosted</span></td><td class="text-muted">Fetch transcripts from Granola recordings</td></tr>
+              <tr><td><code>notion</code></td><td class="cell-primary">Notion workspace</td><td><span class="badge badge-warning">Plugin</span></td><td class="text-muted">Search, create, update Notion pages</td></tr>
+              <tr><td><code>whatsapp</code></td><td class="cell-primary">WhatsApp messaging</td><td><span class="badge">Project</span></td><td class="text-muted">Read messages, send replies, group channels</td></tr>
+              <tr><td><code>apify</code></td><td class="cell-primary">Web automation actors</td><td><span class="badge">Project</span></td><td class="text-muted">LinkedIn scraping, data extraction at scale</td></tr>
+              <tr><td><code>workiq</code></td><td class="cell-primary">Microsoft 365 Copilot</td><td><span class="badge">Project</span></td><td class="text-muted">Query M365 data via Copilot agents</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <blockquote class="mt-4"><strong>Design principle:</strong> Global servers (6) load in every Claude Code project. Project servers (4) only load in the Second Brain. This reduces startup time and limits blast radius.</blockquote>
+
+      <h3 class="mt-8">Layer 3: Intelligence</h3>
+      <div class="grid-3 gap-4 mt-4">
+        <div class="callout callout-yellow">
+          <p class="eyebrow">&#9889; 27 Project Skills</p>
+          <p class="card-desc mt-2">Business skills that define <em>how</em> to do things: email triage, LinkedIn posting, meeting processing, market research, WhatsApp management, kanban board, training creation. Each is a <code>SKILL.md</code> file.</p>
+        </div>
+        <div class="callout callout-orange">
+          <p class="eyebrow">&#128295; 46 Global Skills (Apex OS)</p>
+          <p class="card-desc mt-2">Engineering reference skills: Supabase, Next.js, Docker, security, debugging, agent orchestration, TDD. Available in all Claude Code projects.</p>
+        </div>
+        <div class="callout callout-pink">
+          <p class="eyebrow">&#129302; 29 Agents</p>
+          <p class="card-desc mt-2">Specialized personas: chief-of-staff, email-agent, content-creator, market-researcher, essay-writer, linkedin-responder, product-expert, QA-validator, and more.</p>
+        </div>
+      </div>
+
+      <h3 class="mt-8">Layer 4: Automation (Headless Pipelines)</h3>
+      <div class="callout callout-green mt-4">
+        <p><span class="callout-icon">&#128260;</span> <code>claude -p</code> runs Claude non-interactively. Scripts scheduled via <code>launchd</code> execute on autopilot.</p>
+        <ul style="margin-top:12px;padding-left:20px;color:var(--fg-muted);font-weight:300;font-size:13px;line-height:2">
+          <li><strong>morning-briefing.sh</strong> &mdash; weekday 7am, generates daily briefing</li>
+          <li><strong>inbox-zero.sh</strong> &mdash; automated email processing</li>
+          <li>Uses <code>--allowedTools</code> for least-privilege, <code>--model sonnet</code> for cost efficiency</li>
+        </ul>
+      </div>
+
+      <h3 class="mt-8">Layer 5: User Interface</h3>
+      <div class="callout callout-red mt-4">
+        <p><span class="callout-icon">&#127919;</span> <strong>50 slash commands</strong> are the primary UI. You type <code>/command</code> and the brain executes. This dashboard provides a visual overview. Supabase will eventually power a React admin panel.</p>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Setup / At a Glance -->
+    <section id="setup">
+      <h2>My Complete Setup</h2>
+      <h3 class="mt-6">At a Glance</h3>
+
+      <div class="grid-4 gap-4 mt-4">
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">50</div>
+          <div class="stat-label">Slash Commands</div>
+        </div>
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">73</div>
+          <div class="stat-label">Skills</div>
+        </div>
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">29</div>
+          <div class="stat-label">Agents</div>
+        </div>
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">11</div>
+          <div class="stat-label">MCP Servers</div>
+        </div>
+      </div>
+      <div class="grid-4 gap-4 mt-4">
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">192</div>
+          <div class="stat-label">Memory Files</div>
+        </div>
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">11</div>
+          <div class="stat-label">Clients Tracked</div>
+        </div>
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">40</div>
+          <div class="stat-label">Research Reports</div>
+        </div>
+        <div class="panel" style="text-align:center;padding:24px 16px">
+          <div class="stat-number">9</div>
+          <div class="stat-label">Supabase Tables</div>
+        </div>
+      </div>
+
+      <div class="panel-window mt-8">
+        <div class="panel-window__header">inventory.overview</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>Component</th><th>Count</th><th>Details</th></tr></thead>
+            <tbody>
+              <tr><td class="cell-primary">Slash Commands</td><td><strong style="color:var(--accent)">50</strong></td><td class="text-muted">Core workflow, planning, content, communication, client, system</td></tr>
+              <tr><td class="cell-primary">Project Skills</td><td><strong style="color:var(--accent)">27</strong></td><td class="text-muted">Business skills in <code>.claude/skills/</code></td></tr>
+              <tr><td class="cell-primary">Global Skills</td><td><strong style="color:var(--accent)">46</strong></td><td class="text-muted">Apex OS engineering skills in <code>~/.claude/skills/</code></td></tr>
+              <tr><td class="cell-primary">Agents</td><td><strong style="color:var(--accent)">14 active</strong></td><td class="text-muted">Specialized personas in <code>.claude/agents/</code></td></tr>
+              <tr><td class="cell-primary">MCP Servers</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">6 global + 4 project + 1 plugin (Notion)</td></tr>
+              <tr><td class="cell-primary">Memory Files</td><td><strong style="color:var(--accent)">192</strong></td><td class="text-muted">In <code>memory/</code> &mdash; clients, research, patterns, workflows</td></tr>
+              <tr><td class="cell-primary">Clients Tracked</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">ABN AMRO, ASML, Achmea, Equalit, Fancom, and more</td></tr>
+              <tr><td class="cell-primary">Research Reports</td><td><strong style="color:var(--accent)">40</strong></td><td class="text-muted">Market analysis, competitor research, technology evaluations</td></tr>
+              <tr><td class="cell-primary">Kanban Cards</td><td><strong style="color:var(--accent)">12</strong></td><td class="text-muted">3 in_progress, 6 planned, 3 ideas</td></tr>
+              <tr><td class="cell-primary">Supabase Tables</td><td><strong style="color:var(--accent)">9</strong></td><td class="text-muted">clients, contacts, meetings, kanban_cards, action_items, sessions, learning_events, research_reports, follow_ups</td></tr>
+              <tr><td class="cell-primary">Headless Pipelines</td><td><strong style="color:var(--accent)">3</strong></td><td class="text-muted">morning-briefing, inbox-zero, multi-agent</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Commands -->
+    <section id="commands">
+      <h2>Commands by Domain</h2>
+
+      <div class="mt-6">
+        <!-- Core Workflow -->
+        <details>
+          <summary><span class="badge badge-info" style="margin-right:8px">8</span> Core Workflow</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/plan</code></td><td>Create a structured 5-step plan, breaking tasks into 10-minute increments</td></tr>
+                <tr><td><code>/work</code></td><td>Execute a plan with systematic todo tracking</td></tr>
+                <tr><td><code>/step</code></td><td>Execute the next step in the current plan incrementally</td></tr>
+                <tr><td><code>/review</code></td><td>Comprehensive quality review with multi-agent validation</td></tr>
+                <tr><td><code>/learn</code></td><td>Extract learnings from recent work and update semantic memory</td></tr>
+                <tr><td><code>/recall</code></td><td>Search all memories for relevant information by topic or keyword</td></tr>
+                <tr><td><code>/ask</code></td><td>Quick help with any task using your brain's knowledge</td></tr>
+                <tr><td><code>/grow</code></td><td>Brain health report with growth metrics and time savings</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Workflow Variants -->
+        <details>
+          <summary><span class="badge badge-info" style="margin-right:8px">5</span> Workflow Variants</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/quick-cycle</code></td><td>Fast work &rarr; review cycle, skips planning for small changes</td></tr>
+                <tr><td><code>/simple-cycle</code></td><td>Beginner-friendly 4-step workflow</td></tr>
+                <tr><td><code>/full-cycle</code></td><td>Complete 5-phase workflow with approval gates</td></tr>
+                <tr><td><code>/full-cycle-auto</code></td><td>Automated plan &rarr; work &rarr; test &rarr; review &rarr; triage</td></tr>
+                <tr><td><code>/my-workflow</code></td><td>Customizable 4-phase workflow</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Email & Communication -->
+        <details>
+          <summary><span class="badge badge-danger" style="margin-right:8px">16</span> Email & Communication</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/morning</code></td><td>Unified morning briefing &mdash; calendar, inbox, WhatsApp, priorities</td></tr>
+                <tr><td><code>/draft-email</code></td><td>Draft professional emails in your authentic voice</td></tr>
+                <tr><td><code>/work-inbox</code></td><td>Scan unread Prowareness work emails, categorize and prioritize</td></tr>
+                <tr><td><code>/work-triage</code></td><td>Process Outlook inbox to zero &mdash; reply, defer, task, or skip</td></tr>
+                <tr><td><code>/work-send</code></td><td>Compose and send email via Prowareness account</td></tr>
+                <tr><td><code>/work-digest</code></td><td>Daily/weekly email summary</td></tr>
+                <tr><td><code>/work-follow-up</code></td><td>Track sent emails that haven't received replies</td></tr>
+                <tr><td><code>/work-contact-intel</code></td><td>Full relationship intelligence for any contact</td></tr>
+                <tr><td><code>/work-meeting-prep</code></td><td>Deep meeting prep &mdash; emails, contacts, notes, action items</td></tr>
+                <tr><td><code>/personal-inbox</code></td><td>Morning email digest for personal MS365</td></tr>
+                <tr><td><code>/personal-triage</code></td><td>Process personal inbox to zero</td></tr>
+                <tr><td><code>/personal-send</code></td><td>Draft and send from personal Outlook</td></tr>
+                <tr><td><code>/personal-digest</code></td><td>Personal email summary</td></tr>
+                <tr><td><code>/personal-follow-up</code></td><td>Track personal sent emails without replies</td></tr>
+                <tr><td><code>/personal-contact-intel</code></td><td>Relationship intelligence from personal MS365</td></tr>
+                <tr><td><code>/personal-meeting-prep</code></td><td>Meeting prep from personal calendar</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Calendar -->
+        <details>
+          <summary><span class="badge badge-success" style="margin-right:8px">5</span> Calendar & Scheduling</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/work-today</code></td><td>Today's calendar from local Outlook with context</td></tr>
+                <tr><td><code>/work-week</code></td><td>Week ahead from local Outlook with prep notes</td></tr>
+                <tr><td><code>/personal-today</code></td><td>Today's events from personal MS365</td></tr>
+                <tr><td><code>/personal-week</code></td><td>Personal week overview with meeting prep</td></tr>
+                <tr><td><code>/personal-schedule</code></td><td>Create calendar events from screenshots or descriptions</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- LinkedIn -->
+        <details>
+          <summary><span class="badge badge-info" style="margin-right:8px">5</span> LinkedIn</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/linkedin-post</code></td><td>Draft LinkedIn posts in Stas's voice, max 1300 chars</td></tr>
+                <tr><td><code>/linkedin-inbox</code></td><td>Scan for unanswered comments, reposts, mentions, messages</td></tr>
+                <tr><td><code>/linkedin-engage</code></td><td>Analyze engagement on posts, send personalized DMs</td></tr>
+                <tr><td><code>/linkedin-research</code></td><td>Research topics, posts, competitors, engagement patterns</td></tr>
+                <tr><td><code>/linkedin-prospect</code></td><td>Research a person or company before meetings/outreach</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- WhatsApp -->
+        <details>
+          <summary><span class="badge badge-success" style="margin-right:8px">6</span> WhatsApp</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/whatsapp-digest</code></td><td>Review messages from last 3 days with action items</td></tr>
+                <tr><td><code>/whatsapp-inbox</code></td><td>Analyze messages for pending tasks and needed replies</td></tr>
+                <tr><td><code>/whatsapp-unanswered-messages</code></td><td>Scan for unanswered messages and suggest actions</td></tr>
+                <tr><td><code>/whatsapp-bridge-restart</code></td><td>Restart the bridge when MCP returns empty results</td></tr>
+                <tr><td><code>/genai-circle</code></td><td>Read and summarize WhatsApp from Gen AI Circle community</td></tr>
+                <tr><td><code>/genai-circle-research</code></td><td>Research a topic across Gen AI Circle channels</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Meetings & Clients -->
+        <details>
+          <summary><span class="badge badge-danger" style="margin-right:8px">8</span> Meetings & Clients</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/list-meetings</code></td><td>Show recent Granola meetings available for processing</td></tr>
+                <tr><td><code>/process-meeting</code></td><td>Process transcript &rarr; report &rarr; decisions &rarr; action items</td></tr>
+                <tr><td><code>/meeting-report</code></td><td>Generate structured meeting report and store in client folder</td></tr>
+                <tr><td><code>/meeting-to-presentation</code></td><td>Create Gamma presentation from meeting transcript</td></tr>
+                <tr><td><code>/scan-action-items</code></td><td>Scan transcripts for action items, add to Todoist</td></tr>
+                <tr><td><code>/action-harvest</code></td><td>Scan meetings, WhatsApp, email for action items</td></tr>
+                <tr><td><code>/client-status</code></td><td>Quick overview of all active client projects</td></tr>
+                <tr><td><code>/follow-up-radar</code></td><td>Track pending responses and overdue follow-ups</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Planning -->
+        <details>
+          <summary><span class="badge badge-warning" style="margin-right:8px">8</span> Planning & Projects</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/kanban</code></td><td>View and manage personal kanban board with Todoist sync</td></tr>
+                <tr><td><code>/add-task</code></td><td>Quick task capture with priority and tags</td></tr>
+                <tr><td><code>/decide</code></td><td>Document important decisions with rationale and trade-offs</td></tr>
+                <tr><td><code>/monday-pack</code></td><td>Monday kickoff report with open threads and priorities</td></tr>
+                <tr><td><code>/priority-stack</code></td><td>Dynamic priority ranking based on deadlines and value</td></tr>
+                <tr><td><code>/plan-status</code></td><td>Show current plan progress and next action</td></tr>
+                <tr><td><code>/new-project</code></td><td>Create a project with standard structure</td></tr>
+                <tr><td><code>/switch</code></td><td>Switch to a different project, loading its context</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- Content & Research -->
+        <details>
+          <summary><span class="badge badge-warning" style="margin-right:8px">10</span> Content & Research</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/idea</code></td><td>Quick idea capture with automatic categorization</td></tr>
+                <tr><td><code>/content-pipeline</code></td><td>Show content creation status and ideas ready to develop</td></tr>
+                <tr><td><code>/market-research</code></td><td>Research markets, competitors, trends (quick / deep / assignment)</td></tr>
+                <tr><td><code>/research-digest</code></td><td>Compile research notes into actionable insights</td></tr>
+                <tr><td><code>/create-training</code></td><td>Single-chain pipeline: brief &rarr; complete training materials</td></tr>
+                <tr><td><code>/ingest-training</code></td><td>Ingest Scrum.org courseware from GitHub into content library</td></tr>
+                <tr><td><code>/repurpose-ai-content</code></td><td>Transform training content into course modules and guides</td></tr>
+                <tr><td><code>/convert-to-markdown</code></td><td>Convert PDF, PPTX, DOCX, images to Markdown</td></tr>
+                <tr><td><code>/weekly-wins</code></td><td>Compile completed tasks and achievements for the week</td></tr>
+                <tr><td><code>/remove-ai-slop</code></td><td>Remove AI-generated slop from code changes</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+
+        <!-- System -->
+        <details>
+          <summary><span class="badge" style="margin-right:8px">9</span> System & Admin</summary>
+          <div class="details-content">
+            <table>
+              <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>/start</code></td><td>Launch the Second Brain onboarding experience</td></tr>
+                <tr><td><code>/setup</code></td><td>Guided setup to personalize your brain (10 min)</td></tr>
+                <tr><td><code>/import-memories</code></td><td>Import ChatGPT and Claude conversation history</td></tr>
+                <tr><td><code>/sync-notion</code></td><td>Sync inventory to the Notion dashboard</td></tr>
+                <tr><td><code>/file-changes</code></td><td>Track files modified this session</td></tr>
+                <tr><td><code>/level-up</code></td><td>Assess your Claude Code level (0-10) and get upgrade roadmap</td></tr>
+                <tr><td><code>/friday-upgrade-research</code></td><td>Deep research for Second Brain upgrades</td></tr>
+                <tr><td><code>/synergy-hours</code></td><td>Fill in weekly hours in Exact Synergy via browser automation</td></tr>
+                <tr><td><code>/find-training-file</code></td><td>Search OneDrive for training materials and documents</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Knowledge Base Map -->
+    <section id="knowledge">
+      <h2>Knowledge Base Map</h2>
+      <div class="callout callout-blue mt-6">
+        <p><span class="callout-icon">&#128451;&#65039;</span> Everything the brain knows is stored in <code>memory/</code> as plain markdown files. Here's what lives where and why.</p>
+      </div>
+
+      <div class="grid-2 gap-4 mt-6">
+        <div class="panel-window">
+          <div class="panel-window__header">business-identity</div>
+          <div class="panel-window__body" style="padding:0;overflow-x:auto">
+            <table>
+              <thead><tr><th>File</th><th>Contains</th></tr></thead>
+              <tbody>
+                <tr><td><code>CLAUDE.md</code></td><td class="text-muted">Personal profile, domain rules, workflow config</td></tr>
+                <tr><td><code>products.md</code></td><td class="text-muted">Full product catalog: PSPO I, II, PSPO-AI, PAL-EBM, etc.</td></tr>
+                <tr><td><code>positioning.md</code></td><td class="text-muted">Market positioning and competitive framing</td></tr>
+                <tr><td><code>differentiators.md</code></td><td class="text-muted">What makes Prowareness Academy different</td></tr>
+                <tr><td><code>ideal-customer-profile.md</code></td><td class="text-muted">ICP definition &mdash; who we serve and why</td></tr>
+                <tr><td><code>pain-points.md</code></td><td class="text-muted">Common problems our clients face</td></tr>
+                <tr><td><code>objections.md</code></td><td class="text-muted">Objection handling playbook</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="panel-window">
+          <div class="panel-window__header">communication-dna</div>
+          <div class="panel-window__body" style="padding:0;overflow-x:auto">
+            <table>
+              <thead><tr><th>File</th><th>Contains</th></tr></thead>
+              <tbody>
+                <tr><td><code>tone.md</code></td><td class="text-muted">"Dynamische Expert Stem" &mdash; direct, pragmatic, no filler</td></tr>
+                <tr><td><code>vocabulary.md</code></td><td class="text-muted">Words to use/avoid, Dutch-English blend rules</td></tr>
+                <tr><td><code>email-style.md</code></td><td class="text-muted">Email patterns, greeting conventions, sign-offs</td></tr>
+                <tr><td><code>visual-identity.md</code></td><td class="text-muted">Design system: dark olive + neon lime, Hermit font</td></tr>
+                <tr><td><code>design-system.css</code></td><td class="text-muted">Full CSS design system v1.1</td></tr>
+                <tr><td><code>examples/</code></td><td class="text-muted">Reference: email templates, LinkedIn post templates</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2 gap-4 mt-4">
+        <div class="callout callout-red">
+          <p class="eyebrow">Client Knowledge (11 clients, 40+ files)</p>
+          <p class="card-desc mt-2">Each client has a folder in <code>memory/clients/</code> with <code>_index.md</code> (overview, relationship status, key contacts) and <code>meetings/</code> (chronological reports with decisions and action items).</p>
+          <p class="card-desc mt-2"><strong>Active:</strong> ABN AMRO, Achmea, Equalit, Fancom, Ivo, Martin Hinshelwood, MTC, Prowareness, Rabobank, Rijnstate, Second Brain Factory</p>
+        </div>
+        <div class="callout callout-yellow">
+          <p class="eyebrow">Research Library (40 reports)</p>
+          <p class="card-desc mt-2">All in <code>memory/research/</code>. Key topics: AI training market analysis (NL/EU), competitive landscape, AI maturity scan frameworks, Second Brain as a service, customer validation, regulatory analysis (EU AI Act), technology evaluations.</p>
+        </div>
+      </div>
+
+      <div class="grid-2 gap-4 mt-4">
+        <div class="callout callout-green">
+          <p class="eyebrow">Extracted Patterns</p>
+          <p class="card-desc mt-2"><code>memory/patterns/</code> &mdash; wisdom extracted via <code>/learn</code> that grows over time. Messaging patterns, proposal patterns, training design patterns. Each includes context, the pattern itself, and when to apply it.</p>
+        </div>
+        <div class="callout callout-orange">
+          <p class="eyebrow">Workflows & Templates (17)</p>
+          <p class="card-desc mt-2"><code>memory/workflows/</code> &mdash; reusable processes: research templates, LinkedIn automation, Supabase patterns, Apify configs, meeting report template.</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Security -->
+    <section id="security">
+      <h2>Security & Safety</h2>
+      <div class="callout callout-red mt-6">
+        <p><span class="callout-icon">&#128274;</span> The Second Brain handles sensitive client data, email credentials, and API tokens. Security is layered across hooks, permissions, and operational practices.</p>
+      </div>
+
+      <h3 class="mt-6">Hooks</h3>
+      <div class="panel-window mt-4">
+        <div class="panel-window__header">hooks.config</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>Hook</th><th>Trigger</th><th>What It Does</th></tr></thead>
+            <tbody>
+              <tr><td class="cell-primary">Session Logger</td><td><code>SessionStart</code></td><td class="text-muted">Runs <code>log-session.sh</code> to track session activity on the board</td></tr>
+              <tr><td class="cell-primary">Destructive Command Guard</td><td><code>PreToolUse</code> (Bash)</td><td class="text-muted"><strong>Blocks</strong> <code>git push --force</code>, <code>git reset --hard</code>, <code>rm -rf</code>, <code>git branch -D</code>, <code>git clean -f</code>, <code>git checkout .</code>, <code>git restore .</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="mt-6">Permission Deny List</h3>
+      <div class="panel-window mt-4">
+        <div class="panel-window__header">permissions.deny</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>Category</th><th>Blocked</th></tr></thead>
+            <tbody>
+              <tr><td class="cell-primary">Read secrets</td><td class="text-muted"><code>~/.ssh/**</code>, <code>~/.aws/**</code>, <code>~/.config/gcloud/**</code>, <code>**/.env</code>, <code>**/secrets/**</code>, <code>**/credentials/**</code>, <code>**/*.pem</code>, <code>**/*.key</code></td></tr>
+              <tr><td class="cell-primary">Edit system files</td><td class="text-muted"><code>**/.git/config</code>, <code>**/node_modules/**</code>, <code>~/.bashrc</code>, <code>~/.zshrc</code>, <code>/etc/**</code>, <code>/usr/**</code></td></tr>
+              <tr><td class="cell-primary">Destructive commands</td><td class="text-muted"><code>rm -rf /</code>, <code>sudo rm</code>, <code>chmod 777</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h3 class="mt-6">Supply Chain Safety</h3>
+      <div class="panel mt-4">
+        <ul style="padding-left:20px;color:var(--fg-muted);font-weight:300;font-size:13px;line-height:2.2">
+          <li>All npx MCP packages <strong>version-pinned</strong> (e.g., <code>@microsoft/workiq@0.2.8</code>)</li>
+          <li>API tokens stored in <strong>macOS Keychain</strong>, never in config files</li>
+          <li>Supabase PAT accessed via Keychain wrapper script</li>
+          <li><code>skipDangerousModePermissionPrompt</code> <strong>removed</strong> from global settings</li>
+          <li>Sandbox mode <strong>enabled</strong> with auto-allow for Bash</li>
+          <li>MCP wrapper stderr logs at <code>/tmp/mcp-{name}.log</code> for debugging</li>
+          <li>mcpsec baseline score: <strong style="color:var(--accent)">77/100</strong> (2026-02-27)</li>
+        </ul>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Agents -->
+    <section id="agents">
+      <h2>Agents</h2>
+      <div class="panel-window mt-6">
+        <div class="panel-window__header">agents.registry</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>Agent</th><th>Role</th><th>Used By</th></tr></thead>
+            <tbody>
+              <tr><td class="cell-primary">chief-of-staff</td><td class="text-muted">Strategic advisor for priorities, meetings, business ops</td><td><code>/morning</code>, <code>/monday-pack</code></td></tr>
+              <tr><td class="cell-primary">email-agent</td><td class="text-muted">Crafts emails that sound like Stas</td><td><code>/draft-email</code>, <code>/work-send</code></td></tr>
+              <tr><td class="cell-primary">content-creator</td><td class="text-muted">Creates content across platforms in Stas's voice</td><td><code>/linkedin-post</code>, <code>/content-pipeline</code></td></tr>
+              <tr><td class="cell-primary">market-researcher</td><td class="text-muted">Autonomous market research from a free-form brief</td><td><code>/market-research</code></td></tr>
+              <tr><td class="cell-primary">research-depth-analyzer</td><td class="text-muted">Multi-AI-source research using Claude, Gemini, Codex</td><td>Deep research tasks</td></tr>
+              <tr><td class="cell-primary">essay-writer</td><td class="text-muted">Long-form essay specialist</td><td>Book chapters, articles</td></tr>
+              <tr><td class="cell-primary">linkedin-responder</td><td class="text-muted">Drafts LinkedIn message responses</td><td><code>/linkedin-engage</code></td></tr>
+              <tr><td class="cell-primary">product-expert</td><td class="text-muted">Knows Prowareness vision, pricing, features, positioning</td><td>Proposals, client calls</td></tr>
+              <tr><td class="cell-primary">claude-code-specialist</td><td class="text-muted">Expert on Second Brain architecture and context engineering</td><td><code>/friday-upgrade-research</code></td></tr>
+              <tr><td class="cell-primary">daily-accountability-coach</td><td class="text-muted">Suggests daily plans based on calendar and goals</td><td><code>/morning</code></td></tr>
+              <tr><td class="cell-primary">pmo-advisor</td><td class="text-muted">Strategic priority coaching and task prioritization</td><td><code>/priority-stack</code></td></tr>
+              <tr><td class="cell-primary">meeting-scheduler</td><td class="text-muted">Extracts meeting details from screenshots &rarr; Google Calendar</td><td><code>/personal-schedule</code></td></tr>
+              <tr><td class="cell-primary">qa-validator</td><td class="text-muted">Verifies features through browser testing and DB validation</td><td><code>/review</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- Visual Identity -->
+    <section>
+      <h2>Visual Identity</h2>
+      <div class="callout callout-purple mt-6">
+        <p><span class="callout-icon">&#127912;</span> All HTML output uses the <strong>Stas Brain Design System v1.1</strong> &mdash; a dark-mode neo-brutalist aesthetic with neumorphic depth and IDE-inspired elements.</p>
+      </div>
+
+      <div class="grid-3 gap-4 mt-6">
+        <div class="panel">
+          <p class="eyebrow mb-4">Palette</p>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+            <div style="width:32px;height:32px;border-radius:6px;background:#141914;border:1px solid var(--border)"></div>
+            <span class="text-dim" style="font-size:13px">#141914 <span class="label">Background</span></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+            <div style="width:32px;height:32px;border-radius:6px;background:#1C211C;border:1px solid var(--border)"></div>
+            <span class="text-dim" style="font-size:13px">#1C211C <span class="label">Panels</span></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+            <div style="width:32px;height:32px;border-radius:6px;background:#C7FF00;border:1px solid var(--border)"></div>
+            <span style="color:var(--accent);font-size:13px;font-weight:700">#C7FF00 <span class="label">Accent</span></span>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+            <div style="width:32px;height:32px;border-radius:6px;background:#E8E8DE;border:1px solid var(--border)"></div>
+            <span class="text-dim" style="font-size:13px">#E8E8DE <span class="label">Text</span></span>
+          </div>
+        </div>
+        <div class="panel">
+          <p class="eyebrow mb-4">Philosophy</p>
+          <ul style="padding-left:16px;color:var(--fg-muted);font-weight:300;font-size:13px;line-height:2">
+            <li>Dark-mode neo-brutalist + neumorphic depth</li>
+            <li>IDE-inspired nav bar, status bar, panel windows</li>
+            <li>Pill-shaped badges with inner shadow</li>
+            <li>Weight contrast creates hierarchy (800 &rarr; 300)</li>
+            <li>Responsive grid collapse at 768px</li>
+          </ul>
+        </div>
+        <div class="panel">
+          <p class="eyebrow mb-4">Files</p>
+          <ul style="padding-left:16px;color:var(--fg-muted);font-weight:300;font-size:13px;line-height:2">
+            <li><strong>CSS:</strong> <code>design-system.css</code></li>
+            <li><strong>Reference:</strong> <code>visual-identity.md</code></li>
+            <li><strong>Template:</strong> <code>prototype-template.html</code></li>
+          </ul>
+          <p class="text-dim mt-4" style="font-size:11px;font-weight:300">Font: Hermit Nerd Font (monospace) with JetBrains Mono / Fira Code fallback chain</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider-accent"></div>
+
+    <!-- CLI Tools -->
+    <section>
+      <h2>CLI Tools for Multi-Model Workflows</h2>
+      <div class="callout callout-yellow mt-6">
+        <p><span class="callout-icon">&#128295;</span> The Second Brain can call other AI models for second opinions, fact-checking, and specialized reviews.</p>
+      </div>
+
+      <div class="panel-window mt-4">
+        <div class="panel-window__header">multi-model.tools</div>
+        <div class="panel-window__body" style="padding:0;overflow-x:auto">
+          <table>
+            <thead><tr><th>Tool</th><th>Model</th><th>Used For</th></tr></thead>
+            <tbody>
+              <tr><td><code>gemini -p "prompt"</code></td><td class="cell-primary">Gemini</td><td class="text-muted">Second opinion, fact-checking, engagement review</td></tr>
+              <tr><td><code>copilot -p "prompt"</code></td><td class="cell-primary">GitHub Copilot</td><td class="text-muted">Technical review, GitHub-aware AI</td></tr>
+              <tr><td><code>codex exec "prompt"</code></td><td class="cell-primary">GPT-5.3-Codex</td><td class="text-muted">Code review, reasoning tasks</td></tr>
+              <tr><td><code>workiq ask -q "question"</code></td><td class="cell-primary">M365 Copilot</td><td class="text-muted">Microsoft 365 data queries</td></tr>
+              <tr><td><code>claude -p "prompt"</code></td><td class="cell-primary">Claude (nested)</td><td class="text-muted">High-stakes review (requires <code>unset CLAUDECODE</code>)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div style="height:80px"></div>
+  </div>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="color:var(--accent)">&#9679;</span> stas.brain v1.1
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span>50 <span class="text-dim">commands</span></span>
+      <span>73 <span class="text-dim">skills</span></span>
+      <span>192 <span class="text-dim">memory files</span></span>
+    </div>
+  </div>
+
+  <!-- Active nav highlighting on scroll -->
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        darkMode: true,
+        background: '#141914',
+        primaryColor: '#1C211C',
+        primaryTextColor: '#E8E8DE',
+        primaryBorderColor: '#2A302A',
+        lineColor: '#C7FF00',
+        secondaryColor: '#252B25',
+        tertiaryColor: '#111411',
+        fontFamily: "'JetBrains Mono', 'Fira Code', monospace",
+        fontSize: '13px',
+        nodeBorder: '#C7FF00',
+        clusterBkg: '#1C211C',
+        clusterBorder: '#2A302A',
+        titleColor: '#C7FF00'
+      }
+    });
+
+    // Active nav on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav__links a');
+
+    function updateActiveNav() {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 100;
+        if (window.scrollY >= top) current = section.getAttribute('id');
+      });
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+      });
+    }
+
+    window.addEventListener('scroll', updateActiveNav);
+    updateActiveNav();
+  </script>
+</body>
+</html>
