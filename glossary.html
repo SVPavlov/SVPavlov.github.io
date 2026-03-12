@@ -3,469 +3,303 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Terminal & AI Glossary | Stas Pavlov</title>
+<title>Terminal & AI Glossary // stas.brain</title>
 <meta name="description" content="150+ practical terms for non-developers working with Claude Code, AI agents, and modern developer tools.">
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0B1C12;
-    --bg-light: #0f2518;
-    --bg-card: rgba(255,255,255,0.04);
-    --bg-card-hover: rgba(255,255,255,0.07);
-    --bg-glass: rgba(220,228,230,0.06);
-    --orange: #FC7F00;
-    --orange-hover: #ff9a2e;
-    --orange-glow: rgba(252,127,0,0.15);
-    --green-accent: #2d6b3f;
-    --green-light: #3a8a52;
-    --blue: #5B8DEF;
-    --red: #E85D5D;
-    --white: #F8F9FB;
-    --text: #DCE4E6;
-    --text-muted: #69727D;
-    --border: rgba(255,255,255,0.08);
-    --border-active: rgba(252,127,0,0.4);
+    --bg: #141914; --bg-panel: #1C211C; --bg-elevated: #252B25; --bg-inset: #111411;
+    --fg: #E8E8DE; --fg-bright: #F5F5ED; --fg-muted: #9A9A90; --fg-dim: #5C5C55;
+    --accent: #C7FF00; --accent-hover: #D4FF44; --accent-soft: rgba(199,255,0,0.12);
+    --accent-glow: rgba(199,255,0,0.06); --accent-text: #111411;
+    --danger: #F0787D; --danger-soft: rgba(240,120,125,0.15);
+    --warning: #F0B840; --warning-soft: rgba(240,184,64,0.15);
+    --info: #5BA8FF; --info-soft: rgba(91,168,255,0.15);
+    --success: #6BDB6B; --success-soft: rgba(107,219,107,0.15);
+    --border: #2A302A; --border-hover: #3A423A; --border-accent: #C7FF00;
+    --radius: 6px; --radius-md: 8px; --radius-lg: 12px; --radius-sm: 4px; --radius-pill: 100px;
+    --shadow-panel: 2px 2px 6px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.02), 0 0 0 1px var(--border);
+    --shadow-elevated: 4px 4px 16px rgba(0,0,0,0.6), -2px -2px 8px rgba(255,255,255,0.02), 0 0 0 1px var(--border-hover);
+    --shadow-inset: inset 2px 2px 6px rgba(0,0,0,0.5), inset -1px -1px 3px rgba(255,255,255,0.03);
+    --shadow-glow: 0 0 24px var(--accent-soft), 0 0 0 1px var(--border-accent);
+    --shadow-badge: inset 1px 1px 2px rgba(0,0,0,0.3), inset -1px -1px 1px rgba(255,255,255,0.04);
+    --shadow-btn: 2px 2px 6px rgba(0,0,0,0.4), -1px -1px 3px rgba(255,255,255,0.02);
+    --font-mono: 'Hurmit Nerd Font', 'Hermit', 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+    --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
   }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Manrope', sans-serif;
+    background: var(--bg); color: var(--fg); font-family: var(--font-mono);
+    font-size: 15px; font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased;
     min-height: 100vh;
-    font-size: 16px;
-    line-height: 1.6;
   }
 
-  /* === NAVBAR === */
-  .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 40px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(11,28,18,0.9);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border);
+  /* ── Nav ──────────────────────────────────────────── */
+  .nav {
+    background: var(--bg-inset); border-bottom: 1px solid var(--border);
+    padding: 0 24px; height: 48px; display: flex; align-items: center;
+    justify-content: space-between; position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   }
+  .nav__brand { color: var(--accent); font-weight: 800; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
+  .nav__meta { font-size: 11px; color: var(--fg-dim); font-weight: 500; }
+  .nav__meta strong { color: var(--fg-muted); font-weight: 700; }
 
-  .logo {
-    font-size: 24px;
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: -1px;
-    text-decoration: none;
-  }
-
-  .logo span { color: var(--orange); }
-
-  .nav-meta {
-    font-size: 13px;
-    color: var(--text-muted);
-    font-weight: 500;
-  }
-
-  .nav-meta strong {
-    color: var(--orange);
-  }
-
-  /* === HERO === */
+  /* ── Hero ──────────────────────────────────────────── */
   .hero {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 80px 40px 48px;
-    text-align: center;
+    max-width: 900px; margin: 0 auto; padding: 64px 24px 32px;
   }
-
-  .hero-badge {
-    display: inline-block;
-    background: var(--orange-glow);
-    color: var(--orange);
-    font-size: 13px;
-    font-weight: 700;
-    padding: 6px 16px;
-    border-radius: 100px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    margin-bottom: 24px;
-    border: 1px solid rgba(252,127,0,0.2);
+  .hero .eyebrow {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 12px;
   }
-
   .hero h1 {
-    font-size: clamp(32px, 5vw, 52px);
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: -2px;
-    line-height: 1.1;
-    margin-bottom: 16px;
+    font-family: var(--font-mono); font-size: 42px; font-weight: 800;
+    color: var(--fg-bright); letter-spacing: -0.03em; line-height: 1.15;
   }
-
   .hero h1 em {
-    font-style: normal;
-    color: var(--orange);
+    font-style: normal; color: var(--accent);
+  }
+  .hero .subtitle {
+    font-size: 16px; font-weight: 300; color: var(--fg-muted);
+    letter-spacing: 0.01em; margin-top: 12px; max-width: 640px; line-height: 1.6;
+    font-family: var(--font-sans);
   }
 
-  .hero p {
-    font-size: 18px;
-    color: var(--text-muted);
-    max-width: 600px;
-    margin: 0 auto 40px;
-    line-height: 1.7;
-  }
-
-  /* === SEARCH === */
+  /* ── Search ──────────────────────────────────────── */
   .search-container {
-    max-width: 640px;
-    margin: 0 auto 24px;
+    max-width: 900px; margin: 0 auto; padding: 0 24px;
     position: relative;
   }
-
   .search-input {
-    width: 100%;
-    padding: 16px 24px 16px 52px;
-    background: var(--bg-light);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    color: var(--white);
-    font-family: 'Manrope', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
+    width: 100%; font-family: var(--font-mono); font-size: 14px; font-weight: 400;
+    background: var(--bg-inset); color: var(--fg); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 14px 16px 14px 44px;
+    box-shadow: var(--shadow-inset); transition: all 0.15s;
   }
-
   .search-input:focus {
-    border-color: var(--border-active);
-    box-shadow: 0 0 0 4px var(--orange-glow);
+    outline: none; border-color: var(--accent); box-shadow: var(--shadow-glow);
+    color: var(--fg-bright);
   }
-
-  .search-input::placeholder {
-    color: var(--text-muted);
-  }
-
+  .search-input::placeholder { color: var(--fg-dim); font-weight: 300; font-style: italic; }
   .search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: var(--text-muted);
-    pointer-events: none;
+    position: absolute; left: 38px; top: 50%; transform: translateY(-50%);
+    color: var(--fg-dim); pointer-events: none;
   }
-
   .search-count {
-    text-align: center;
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 32px;
-    font-weight: 500;
-    min-height: 20px;
+    max-width: 900px; margin: 8px auto 0; padding: 0 24px;
+    font-size: 11px; color: var(--fg-dim); font-weight: 500; min-height: 18px;
   }
 
-  /* === CATEGORY CHIPS === */
+  /* ── Category Chips ──────────────────────────────── */
   .category-chips {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    max-width: 900px;
-    margin: 0 auto 56px;
-    padding: 0 40px;
+    max-width: 900px; margin: 20px auto 40px; padding: 0 24px;
+    display: flex; flex-wrap: wrap; gap: 6px;
   }
-
   .chip {
-    padding: 8px 16px;
-    border-radius: 100px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid var(--border);
-    background: var(--bg-card);
-    color: var(--text-muted);
-    transition: all 0.2s;
-    white-space: nowrap;
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: var(--font-mono); font-size: 11px; font-weight: 700;
+    letter-spacing: 0.05em; text-transform: uppercase;
+    padding: 6px 14px; border-radius: var(--radius-pill);
+    border: 1px solid var(--border); background: var(--bg-elevated);
+    color: var(--fg-muted); cursor: pointer; transition: all 0.15s;
+    box-shadow: var(--shadow-badge);
   }
-
-  .chip:hover {
-    background: var(--bg-card-hover);
-    color: var(--text);
-    border-color: rgba(255,255,255,0.15);
-  }
-
+  .chip:hover { color: var(--fg); border-color: var(--border-hover); }
   .chip.active {
-    background: var(--orange-glow);
-    color: var(--orange);
-    border-color: rgba(252,127,0,0.3);
+    color: var(--accent); border-color: rgba(199,255,0,0.3);
+    background: rgba(199,255,0,0.08);
   }
 
-  /* === CONTENT === */
+  /* ── Content ──────────────────────────────────────── */
   .content {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 40px 100px;
+    max-width: 900px; margin: 0 auto; padding: 0 24px 100px;
   }
 
-  /* === CATEGORY SECTION === */
-  .category {
-    margin-bottom: 56px;
-  }
-
+  /* ── Category Section ────────────────────────────── */
+  .category { margin-bottom: 48px; }
   .category-header {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 24px;
-    padding-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .category-icon {
+    width: 36px; height: 36px; border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+    background: var(--accent-soft); border: 1px solid rgba(199,255,0,0.15);
+  }
+  .category-title {
+    font-family: var(--font-mono); font-size: 20px; font-weight: 700;
+    color: var(--fg-bright); letter-spacing: -0.03em;
+  }
+  .category-count {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    color: var(--fg-dim); background: var(--bg-elevated);
+    padding: 3px 10px; border-radius: var(--radius-pill); margin-left: auto;
+    border: 1px solid var(--border); box-shadow: var(--shadow-badge);
+  }
+
+  /* ── Term Cards ──────────────────────────────────── */
+  .term-card {
+    background: var(--bg-panel); border: 1px solid var(--border);
+    border-radius: var(--radius-md); padding: 16px 20px;
+    margin-bottom: 6px; transition: all 0.15s; cursor: default;
+    box-shadow: var(--shadow-panel);
+  }
+  .term-card:hover {
+    border-color: var(--border-hover); box-shadow: var(--shadow-elevated);
+    transform: translateY(-1px);
+  }
+  .term-card.highlight {
+    border-color: var(--border-accent);
+    background: rgba(199,255,0,0.03);
+    box-shadow: var(--shadow-glow);
+  }
+  .term-name {
+    font-family: var(--font-mono); font-size: 15px; font-weight: 700;
+    color: var(--accent); margin-bottom: 4px; letter-spacing: -0.02em;
+  }
+  .term-def {
+    font-size: 14px; color: var(--fg); line-height: 1.65;
+    font-family: var(--font-sans); font-weight: 400;
+  }
+  .term-def em { color: var(--fg-bright); font-style: italic; }
+  .term-def code {
+    font-family: var(--font-mono); font-size: 0.88em;
+    background: var(--bg-inset); color: var(--accent);
+    padding: 2px 6px; border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-badge); border: 1px solid var(--border);
+  }
+
+  /* ── Symbols Table ──────────────────────────────── */
+  .symbols-table {
+    width: 100%; border-collapse: separate; border-spacing: 0 4px;
+  }
+  .symbols-table th {
+    text-align: left; font-size: 10px; font-weight: 700;
+    color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em;
+    padding: 8px 16px 12px; border-bottom: 2px solid var(--border);
+    background: var(--bg-inset);
+  }
+  .symbols-table td {
+    background: var(--bg-panel); padding: 10px 16px; font-size: 13px;
     border-bottom: 1px solid var(--border);
   }
-
-  .category-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    flex-shrink: 0;
-  }
-
-  .category-title {
-    font-size: 22px;
-    font-weight: 800;
-    color: var(--white);
-    letter-spacing: -0.5px;
-  }
-
-  .category-count {
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    background: var(--bg-card);
-    padding: 4px 10px;
-    border-radius: 100px;
-    margin-left: auto;
-  }
-
-  /* === TERM CARDS === */
-  .term-card {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
-    margin-bottom: 8px;
-    transition: all 0.2s;
-    cursor: default;
-  }
-
-  .term-card:hover {
-    background: var(--bg-card-hover);
-    border-color: rgba(255,255,255,0.12);
-  }
-
-  .term-card.highlight {
-    border-color: var(--border-active);
-    background: rgba(252,127,0,0.04);
-  }
-
-  .term-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--orange);
-    margin-bottom: 6px;
-    letter-spacing: -0.3px;
-  }
-
-  .term-def {
-    font-size: 15px;
-    color: var(--text);
-    line-height: 1.65;
-  }
-
-  .term-def code {
-    background: rgba(255,255,255,0.08);
-    padding: 2px 7px;
-    border-radius: 5px;
-    font-size: 13px;
-    font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
-    color: var(--orange-hover);
-  }
-
-  /* === SYMBOLS TABLE === */
-  .symbols-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 4px;
-  }
-
-  .symbols-table th {
-    text-align: left;
-    font-size: 12px;
-    font-weight: 700;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    padding: 8px 16px 12px;
-  }
-
-  .symbols-table td {
-    background: var(--bg-card);
-    padding: 12px 16px;
-    font-size: 14px;
-  }
-
   .symbols-table tr td:first-child {
-    border-radius: 8px 0 0 8px;
-    font-family: 'SF Mono', 'Fira Code', monospace;
-    color: var(--orange);
-    font-weight: 700;
-    font-size: 16px;
-    width: 60px;
-    text-align: center;
+    border-radius: var(--radius) 0 0 var(--radius);
+    font-family: var(--font-mono); color: var(--accent);
+    font-weight: 700; font-size: 16px; width: 60px; text-align: center;
   }
-
   .symbols-table tr td:nth-child(2) {
-    font-weight: 600;
-    color: var(--white);
-    width: 160px;
+    font-weight: 600; color: var(--fg-bright); width: 160px;
   }
-
   .symbols-table tr td:last-child {
-    border-radius: 0 8px 8px 0;
-    color: var(--text);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--fg); font-family: var(--font-sans);
   }
+  .symbols-table tr:hover td { background: var(--bg-elevated); }
 
-  /* === FOOTER === */
+  /* ── Category Colors ─────────────────────────────── */
+  .cat-shell .category-icon { background: var(--info-soft); border-color: rgba(91,168,255,0.2); }
+  .cat-tools .category-icon { background: var(--info-soft); border-color: rgba(91,168,255,0.2); }
+  .cat-infra .category-icon { background: var(--success-soft); border-color: rgba(107,219,107,0.2); }
+  .cat-git .category-icon { background: var(--warning-soft); border-color: rgba(240,184,64,0.2); }
+  .cat-pkg .category-icon { background: var(--danger-soft); border-color: rgba(240,120,125,0.2); }
+  .cat-ai .category-icon { background: var(--accent-soft); border-color: rgba(199,255,0,0.2); }
+  .cat-cli .category-icon { background: var(--info-soft); border-color: rgba(91,168,255,0.2); }
+  .cat-devops .category-icon { background: var(--success-soft); border-color: rgba(107,219,107,0.2); }
+  .cat-net .category-icon { background: var(--danger-soft); border-color: rgba(240,120,125,0.2); }
+  .cat-community .category-icon { background: var(--accent-soft); border-color: rgba(199,255,0,0.2); }
+  .cat-mcp .category-icon { background: rgba(160,120,255,0.15); border-color: rgba(160,120,255,0.25); }
+  .cat-claude-code .category-icon { background: var(--accent-soft); border-color: rgba(199,255,0,0.25); }
+  .cat-agentic .category-icon { background: rgba(255,160,60,0.15); border-color: rgba(255,160,60,0.25); }
+  .cat-prompting .category-icon { background: rgba(100,200,255,0.15); border-color: rgba(100,200,255,0.25); }
+  .cat-ai-cli .category-icon { background: rgba(255,200,60,0.15); border-color: rgba(255,200,60,0.25); }
+
+  /* ── Footer ──────────────────────────────────────── */
   .footer {
-    text-align: center;
-    padding: 40px;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 14px;
+    text-align: center; padding: 40px 24px; border-top: 1px solid var(--border);
+    color: var(--fg-dim); font-size: 13px; font-family: var(--font-sans);
   }
+  .footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .footer a:hover { color: var(--accent-hover); }
 
-  .footer a {
-    color: var(--orange);
-    text-decoration: none;
-    font-weight: 600;
-  }
-
-  .footer a:hover {
-    color: var(--orange-hover);
-  }
-
-  /* === NO RESULTS === */
+  /* ── No Results ──────────────────────────────────── */
   .no-results {
-    text-align: center;
-    padding: 60px 20px;
-    color: var(--text-muted);
-    display: none;
+    text-align: center; padding: 60px 20px; color: var(--fg-muted); display: none;
   }
+  .no-results .emoji { font-size: 48px; margin-bottom: 16px; }
+  .no-results p { font-size: 15px; font-family: var(--font-sans); }
 
-  .no-results .emoji {
-    font-size: 48px;
-    margin-bottom: 16px;
-  }
-
-  .no-results p {
-    font-size: 16px;
-  }
-
-  /* === BACK TO TOP === */
+  /* ── Back to Top ─────────────────────────────────── */
   .back-to-top {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: var(--orange);
-    color: var(--bg);
-    border: none;
-    cursor: pointer;
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.3s;
-    box-shadow: 0 4px 24px rgba(252,127,0,0.3);
+    position: fixed; bottom: 32px; right: 32px; width: 44px; height: 44px;
+    border-radius: var(--radius-md); background: var(--accent); color: var(--accent-text);
+    border: none; cursor: pointer; font-size: 18px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: translateY(20px); transition: all 0.3s;
+    box-shadow: var(--shadow-btn), 0 0 24px var(--accent-soft);
     z-index: 50;
   }
+  .back-to-top.visible { opacity: 1; transform: translateY(0); }
+  .back-to-top:hover { background: var(--accent-hover); transform: translateY(-2px); }
 
-  .back-to-top.visible {
-    opacity: 1;
-    transform: translateY(0);
+  /* ── Status Bar ──────────────────────────────────── */
+  .status-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; height: 28px;
+    background: var(--bg-inset); border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 16px; font-size: 10px; font-weight: 500; color: var(--fg-dim); z-index: 100;
   }
 
-  .back-to-top:hover {
-    background: var(--orange-hover);
-    transform: translateY(-2px);
-  }
+  /* ── Scrollbar ──────────────────────────────────── */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: var(--bg-inset); }
+  ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--fg-dim); }
 
-  /* === CATEGORY COLORS === */
-  .cat-shell .category-icon { background: rgba(91,141,239,0.15); }
-  .cat-tools .category-icon { background: rgba(91,141,239,0.15); }
-  .cat-infra .category-icon { background: rgba(58,138,82,0.15); }
-  .cat-git .category-icon { background: rgba(252,127,0,0.15); }
-  .cat-pkg .category-icon { background: rgba(232,93,93,0.15); }
-  .cat-ai .category-icon { background: rgba(252,127,0,0.15); }
-  .cat-cli .category-icon { background: rgba(91,141,239,0.15); }
-  .cat-devops .category-icon { background: rgba(58,138,82,0.15); }
-  .cat-net .category-icon { background: rgba(232,93,93,0.15); }
-  .cat-community .category-icon { background: rgba(252,127,0,0.15); }
-
-  /* === RESPONSIVE === */
+  /* ── Responsive ─────────────────────────────────── */
   @media (max-width: 768px) {
-    .navbar { padding: 16px 20px; }
-    .hero { padding: 48px 20px 32px; }
-    .hero p { font-size: 16px; }
-    .search-container { margin: 0 20px 24px; }
-    .category-chips { padding: 0 20px; margin-bottom: 40px; }
-    .content { padding: 0 20px 80px; }
-    .term-card { padding: 16px 18px; }
-    .category-title { font-size: 18px; }
+    .nav { padding: 0 16px; }
+    .hero { padding: 40px 16px 24px; }
+    .hero h1 { font-size: 28px; }
+    .hero .subtitle { font-size: 14px; }
+    .search-container { padding: 0 16px; }
+    .search-icon { left: 30px; }
+    .category-chips { padding: 0 16px; margin-bottom: 32px; }
+    .content { padding: 0 16px 80px; }
+    .term-card { padding: 14px 16px; }
+    .category-title { font-size: 17px; }
     .symbols-table td:nth-child(2) { width: auto; }
-    .nav-meta { display: none; }
+    .nav__meta { display: none; }
+    .status-bar { display: none; }
   }
-
-  @media (max-width: 480px) {
-    .hero h1 { font-size: 28px; letter-spacing: -1px; }
-    .chip { font-size: 12px; padding: 6px 12px; }
-  }
-
-  /* === SMOOTH SCROLL === */
-  html { scroll-behavior: smooth; }
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="index.html" class="logo" style="font-size:13px;letter-spacing:0.08em;text-transform:uppercase;color:#C7FF00;text-decoration:none">&larr; Second Brain</a>
-  <a href="#" class="logo"><span>ai</span>cademy</a>
-  <div class="nav-meta"><strong>150+</strong> terms &middot; Stas Pavlov</div>
+<!-- Nav -->
+<nav class="nav">
+  <a href="index.html" class="nav__brand">// stas.brain</a>
+  <div class="nav__meta"><strong>150+</strong> terms &middot; Stas Pavlov</div>
 </nav>
 
-<!-- HERO -->
+<!-- Hero -->
 <section class="hero">
-  <div class="hero-badge">Reference Guide</div>
+  <p class="eyebrow">Reference Guide</p>
   <h1>Terminal & <em>AI</em> Glossary</h1>
-  <p>A practical reference for non-developers working with Claude Code, AI agents, and modern developer tools. Plain language. No jargon chains.</p>
-
-  <!-- SEARCH -->
-  <div class="search-container">
-    <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-    <input type="text" class="search-input" id="searchInput" placeholder="Search terms... (e.g. MCP, Docker, branch)" autocomplete="off">
-  </div>
-  <div class="search-count" id="searchCount"></div>
+  <p class="subtitle">A practical reference for non-developers working with Claude Code, AI agents, and modern developer tools. Plain language. No jargon chains.</p>
 </section>
 
-<!-- CATEGORY CHIPS -->
+<!-- Search -->
+<div class="search-container">
+  <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+  <input type="text" class="search-input" id="searchInput" placeholder="Search terms... (e.g. MCP, Docker, branch)" autocomplete="off">
+</div>
+<div class="search-count" id="searchCount"></div>
+
+<!-- Category Chips -->
 <div class="category-chips" id="categoryChips">
   <button class="chip active" data-category="all">All</button>
   <button class="chip" data-category="shell">Shell & Terminal</button>
@@ -474,13 +308,17 @@
   <button class="chip" data-category="git">Git & Version Control</button>
   <button class="chip" data-category="pkg">Package Management</button>
   <button class="chip" data-category="ai">AI / LLM</button>
+  <button class="chip" data-category="mcp">MCP Ecosystem</button>
+  <button class="chip" data-category="claude-code">Claude Code</button>
+  <button class="chip" data-category="agentic">Agentic AI</button>
+  <button class="chip" data-category="prompting">Prompt & Context Engineering</button>
+  <button class="chip" data-category="ai-cli">AI CLI Tools</button>
   <button class="chip" data-category="cli">CLI Commands</button>
   <button class="chip" data-category="devops">DevOps</button>
   <button class="chip" data-category="net">Networking & Security</button>
   <button class="chip" data-category="community">Gen AI Circle</button>
 </div>
 
-<!-- CONTENT -->
 <main class="content" id="glossaryContent">
 
 <!-- 1. Shell & Terminal Basics -->
@@ -824,25 +662,166 @@
   </table>
 </section>
 
+<!-- 12. MCP (Model Context Protocol) Ecosystem -->
+<section class="category cat-mcp" data-category="mcp" id="cat-mcp">
+  <div class="category-header">
+    <div class="category-icon">&#x1F50C;</div>
+    <h2 class="category-title">MCP (Model Context Protocol) Ecosystem</h2>
+    <span class="category-count"></span>
+  </div>
+  <div class="term-list">
+    <div class="term-card"><div class="term-name">MCP (Model Context Protocol)</div><div class="term-def">An open standard created by Anthropic that lets AI assistants connect to external tools and data sources. Think of it as USB-C for AI &mdash; one standard protocol, many different tools. Released late 2024, now adopted across the industry.</div></div>
+    <div class="term-card"><div class="term-name">MCP Server</div><div class="term-def">A lightweight program that exposes a tool or data source to AI. The Notion MCP server lets Claude read and write Notion pages; the Todoist MCP server manages your tasks. You can have many servers running simultaneously.</div></div>
+    <div class="term-card"><div class="term-name">MCP Client</div><div class="term-def">The AI application that connects to MCP servers to use their tools. Your Claude Code session is an MCP client. Claude Desktop is another.</div></div>
+    <div class="term-card"><div class="term-name">MCP Host</div><div class="term-def">The application environment that contains the MCP client and the LLM. Claude Code is both the host and client in most setups.</div></div>
+    <div class="term-card"><div class="term-name">MCP Tool</div><div class="term-def">A specific action an MCP server makes available to the AI. For example, the Google Workspace MCP server exposes tools like "send email," "create document," and "list calendar events."</div></div>
+    <div class="term-card"><div class="term-name">MCP Resource</div><div class="term-def">Data that an MCP server exposes for the AI to read. Referenced using <code>@</code> mentions in Claude Code, similar to how you reference files.</div></div>
+    <div class="term-card"><div class="term-name">Transport Mode</div><div class="term-def">How an MCP client and server communicate. Three options: <code>stdio</code> (local process), <code>SSE</code> (streaming over HTTP), and <code>Streamable HTTP</code> (newest, most flexible).</div></div>
+    <div class="term-card"><div class="term-name">Hosted MCP</div><div class="term-def">An MCP server that runs remotely in the cloud rather than on your machine. Anysite, Todoist, and Granola use hosted MCP. Simpler setup but you trust the host with your data.</div></div>
+    <div class="term-card"><div class="term-name">Local MCP</div><div class="term-def">An MCP server running on your own machine via <code>npx</code> or Docker. More control and privacy, but requires local setup and consumes resources.</div></div>
+    <div class="term-card"><div class="term-name">MCP Tool Search</div><div class="term-def">A Claude Code feature that dynamically loads tools on-demand instead of preloading all of them. Activates automatically when tool definitions would consume more than 10% of the context window.</div></div>
+    <div class="term-card"><div class="term-name">mcpsec</div><div class="term-def">A security scanning tool for MCP configurations. Checks for known vulnerabilities, exposed API keys, and unpinned package versions. Run with <code>bunx mcpsec scan</code>.</div></div>
+    <div class="term-card"><div class="term-name">MCP Wrapper</div><div class="term-def">A shell script between Claude Code and an MCP server, used to inject secrets from the Keychain or set environment variables without hardcoding them in config files.</div></div>
+    <div class="term-card"><div class="term-name">Context Budget</div><div class="term-def">How much of your context window is already consumed by MCP tool definitions, skills, and system instructions before you start typing. More MCPs = less room for actual work.</div></div>
+    <div class="term-card"><div class="term-name">A2A (Agent-to-Agent Protocol)</div><div class="term-def">An open protocol from Google (April 2025) that lets AI agents communicate directly with each other. Complementary to MCP: MCP connects agents to tools, A2A connects agents to agents. Now managed by the Linux Foundation.</div></div>
+    <div class="term-card"><div class="term-name">JSON-RPC</div><div class="term-def">A protocol for remote procedure calls using JSON. MCP uses JSON-RPC 2.0 under the hood for all communication between clients and servers.</div></div>
+    <div class="term-card"><div class="term-name">SSE (Server-Sent Events)</div><div class="term-def">A one-way server-to-client streaming protocol. One of MCP's supported transport modes, used for hosted MCP servers that stream responses over HTTP.</div></div>
+  </div>
+</section>
+
+<!-- 13. Claude Code Concepts -->
+<section class="category cat-claude-code" data-category="claude-code" id="cat-claude-code">
+  <div class="category-header">
+    <div class="category-icon">&#x1F9E0;</div>
+    <h2 class="category-title">Claude Code Concepts</h2>
+    <span class="category-count"></span>
+  </div>
+  <div class="term-list">
+    <div class="term-card"><div class="term-name">CLAUDE.md</div><div class="term-def">The configuration file that tells Claude Code about your project, preferences, and rules. Lives in your project root and is read at the start of every session. Think of it as your AI's instruction manual.</div></div>
+    <div class="term-card"><div class="term-name">Skill</div><div class="term-def">A reusable instruction set packaged as a markdown file in <code>.claude/skills/</code>. Invoked via slash commands (e.g., <code>/plan</code>, <code>/review</code>) or automatically when Claude recognizes a matching task.</div></div>
+    <div class="term-card"><div class="term-name">Slash Command</div><div class="term-def">A command starting with <code>/</code> that triggers a specific action or skill. Built-in: <code>/clear</code>, <code>/compact</code>, <code>/context</code>, <code>/help</code>. Custom ones map to your skills.</div></div>
+    <div class="term-card"><div class="term-name">Subagent</div><div class="term-def">A specialized AI agent that Claude Code spawns for specific tasks. Each subagent can have its own tools, permissions, and instructions. Like a senior developer delegating to specialists.</div></div>
+    <div class="term-card"><div class="term-name">Hook</div><div class="term-def">Code that runs automatically at specific moments: before a tool runs (PreToolUse), after a tool runs (PostToolUse), when a session starts (SessionStart). Used for security, logging, and automation.</div></div>
+    <div class="term-card"><div class="term-name">/compact</div><div class="term-def">A Claude Code command that summarizes the current conversation to free up context window space. Pass a focus parameter to guide what survives: <code>/compact focus on client context</code>.</div></div>
+    <div class="term-card"><div class="term-name">/context</div><div class="term-def">Shows a visual grid of how much context window space you have used. Your "fuel gauge" &mdash; when it fills up, quality degrades.</div></div>
+    <div class="term-card"><div class="term-name">Context Window</div><div class="term-def">The total amount of text (measured in tokens) an AI can consider at once. Everything &mdash; your files, MCP tools, conversation history, and CLAUDE.md &mdash; must fit in this window.</div></div>
+    <div class="term-card"><div class="term-name">Compaction</div><div class="term-def">The automatic or manual summarization of conversation history to stay within context window limits. Triggered automatically near the limit or manually via <code>/compact</code>.</div></div>
+    <div class="term-card"><div class="term-name">Plugin</div><div class="term-def">An extension that adds capabilities to Claude Code. Installed from the Plugins marketplace with stricter review than community MCPs.</div></div>
+    <div class="term-card"><div class="term-name">Permission Mode</div><div class="term-def">Controls what Claude Code is allowed to do without asking. Ranges from restrictive (ask before every file edit) to permissive. Configure in settings.</div></div>
+    <div class="term-card"><div class="term-name">Headless Mode</div><div class="term-def">Running Claude Code non-interactively via <code>claude -p "prompt"</code>. Enables automation: scheduled briefings, batch processing, CI/CD integration. Pipe output to files or other tools.</div></div>
+    <div class="term-card"><div class="term-name">--allowedTools</div><div class="term-def">A flag for headless Claude Code that restricts which tools the session can access. Principle of least privilege for automated pipelines.</div></div>
+    <div class="term-card"><div class="term-name">Worktree</div><div class="term-def">A Git feature that lets you have multiple branches checked out simultaneously in different folders. Claude Code uses worktrees to run parallel agent tasks without conflicts.</div></div>
+    <div class="term-card"><div class="term-name">Second Brain</div><div class="term-def">An AI-enhanced personal knowledge management system built on Claude Code + Git + markdown files. Captures, organizes, and retrieves information as an extension of your memory.</div></div>
+    <div class="term-card"><div class="term-name">Memory Layer</div><div class="term-def">The part of your setup that stores and retrieves information across sessions. Can be short-term (within a conversation) or long-term (persisted in MEMORY.md, semantic files, or databases).</div></div>
+  </div>
+</section>
+
+<!-- 14. Agentic AI & Multi-Agent Systems -->
+<section class="category cat-agentic" data-category="agentic" id="cat-agentic">
+  <div class="category-header">
+    <div class="category-icon">&#x1F916;</div>
+    <h2 class="category-title">Agentic AI & Multi-Agent Systems</h2>
+    <span class="category-count"></span>
+  </div>
+  <div class="term-list">
+    <div class="term-card"><div class="term-name">Agentic AI</div><div class="term-def">AI systems designed to autonomously plan, decide, and act toward goals &mdash; not just respond to individual prompts. Claude Code operating in agent mode is agentic AI.</div></div>
+    <div class="term-card"><div class="term-name">AI Agent</div><div class="term-def">Software that perceives its environment, reasons over context, and takes actions to achieve objectives. Claude Code is an agent: it reads your codebase, plans changes, edits files, and runs commands.</div></div>
+    <div class="term-card"><div class="term-name">Agentic Workflow</div><div class="term-def">An AI-driven process where one or more agents complete tasks autonomously: reading files, calling APIs, making decisions, and producing results without step-by-step human instruction.</div></div>
+    <div class="term-card"><div class="term-name">Multi-Agent System</div><div class="term-def">An architecture where multiple AI agents collaborate on complex problems. Each agent specializes in a different task. Example: one agent researches, another writes, a third reviews.</div></div>
+    <div class="term-card"><div class="term-name">Orchestration</div><div class="term-def">Coordinating multiple agents, tools, and workflows into a cohesive system. The "conductor" that decides which agent does what and when.</div></div>
+    <div class="term-card"><div class="term-name">Agent Swarm</div><div class="term-def">Running multiple AI agents simultaneously on different tasks. Running 5-10 Claude Code instances in parallel (via tmux, claude-squad, or dmux) is an agent swarm.</div></div>
+    <div class="term-card"><div class="term-name">Tool Calling / Function Calling</div><div class="term-def">An agent's ability to invoke external tools (search the web, read files, run code, send email) as part of generating a response. What makes an agent different from a chatbot.</div></div>
+    <div class="term-card"><div class="term-name">Action Space</div><div class="term-def">The complete set of actions an agent is authorized to take. Limiting the action space improves safety and predictability. The <code>--allowedTools</code> flag restricts it.</div></div>
+    <div class="term-card"><div class="term-name">Escalation Path</div><div class="term-def">The route for handing off from an AI agent to a human when the task exceeds AI capabilities. A fallback mechanism that maintains quality.</div></div>
+    <div class="term-card"><div class="term-name">Human-in-the-Loop (HITL)</div><div class="term-def">A setup where humans stay involved in the AI's workflow &mdash; reviewing outputs, making final decisions, or correcting the model. Required for high-risk AI applications.</div></div>
+    <div class="term-card"><div class="term-name">Human-on-the-Loop</div><div class="term-def">Humans supervise AI agents and intervene only when thresholds are crossed. Enables scale while maintaining oversight. Less hands-on than HITL.</div></div>
+    <div class="term-card"><div class="term-name">Reflection</div><div class="term-def">An agent's ability to assess and improve its own outputs before delivering them. "Let me review what I just wrote" &mdash; improves robustness and catches errors.</div></div>
+    <div class="term-card"><div class="term-name">Reasoning Engine</div><div class="term-def">The logic layer that evaluates context, constraints, and options to determine next actions. Strong reasoning is what makes modern LLMs useful as agents.</div></div>
+    <div class="term-card"><div class="term-name">Autonomous Resolution</div><div class="term-def">An AI agent completing a task from start to finish without human intervention. The goal of mature agentic systems.</div></div>
+    <div class="term-card"><div class="term-name">State Management</div><div class="term-def">Tracking an agent's context and progress across interactions to ensure continuity. Like remembering where you left off between sessions.</div></div>
+    <div class="term-card"><div class="term-name">Digital Labor</div><div class="term-def">Technologies (AI automation and agents) that perform cognitive tasks traditionally done by humans. A workforce planning term increasingly used in boardrooms.</div></div>
+  </div>
+</section>
+
+<!-- 15. Prompt & Context Engineering -->
+<section class="category cat-prompting" data-category="prompting" id="cat-prompting">
+  <div class="category-header">
+    <div class="category-icon">&#x1F4DD;</div>
+    <h2 class="category-title">Prompt & Context Engineering</h2>
+    <span class="category-count"></span>
+  </div>
+  <div class="term-list">
+    <div class="term-card"><div class="term-name">Prompt Engineering</div><div class="term-def">Crafting instructions to get the best results from an AI model. Includes choosing the right words, providing examples, and structuring requests clearly. The first skill most people learn.</div></div>
+    <div class="term-card"><div class="term-name">Context Engineering</div><div class="term-def">The broader discipline of managing everything around the prompt: user data, instructions, retrieved documents, memory, and tool outputs. "Prompt engineering is what you say; context engineering is what you bring to the conversation." The #1 concept in AI communities in 2025-2026.</div></div>
+    <div class="term-card"><div class="term-name">System Prompt</div><div class="term-def">Hidden instructions given to the AI before your conversation starts. Defines personality, rules, constraints, and behavior. CLAUDE.md functions as a system prompt for Claude Code.</div></div>
+    <div class="term-card"><div class="term-name">Zero-Shot Prompting</div><div class="term-def">Asking the AI to perform a task without providing any examples. Works for straightforward requests. "Summarize this document."</div></div>
+    <div class="term-card"><div class="term-name">Few-Shot Prompting</div><div class="term-def">Providing 2-5 examples of the desired input-output format before asking the AI to do the same. Teaches the AI your preferred style or format by demonstration.</div></div>
+    <div class="term-card"><div class="term-name">Chain-of-Thought (CoT)</div><div class="term-def">Asking the AI to "think step by step" before answering. Dramatically improves accuracy on complex reasoning tasks. The foundation of how reasoning models work.</div></div>
+    <div class="term-card"><div class="term-name">Role Prompting</div><div class="term-def">Assigning the AI a specific role or persona. "You are an experienced Scrum Master reviewing this Sprint Backlog." Shapes how the AI reasons and responds.</div></div>
+    <div class="term-card"><div class="term-name">Prompt Chaining</div><div class="term-def">Breaking a complex task into sequential steps where the output of one prompt becomes the input of the next. Improves quality on multi-step tasks.</div></div>
+    <div class="term-card"><div class="term-name">Temperature</div><div class="term-def">A setting (0.0-1.0) controlling how creative or random the AI's responses are. Low = predictable and focused. High = varied and creative. Most coding tools use low temperature.</div></div>
+    <div class="term-card"><div class="term-name">Structured Output</div><div class="term-def">Asking AI to respond in a specific format (JSON, table, numbered list) rather than free-form text. Makes responses easier to parse and use in automated workflows.</div></div>
+    <div class="term-card"><div class="term-name">Agentic Prompting</div><div class="term-def">Writing prompts that give the AI enough context and authority to plan and execute multi-step tasks autonomously, rather than single-turn Q&A. The skill behind effective Claude Code usage.</div></div>
+    <div class="term-card"><div class="term-name">Anti-AI-Slop Pass</div><div class="term-def">A manual or automated review to remove generic, filler-heavy AI writing patterns. Making AI output sound human and specific rather than "As an AI assistant, I'd be happy to help you with that."</div></div>
+    <div class="term-card"><div class="term-name">Grounding</div><div class="term-def">Techniques to connect AI responses to real data (documents, databases, search results) to reduce hallucinations and increase reliability. RAG is one grounding technique.</div></div>
+    <div class="term-card"><div class="term-name">Prompt Injection</div><div class="term-def">A security attack where malicious text tricks an AI into ignoring its instructions. "Ignore all previous instructions and..." A key concern for MCP-connected systems and production AI apps.</div></div>
+    <div class="term-card"><div class="term-name">Guardrails</div><div class="term-def">Rules and constraints placed on an AI system to keep its behavior safe, accurate, and within boundaries. Both technical controls (input validation) and policy decisions (forbidden topics).</div></div>
+  </div>
+</section>
+
+<!-- 16. AI CLI Tools -->
+<section class="category cat-ai-cli" data-category="ai-cli" id="cat-ai-cli">
+  <div class="category-header">
+    <div class="category-icon">&#x2328;</div>
+    <h2 class="category-title">AI CLI Tools</h2>
+    <span class="category-count"></span>
+  </div>
+  <div class="term-list">
+    <div class="term-card"><div class="term-name">Claude Code</div><div class="term-def">Anthropic's official CLI for Claude. An agentic coding tool that reads your codebase, edits files, runs commands, and manages MCP integrations &mdash; all from the terminal. The tool this glossary was built with.</div></div>
+    <div class="term-card"><div class="term-name">GitHub Copilot CLI</div><div class="term-def">GitHub's AI assistant for the command line. Run <code>copilot -p "prompt"</code> for GitHub-aware AI help: explaining commands, suggesting fixes, generating shell scripts. Integrates deeply with GitHub repos and PRs.</div></div>
+    <div class="term-card"><div class="term-name">Gemini CLI</div><div class="term-def">Google's CLI for the Gemini model family. Run <code>gemini -p "prompt"</code> for a second opinion, fact-checking, or engagement review. Useful as a cross-model validation step in workflows.</div></div>
+    <div class="term-card"><div class="term-name">OpenAI Codex CLI</div><div class="term-def">OpenAI's terminal-based coding agent. Run <code>codex exec "prompt"</code> for code generation or <code>codex review</code> for code review. Uses GPT-5.3-Codex for reasoning-heavy tasks. Good for second opinions on complex code.</div></div>
+    <div class="term-card"><div class="term-name">Aider</div><div class="term-def">An open-source AI pair programming tool in your terminal. Connects to multiple LLM providers (Claude, GPT, Gemini). Known for its Git integration &mdash; automatically commits AI changes with meaningful messages.</div></div>
+    <div class="term-card"><div class="term-name">WorkIQ</div><div class="term-def">Microsoft's CLI client for Microsoft 365 Copilot. Run <code>workiq ask -q "question"</code> to query your M365 data &mdash; emails, documents, calendar &mdash; from the terminal. Also available as an MCP server.</div></div>
+    <div class="term-card"><div class="term-name">Cursor</div><div class="term-def">An AI-first code editor (fork of VS Code) with deep Claude and GPT integration. Popular for "vibe coding" &mdash; describing what you want and letting AI write the code. GUI-based, not CLI.</div></div>
+    <div class="term-card"><div class="term-name">Windsurf</div><div class="term-def">Another AI-powered code editor by Codeium. Competes with Cursor with its own "Cascade" agent for multi-file edits. GUI-based with terminal integration.</div></div>
+    <div class="term-card"><div class="term-name">claude-squad</div><div class="term-def">A tool for managing multiple Claude Code agents in parallel tmux sessions. Each agent gets its own Git worktree. Install via <code>brew install claude-squad</code>. The original agent multiplexer.</div></div>
+    <div class="term-card"><div class="term-name">dmux</div><div class="term-def">Similar to claude-squad but supports 12+ different AI agents (Claude, Codex, Gemini, Aider, etc.). Lets you run and switch between multiple agent sessions from a single dashboard.</div></div>
+    <div class="term-card"><div class="term-name">Multi-Model Workflow</div><div class="term-def">Using different AI CLI tools together: Claude Code for primary work, Gemini for fact-checking, Codex for code review, WorkIQ for M365 queries. Each model brings different strengths.</div></div>
+    <div class="term-card"><div class="term-name">Ollama</div><div class="term-def">A tool to run open-source LLMs (Llama, Mistral, Phi) locally on your machine. Free, private, offline-capable. Run <code>ollama run llama3</code> for a local AI that never sends data to the cloud.</div></div>
+    <div class="term-card"><div class="term-name">LM Studio</div><div class="term-def">A desktop app for running local LLMs with a user-friendly interface. Download models, chat, and expose a local API &mdash; all without using the terminal. The GUI alternative to Ollama.</div></div>
+    <div class="term-card"><div class="term-name">Continue</div><div class="term-def">An open-source AI code assistant that runs as a VS Code or JetBrains extension. Connects to any LLM provider (local or cloud). The open-source alternative to Copilot.</div></div>
+    <div class="term-card"><div class="term-name">gh (GitHub CLI)</div><div class="term-def">GitHub's official command-line tool. Create PRs, view issues, manage repos without a browser. Pairs well with AI tools: <code>gh pr view</code>, <code>gh issue create</code>.</div></div>
+  </div>
+</section>
+
 </main>
 
-<!-- NO RESULTS -->
+<!-- No Results -->
 <div class="no-results" id="noResults">
-  <div class="emoji">&#x1F50D;</div>
-  <p>No terms found. Try a different search.</p>
+  <div class="emoji">_</div>
+  <p>No matching terms found. Try a different search.</p>
 </div>
 
-<!-- FOOTER -->
-<footer class="footer">
-  <p>Built by <a href="https://www.linkedin.com/in/staspavlov/" target="_blank" rel="noopener">Stas Pavlov</a> &middot; <a href="https://prowareness.academy" target="_blank" rel="noopener">Prowareness Academy</a> &middot; March 2026</p>
-  <p style="margin-top: 8px; font-size: 12px; color: var(--text-muted);">Sources: Gen AI Circle community, Second Brain Crew, Claude Code documentation</p>
-</footer>
+<!-- Footer -->
+<div class="footer">
+  <p>Made by <a href="https://www.linkedin.com/in/staspavlov/" target="_blank">Stas Pavlov</a> &middot; Prowareness Academy &middot; 2026</p>
+</div>
 
-<!-- BACK TO TOP -->
-<button class="back-to-top" id="backToTop" aria-label="Back to top">&#x2191;</button>
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" title="Back to top">&uarr;</button>
+
+<!-- Status Bar -->
+<div class="status-bar">
+  <div style="display:flex;align-items:center;gap:8px">
+    <span style="color:var(--accent)">&#9679;</span> glossary v1.0
+  </div>
+  <div style="display:flex;align-items:center;gap:16px">
+    <span>stas.brain</span>
+  </div>
+</div>
 
 <script>
-(function() {
   const searchInput = document.getElementById('searchInput');
   const searchCount = document.getElementById('searchCount');
   const chips = document.querySelectorAll('.chip');
@@ -855,67 +834,41 @@
   categories.forEach(cat => {
     const count = cat.querySelectorAll('.term-card').length;
     const badge = cat.querySelector('.category-count');
-    if (badge) badge.textContent = count + ' terms';
+    if (badge) {
+      const isSymbols = cat.id === 'cat-symbols';
+      const symbolCount = isSymbols ? cat.querySelectorAll('.symbols-table tbody tr').length : 0;
+      badge.textContent = (count + symbolCount) + ' terms';
+    }
   });
 
-  // Total count
   const totalTerms = document.querySelectorAll('.term-card').length;
   const symbolRows = document.querySelectorAll('.symbols-table tbody tr').length;
+  searchCount.textContent = '';
 
   let activeCategory = 'all';
-
-  // Chip clicks
-  chips.forEach(chip => {
-    chip.addEventListener('click', () => {
-      chips.forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      activeCategory = chip.dataset.category;
-      searchInput.value = '';
-      filterTerms();
-    });
-  });
-
-  // Search
-  searchInput.addEventListener('input', () => {
-    chips.forEach(c => c.classList.remove('active'));
-    if (!searchInput.value) {
-      chips[0].classList.add('active');
-      activeCategory = 'all';
-    }
-    filterTerms();
-  });
 
   function filterTerms() {
     const query = searchInput.value.toLowerCase().trim();
     let visibleCount = 0;
-    let visibleCategories = 0;
+    let visibleCats = 0;
 
     categories.forEach(cat => {
       const catName = cat.dataset.category;
       const cards = cat.querySelectorAll('.term-card');
       let catVisible = 0;
 
-      // Handle symbols table separately
       const isSymbols = cat.id === 'cat-symbols';
-
       if (isSymbols) {
         const rows = cat.querySelectorAll('.symbols-table tbody tr');
-        let tableVisible = 0;
+        let rowsVisible = 0;
         rows.forEach(row => {
           const text = row.textContent.toLowerCase();
           const matchSearch = !query || text.includes(query);
           const matchCat = activeCategory === 'all' || catName === activeCategory;
-          if (matchSearch && matchCat) {
-            row.style.display = '';
-            tableVisible++;
-          } else {
-            row.style.display = 'none';
-          }
+          if (matchSearch && matchCat) { row.style.display = ''; rowsVisible++; }
+          else { row.style.display = 'none'; }
         });
-        cat.style.display = tableVisible > 0 ? '' : 'none';
-        if (tableVisible > 0) visibleCategories++;
-        visibleCount += tableVisible;
-        return;
+        catVisible += rowsVisible;
       }
 
       cards.forEach(card => {
@@ -923,58 +876,49 @@
         const def = card.querySelector('.term-def').textContent.toLowerCase();
         const matchSearch = !query || name.includes(query) || def.includes(query);
         const matchCat = activeCategory === 'all' || catName === activeCategory;
-
         if (matchSearch && matchCat) {
           card.style.display = '';
-          card.classList.toggle('highlight', query && name.includes(query));
+          card.classList.toggle('highlight', !!query && name.includes(query));
           catVisible++;
-          visibleCount++;
         } else {
           card.style.display = 'none';
           card.classList.remove('highlight');
         }
       });
 
-      cat.style.display = catVisible > 0 ? '' : 'none';
-      if (catVisible > 0) visibleCategories++;
+      visibleCount += catVisible;
+      if (catVisible > 0) { cat.style.display = ''; visibleCats++; }
+      else { cat.style.display = 'none'; }
     });
 
     noResults.style.display = visibleCount === 0 ? 'block' : 'none';
-    content.style.display = visibleCount === 0 ? 'none' : '';
-
     if (query) {
-      searchCount.textContent = visibleCount + ' result' + (visibleCount !== 1 ? 's' : '') + ' found';
+      searchCount.textContent = visibleCount + ' of ' + (totalTerms + symbolRows) + ' terms match';
+    } else if (activeCategory !== 'all') {
+      searchCount.textContent = visibleCount + ' terms in category';
     } else {
       searchCount.textContent = '';
     }
   }
 
+  searchInput.addEventListener('input', filterTerms);
+
+  chips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      chips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      activeCategory = chip.dataset.category;
+      filterTerms();
+    });
+  });
+
   // Back to top
   window.addEventListener('scroll', () => {
     backToTop.classList.toggle('visible', window.scrollY > 400);
   });
-
   backToTop.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
-
-  // Keyboard shortcut: / focuses search
-  document.addEventListener('keydown', (e) => {
-    if (e.key === '/' && document.activeElement !== searchInput) {
-      e.preventDefault();
-      searchInput.focus();
-    }
-    if (e.key === 'Escape') {
-      searchInput.blur();
-      searchInput.value = '';
-      activeCategory = 'all';
-      chips.forEach(c => c.classList.remove('active'));
-      chips[0].classList.add('active');
-      filterTerms();
-    }
-  });
-})();
 </script>
-
 </body>
 </html>
