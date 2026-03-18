@@ -1,0 +1,1881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our AI Approach — Prowareness & DevOn // Part of emagine</title>
+<style>
+/* ── Stas Brain Design System v1.1 (inlined) ─────────── */
+:root {
+  --bg:            #141914;
+  --bg-panel:      #1C211C;
+  --bg-elevated:   #252B25;
+  --bg-inset:      #111411;
+  --fg:            #E8E8DE;
+  --fg-bright:     #F5F5ED;
+  --fg-muted:      #9A9A90;
+  --fg-dim:        #5C5C55;
+  --accent:        #C7FF00;
+  --accent-hover:  #D4FF44;
+  --accent-soft:   rgba(199, 255, 0, 0.12);
+  --accent-glow:   rgba(199, 255, 0, 0.06);
+  --accent-text:   #111411;
+  --danger:        #F0787D;
+  --danger-soft:   rgba(240, 120, 125, 0.15);
+  --warning:       #F0B840;
+  --warning-soft:  rgba(240, 184, 64, 0.15);
+  --info:          #5BA8FF;
+  --info-soft:     rgba(91, 168, 255, 0.15);
+  --success:       #6BDB6B;
+  --success-soft:  rgba(107, 219, 107, 0.15);
+  --border:        #2A302A;
+  --border-hover:  #3A423A;
+  --border-accent: #C7FF00;
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px;
+  --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  --sp-12: 48px; --sp-16: 64px;
+  --radius-sm: 4px;
+  --radius:    6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-pill: 100px;
+  --shadow-panel:     2px 2px 6px rgba(0,0,0,0.5), -1px -1px 3px rgba(255,255,255,0.02), 0 0 0 1px var(--border);
+  --shadow-elevated:  4px 4px 16px rgba(0,0,0,0.6), -2px -2px 8px rgba(255,255,255,0.02), 0 0 0 1px var(--border-hover);
+  --shadow-inset:     inset 2px 2px 6px rgba(0,0,0,0.5), inset -1px -1px 3px rgba(255,255,255,0.03);
+  --shadow-glow:      0 0 24px var(--accent-soft), 0 0 0 1px var(--border-accent);
+  --shadow-badge:     inset 1px 1px 2px rgba(0,0,0,0.3), inset -1px -1px 1px rgba(255,255,255,0.04);
+  --shadow-btn:       2px 2px 6px rgba(0,0,0,0.4), -1px -1px 3px rgba(255,255,255,0.02);
+  --font-mono: 'Hurmit Nerd Font', 'Hermit', 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+  --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+  --text-2xs: 10px; --text-xs: 11px; --text-sm: 13px; --text-base: 15px;
+  --text-lg: 18px; --text-xl: 22px; --text-2xl: 28px; --text-3xl: 36px; --text-4xl: 48px;
+  --leading-tight: 1.15; --leading-normal: 1.5; --leading-relaxed: 1.7;
+  --tracking-tight: -0.03em; --tracking-normal: 0; --tracking-wide: 0.05em; --tracking-wider: 0.08em;
+  /* Brand colors */
+  --pw-orange: #EC6608;
+  --pw-blue:   #006CA4;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding-bottom: 40px;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-mono);
+  letter-spacing: var(--tracking-tight);
+  line-height: var(--leading-tight);
+  color: var(--fg-bright);
+}
+h1 { font-size: 52px; font-weight: 800; font-family: var(--font-mono); }
+h2 { font-size: 32px; font-weight: 700; font-family: var(--font-mono); }
+h3 { font-size: 24px; font-weight: 700; font-family: var(--font-mono); }
+h4 { font-size: 20px; font-weight: 600; color: var(--fg); font-family: var(--font-mono); }
+strong { color: var(--fg-bright); font-weight: 700; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+
+.container { max-width: 880px; margin: 0 auto; padding: 0 var(--sp-8); }
+
+/* ── Nav ─────────────────────────────────────────── */
+.nav {
+  background: var(--bg-inset);
+  border-bottom: 1px solid var(--border);
+  padding: 0 var(--sp-6);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.nav__brand {
+  color: var(--accent);
+  font-weight: 800;
+  font-size: var(--text-sm);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.nav__links { display: flex; gap: var(--sp-1); overflow-x: auto; }
+.nav__links a {
+  color: var(--fg-dim);
+  text-decoration: none;
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--radius);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.nav__links a:hover { color: var(--fg); background: var(--bg-elevated); }
+
+/* ── Sections ────────────────────────────────────── */
+section { margin-top: 96px; }
+section:first-of-type { margin-top: 0; }
+.section-intro { font-size: 17px; font-weight: 400; color: var(--fg-muted); line-height: 1.9; max-width: 70ch; margin-bottom: 28px; }
+.section-intro strong { color: var(--fg); }
+.section-intro em { color: var(--accent); font-style: normal; }
+
+.eyebrow {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: var(--sp-2);
+}
+.subtitle {
+  font-size: var(--text-lg);
+  font-weight: 300;
+  color: var(--fg-muted);
+  letter-spacing: 0.01em;
+}
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--font-mono);
+  color: var(--fg-bright);
+  padding-bottom: var(--sp-3);
+  border-bottom: 2px solid var(--accent);
+  display: inline-block;
+  margin-bottom: var(--sp-4);
+}
+
+/* ── Panels ──────────────────────────────────────── */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  padding: var(--sp-6);
+}
+.panel-accent {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-glow);
+  padding: var(--sp-6);
+}
+.panel-window {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+}
+.panel-window__header {
+  background: var(--bg-inset);
+  border-bottom: 1px solid var(--border);
+  padding: var(--sp-2) var(--sp-4);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.panel-window__header::before {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-soft);
+}
+.panel-window__body { padding: var(--sp-8); }
+.grid { gap: 20px; }
+.grid-2 { gap: 20px; }
+.grid-4 { gap: 16px; }
+
+/* ── Cards ───────────────────────────────────────── */
+.card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+  padding: var(--sp-6);
+  transition: all 0.15s;
+}
+.card:hover {
+  border-color: var(--border-hover);
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-1px);
+}
+.card-accent { border-left: 3px solid var(--accent); }
+.card-title { font-weight: 700; font-size: 16px; color: var(--fg-bright); font-family: var(--font-mono); }
+.card-desc { font-size: 15px; font-weight: 400; color: var(--fg-muted); margin-top: var(--sp-2); line-height: 1.8; }
+.card-icon { font-size: 24px; margin-bottom: var(--sp-3); }
+
+/* ── Badges ──────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-1);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  box-shadow: var(--shadow-badge);
+}
+.badge-accent { color: var(--accent); border-color: rgba(199,255,0,0.3); background: rgba(199,255,0,0.08); }
+.badge-danger { color: var(--danger); border-color: rgba(240,120,125,0.3); background: var(--danger-soft); }
+.badge-warning { color: var(--warning); border-color: rgba(240,184,64,0.3); background: var(--warning-soft); }
+.badge-info { color: var(--info); border-color: rgba(91,168,255,0.3); background: var(--info-soft); }
+.badge-success { color: var(--success); border-color: rgba(107,219,107,0.3); background: var(--success-soft); }
+
+/* ── Tables ──────────────────────────────────────── */
+table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+th {
+  text-align: left;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 2px solid var(--border);
+  background: var(--bg-inset);
+}
+td {
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  color: var(--fg);
+  vertical-align: top;
+}
+tr:nth-child(even) td { background: rgba(255,255,255,0.015); }
+tr:hover td { background: var(--bg-elevated); }
+td.cell-primary { font-weight: 600; color: var(--fg-bright); }
+td.cell-dim { font-size: var(--text-xs); font-weight: 500; color: var(--fg-dim); }
+
+/* ── Grid ────────────────────────────────────────── */
+.grid { display: grid; gap: var(--sp-4); }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 768px) {
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .nav__links { display: none; }
+  h1 { font-size: var(--text-3xl); }
+  h2 { font-size: var(--text-2xl); }
+  .diamond-container { transform: scale(0.6); }
+}
+
+/* ── Status Bar ──────────────────────────────────── */
+.status-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: var(--bg-inset);
+  border-top: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--sp-4);
+  font-size: var(--text-2xs);
+  font-weight: 500;
+  color: var(--fg-dim);
+  z-index: 100;
+}
+
+/* ── Utility ─────────────────────────────────────── */
+.text-muted { color: var(--fg-muted); }
+.text-dim { color: var(--fg-dim); }
+.text-accent { color: var(--accent); }
+.text-bright { color: var(--fg-bright); }
+.text-center { text-align: center; }
+.mt-2 { margin-top: var(--sp-2); }
+.mt-4 { margin-top: var(--sp-4); }
+.mt-6 { margin-top: var(--sp-6); }
+.mt-8 { margin-top: var(--sp-8); }
+.mb-2 { margin-bottom: var(--sp-2); }
+.mb-4 { margin-bottom: var(--sp-4); }
+.mb-6 { margin-bottom: var(--sp-6); }
+.mb-8 { margin-bottom: var(--sp-8); }
+
+hr.divider-accent {
+  border: none;
+  border-top: 2px solid var(--accent);
+  opacity: 0.2;
+  margin: var(--sp-6) 0;
+}
+
+/* ── Hero-specific ───────────────────────────────── */
+.hero {
+  padding: 80px 0 48px;
+  text-align: center;
+}
+.hero h1 {
+  margin-bottom: var(--sp-4);
+  background: linear-gradient(135deg, var(--fg-bright) 0%, var(--accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero .subtitle {
+  max-width: 640px;
+  margin: 0 auto;
+}
+.hero .badge-row {
+  display: flex;
+  justify-content: center;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+  flex-wrap: wrap;
+}
+.hero .pitch {
+  margin-top: var(--sp-8);
+  padding: var(--sp-6);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: var(--text-base);
+  font-weight: 400;
+  color: var(--fg);
+  line-height: 1.7;
+  text-align: left;
+}
+
+/* ── Airport Metaphor ────────────────────────────── */
+.airport-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+.airport-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-4);
+  text-align: center;
+  transition: all 0.15s;
+}
+.airport-card:hover { border-color: var(--accent); box-shadow: 0 0 12px var(--accent-glow); }
+.airport-card .icon { font-size: 28px; margin-bottom: var(--sp-2); }
+.airport-card .title { font-size: var(--text-sm); font-weight: 700; color: var(--fg-bright); }
+.airport-card .desc { font-size: var(--text-xs); color: var(--fg-muted); margin-top: var(--sp-1); font-weight: 300; }
+@media (max-width: 768px) { .airport-grid { grid-template-columns: repeat(2, 1fr); } }
+
+/* ── Transformation Portfolio ────────────────────── */
+.portfolio-table td:first-child {
+  font-weight: 700;
+  color: var(--accent);
+  white-space: nowrap;
+  vertical-align: top;
+}
+
+/* ── Academy Persona Columns ─────────────────────── */
+.persona-col {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  overflow: hidden;
+}
+.persona-col__header {
+  padding: var(--sp-4);
+  border-bottom: 1px solid var(--border);
+  text-align: center;
+}
+.persona-col__header .icon { font-size: 28px; }
+.persona-col__header h4 {
+  font-size: var(--text-sm);
+  font-weight: 800;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  margin-top: var(--sp-2);
+}
+.persona-col__header .dutch {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  font-weight: 300;
+  font-style: italic;
+}
+.persona-col__body {
+  padding: var(--sp-4);
+}
+.persona-col__body ul {
+  list-style: none;
+  padding: 0;
+}
+.persona-col__body li {
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  padding: var(--sp-1) 0;
+  border-bottom: 1px solid rgba(42,48,42,0.5);
+  font-weight: 400;
+}
+.persona-col__body li:last-child { border-bottom: none; }
+.persona-col__client {
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-inset);
+  border-top: 1px solid var(--border);
+  font-size: var(--text-xs);
+  color: var(--fg-dim);
+  font-weight: 500;
+}
+.persona-col__client strong { color: var(--accent); font-size: var(--text-xs); }
+.stats-bar {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--sp-4);
+  margin-top: var(--sp-6);
+  padding: var(--sp-4);
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.stats-bar .stat {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--fg-muted);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+.stats-bar .stat .num { color: var(--accent); font-weight: 800; }
+
+/* ── Tollgate Flow ───────────────────────────────── */
+.tollgate-flow {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-top: var(--sp-6);
+  overflow-x: auto;
+  padding-bottom: var(--sp-4);
+}
+.tollgate-phase {
+  flex: 1;
+  min-width: 140px;
+  text-align: center;
+  position: relative;
+}
+.tollgate-phase .phase-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--sp-3) var(--sp-2);
+  margin: 0 var(--sp-1);
+}
+.tollgate-phase .phase-title {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--fg-bright);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+.tollgate-phase .phase-desc {
+  font-size: var(--text-2xs);
+  color: var(--fg-muted);
+  margin-top: var(--sp-1);
+  font-weight: 300;
+}
+.tollgate-gate {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 60px;
+  padding-top: 8px;
+}
+.tollgate-gate .gate-label {
+  font-size: var(--text-2xs);
+  font-weight: 800;
+  color: var(--accent);
+  letter-spacing: var(--tracking-wider);
+}
+.tollgate-gate .gate-desc {
+  font-size: 9px;
+  color: var(--fg-dim);
+  text-align: center;
+  margin-top: 2px;
+  max-width: 80px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+.tollgate-gate .arrow {
+  color: var(--accent);
+  font-size: 18px;
+  line-height: 1;
+}
+.stop-label {
+  font-size: var(--text-2xs);
+  color: var(--danger);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  margin-top: var(--sp-2);
+}
+
+/* ── Double Diamond ──────────────────────────────── */
+.diamond-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: var(--sp-8) 0;
+}
+.diamond-container {
+  position: relative;
+  width: 700px;
+  height: 260px;
+  margin: 40px auto;
+}
+.diamond-shape {
+  position: absolute;
+  width: 160px;
+  height: 160px;
+  transform: rotate(45deg);
+  top: 30px;
+  border-radius: 4px;
+}
+.diamond-left {
+  left: 60px;
+  background: linear-gradient(135deg, rgba(236,102,8,0.25) 0%, rgba(236,102,8,0.08) 100%);
+  border: 2px solid rgba(236,102,8,0.6);
+  box-shadow: 0 0 30px rgba(236,102,8,0.15);
+}
+.diamond-right {
+  left: 220px;
+  background: linear-gradient(135deg, rgba(236,102,8,0.08) 0%, rgba(236,102,8,0.25) 100%);
+  border: 2px solid rgba(236,102,8,0.6);
+  box-shadow: 0 0 30px rgba(236,102,8,0.15);
+}
+.diamond-left-2 {
+  left: 380px;
+  background: linear-gradient(135deg, rgba(0,108,164,0.25) 0%, rgba(0,108,164,0.08) 100%);
+  border: 2px solid rgba(0,108,164,0.6);
+  box-shadow: 0 0 30px rgba(0,108,164,0.15);
+}
+.diamond-right-2 {
+  left: 540px;
+  background: linear-gradient(135deg, rgba(0,108,164,0.08) 0%, rgba(0,108,164,0.25) 100%);
+  border: 2px solid rgba(0,108,164,0.6);
+  box-shadow: 0 0 30px rgba(0,108,164,0.15);
+}
+/* Diamond overlay labels */
+.diamond-labels {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.d-label {
+  position: absolute;
+  font-size: var(--text-2xs);
+  font-weight: 800;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-align: center;
+  white-space: nowrap;
+}
+.d-label-discover { top: -4px; left: 90px; color: var(--pw-orange); }
+.d-label-define   { top: -4px; left: 272px; color: var(--pw-orange); }
+.d-label-develop  { top: -4px; left: 430px; color: var(--pw-blue); }
+.d-label-deliver  { top: -4px; left: 600px; color: var(--pw-blue); }
+.d-label-problem-space {
+  top: 108px; left: 100px; width: 200px;
+  font-size: var(--text-xs); color: var(--pw-orange); opacity: 0.7;
+  font-weight: 600;
+}
+.d-label-solution-space {
+  top: 108px; left: 430px; width: 200px;
+  font-size: var(--text-xs); color: var(--pw-blue); opacity: 0.7;
+  font-weight: 600;
+}
+.d-label-problem-anchor { top: 108px; left: 8px; color: var(--fg-dim); font-size: var(--text-xs); font-weight: 600; }
+.d-label-solution-anchor { top: 108px; left: 706px; color: var(--fg-dim); font-size: var(--text-xs); font-weight: 600; }
+/* Dashed divider */
+.d-divider {
+  position: absolute;
+  left: 370px;
+  top: 10px;
+  width: 0;
+  height: 200px;
+  border-left: 2px dashed var(--fg-dim);
+  opacity: 0.4;
+}
+.d-divider-label {
+  position: absolute;
+  top: 225px;
+  left: 322px;
+  font-size: 9px;
+  color: var(--fg-dim);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* Sub-labels */
+.d-sublabel {
+  position: absolute;
+  font-size: 9px;
+  color: var(--fg-dim);
+  font-weight: 500;
+  letter-spacing: var(--tracking-wide);
+}
+.d-sub-diverge1 { top: 220px; left: 70px; }
+.d-sub-converge1 { top: 220px; left: 268px; }
+.d-sub-diverge2 { top: 220px; left: 420px; }
+.d-sub-converge2 { top: 220px; left: 590px; }
+
+/* ── 4D Columns ──────────────────────────────────── */
+.dd-columns {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-6);
+}
+.dd-col {
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.dd-col__header {
+  padding: var(--sp-3);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  text-align: center;
+}
+.dd-col--orange .dd-col__header { background: rgba(236,102,8,0.2); color: var(--pw-orange); border: 1px solid rgba(236,102,8,0.3); border-bottom: none; }
+.dd-col--blue .dd-col__header { background: rgba(0,108,164,0.2); color: var(--pw-blue); border: 1px solid rgba(0,108,164,0.3); border-bottom: none; }
+.dd-col__body {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: var(--sp-4);
+}
+.dd-col__body ul {
+  list-style: none;
+  padding: 0;
+}
+.dd-col__body li {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  padding: 3px 0;
+  font-weight: 400;
+}
+.dd-col__body li::before {
+  content: '>';
+  color: var(--fg-dim);
+  margin-right: 6px;
+  font-weight: 700;
+}
+.dd-col__service {
+  margin-top: var(--sp-3);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--border);
+}
+.dd-col__service-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: var(--sp-1);
+}
+.dd-col__service-value {
+  font-size: var(--text-xs);
+  color: var(--fg-bright);
+  font-weight: 600;
+}
+.dd-col__training {
+  margin-top: var(--sp-2);
+}
+.dd-col__training-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: var(--sp-1);
+}
+.dd-col__training-value {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  font-weight: 400;
+}
+
+/* ── Client Journey Pills ────────────────────────── */
+.journey-list {
+  margin-top: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+.journey-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.journey-item .client-name {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--fg-bright);
+  min-width: 100px;
+}
+.journey-item .phases {
+  display: flex;
+  gap: var(--sp-2);
+  flex-wrap: wrap;
+}
+.journey-item .phase-pill {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  border: 1px solid;
+}
+.phase-pill--orange { color: var(--pw-orange); border-color: rgba(236,102,8,0.4); background: rgba(236,102,8,0.1); }
+.phase-pill--blue { color: var(--pw-blue); border-color: rgba(0,108,164,0.4); background: rgba(0,108,164,0.1); }
+.phase-pill--dim { color: var(--fg-dim); border-color: var(--border); background: transparent; }
+
+/* ── Three-Brain Stack ───────────────────────────── */
+.brain-stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  position: relative;
+}
+.brain-stack::before {
+  content: '';
+  position: absolute;
+  left: 24px;
+  top: 60px;
+  bottom: 60px;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--success), var(--info), var(--warning));
+  opacity: 0.3;
+}
+.brain-card {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: var(--sp-4);
+  padding: var(--sp-5);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  position: relative;
+  z-index: 1;
+}
+.brain-card .level-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius);
+  font-size: 22px;
+}
+.brain-card .bc-content { flex: 1; }
+.brain-card .bc-title {
+  font-size: var(--text-lg);
+  font-weight: 700;
+  color: var(--fg-bright);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+.brain-card .bc-desc {
+  font-size: var(--text-sm);
+  color: var(--fg-muted);
+  margin-top: var(--sp-2);
+  font-weight: 300;
+}
+.brain-card .bc-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--sp-3);
+  margin-top: var(--sp-4);
+}
+.brain-card .bc-col-label {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  color: var(--fg-dim);
+  margin-bottom: var(--sp-1);
+}
+.brain-card .bc-col-value {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+/* ── Metric Cards ────────────────────────────────── */
+.metric-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+  padding: var(--sp-5);
+  text-align: center;
+}
+.metric-card .metric-value {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--accent);
+  line-height: 1;
+}
+.metric-card .metric-label {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  margin-top: var(--sp-2);
+  font-weight: 400;
+}
+.quote-block {
+  margin-top: var(--sp-6);
+  padding: var(--sp-6);
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-panel);
+}
+.quote-block .quote-text {
+  font-size: var(--text-lg);
+  font-weight: 400;
+  color: var(--fg-bright);
+  font-style: italic;
+  line-height: 1.6;
+}
+.quote-block .quote-attr {
+  font-size: var(--text-xs);
+  color: var(--fg-dim);
+  margin-top: var(--sp-3);
+  font-weight: 500;
+}
+
+/* ── Assumption Cards ────────────────────────────── */
+.assumption-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-panel);
+  padding: var(--sp-4);
+}
+.assumption-card .number {
+  font-size: var(--text-3xl);
+  font-weight: 800;
+  color: var(--bg-elevated);
+  -webkit-text-stroke: 1px var(--border-hover);
+  line-height: 1;
+  margin-bottom: var(--sp-2);
+}
+.assumption-card .assumption-text {
+  font-size: var(--text-sm);
+  color: var(--fg-bright);
+  font-weight: 600;
+}
+.assumption-card .validation {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  margin-top: var(--sp-2);
+  font-weight: 300;
+}
+
+/* ── Timeline ────────────────────────────────────── */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-top: var(--sp-4);
+  position: relative;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 37px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--border);
+}
+.timeline-item {
+  display: flex;
+  gap: var(--sp-4);
+  padding: var(--sp-3) 0;
+  position: relative;
+}
+.timeline-item .tl-time {
+  min-width: 60px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+  padding-top: 2px;
+}
+.timeline-item .tl-dot {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 2px solid var(--accent);
+  margin-top: 2px;
+  z-index: 1;
+}
+.timeline-item .tl-content {
+  flex: 1;
+}
+.timeline-item .tl-title {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--fg-bright);
+}
+.timeline-item .tl-desc {
+  font-size: var(--text-xs);
+  color: var(--fg-muted);
+  font-weight: 300;
+  margin-top: 2px;
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════ NAV ════════════════════ -->
+<nav class="nav">
+  <div class="nav__brand">// stas.brain</div>
+  <div class="nav__links">
+    <a href="#hero">Hero</a>
+    <a href="#problem">Problem</a>
+    <a href="#airport">Airport</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#academy">Academy</a>
+    <a href="#tollgates">Tollgates</a>
+    <a href="#4d">4D Model</a>
+    <a href="#brains">Brains</a>
+    <a href="#entities">Entities</a>
+    <a href="#solutions">Solutions</a>
+    <a href="#evidence">Evidence</a>
+    <a href="#assumptions">Validate</a>
+    <a href="#session">Mar 27</a>
+    <a href="#next">Next</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<!-- ════════════════════ 1. HERO ════════════════════ -->
+<section id="hero" class="hero">
+  <div class="eyebrow">Prowareness & DevOn // Part of emagine // March 2026</div>
+  <h1>Our AI Approach</h1>
+  <p class="subtitle">Training, transformation, and technical solutions &mdash; mapped to the customer lifecycle</p>
+  <div class="badge-row">
+    <span class="badge badge-warning">For discussion</span>
+    <span class="badge badge-info">Workshop March 27</span>
+  </div>
+  <div class="pitch">
+    We don't just train people on AI or advise on transformation. We give organizations a <strong>complete AI implementation approach</strong> &mdash; from discovering problems to embedding solutions that stick.
+  </div>
+</section>
+
+<!-- ════════════════════ 2. THE PROBLEM ════════════════════ -->
+<section id="problem">
+  <h3 class="section-title">The Problem</h3>
+  <p class="section-intro">Four patterns we see in nearly every organization. This is why standalone training or standalone consulting isn't enough &mdash; and why we need <strong>a coherent approach that connects training, transformation, technology, and governance</strong>.</p>
+  <div class="grid grid-2">
+    <div class="card card-accent">
+      <div class="card-icon">&#x1F4C9;</div>
+      <div class="card-title">Training fades</div>
+      <div class="card-desc">70-90% of training content is lost within 30 days. Without persistent systems that reinforce learning, every investment in AI skills evaporates.</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-icon">&#x1F504;</div>
+      <div class="card-title">Chat-based AI is a dead end</div>
+      <div class="card-desc">Every AI conversation starts from zero. No memory, no compounding. Employees repeat the same prompts, the same mistakes, the same discovery work &mdash; forever.</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-icon">&#x1F6AA;</div>
+      <div class="card-title">Knowledge walks out the door</div>
+      <div class="card-desc">When people leave, their AI know-how goes with them. No persistent systems capture what was learned, decided, or built. The organization starts over.</div>
+    </div>
+    <div class="card card-accent">
+      <div class="card-icon">&#x1F9EA;</div>
+      <div class="card-title">AI stays isolated</div>
+      <div class="card-desc">Pilots everywhere, nothing scales. Every team runs its own experiment. No governance, no shared patterns, no path from experiment to organizational capability.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 3. THE AIRPORT METAPHOR ════════════════════ -->
+<section id="airport">
+  <h3 class="section-title">The Airport Metaphor</h3>
+  <p class="section-intro">This is the airport metaphor from Roos's transformation approach &mdash; <strong>slide 1</strong>. AI transformation isn't a single flight, it's an airport that must operate as one system. The metaphor works because it shows that governance, teams, use cases, and L&D all need to move together. Without one of them, the airport doesn't function.</p>
+
+  <div class="panel-window">
+    <div class="panel-window__header">AI Transformation = Airport Operations</div>
+    <div class="panel-window__body">
+      <div class="airport-grid">
+        <div class="airport-card">
+          <div class="icon">&#x1F6E9;</div>
+          <div class="title">Governance</div>
+          <div class="desc">Monitors the airspace. Sets the rules, ensures safety and compliance across the entire system.</div>
+        </div>
+        <div class="airport-card">
+          <div class="icon">&#x1F3E2;</div>
+          <div class="title">Departments</div>
+          <div class="desc">Adopt AI in teams. Each department integrates AI into their workflows and processes.</div>
+        </div>
+        <div class="airport-card">
+          <div class="icon">&#x2708;</div>
+          <div class="title">Use Cases</div>
+          <div class="desc">Turn ambition into results. Concrete AI applications that solve real business problems.</div>
+        </div>
+        <div class="airport-card">
+          <div class="icon">&#x1F393;</div>
+          <div class="title">L&D</div>
+          <div class="desc">Ensures everyone can fly. Capability building across all personas, at every level.</div>
+        </div>
+        <div class="airport-card">
+          <div class="icon">&#x1F680;</div>
+          <div class="title">AI Chapter</div>
+          <div class="desc">Enables safe and scalable take-off. The cross-cutting team that makes it all work together.</div>
+        </div>
+      </div>
+      <div style="margin-top: var(--sp-6); text-align: center;">
+        <p class="text-accent" style="font-weight: 700; font-size: var(--text-base);">"AI transformation happens when the airport operates as one system."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 4. TRANSFORMATION PORTFOLIO ════════════════════ -->
+<section id="portfolio">
+  <h3 class="section-title">Transformation Portfolio</h3>
+  <p class="section-intro">The full menu matrix &mdash; <strong>slide 2 from Roos</strong>. Not everything is needed for every client. We determine the right combination based on context, maturity, and ambition. <strong>This is what we sell</strong> &mdash; the specific mix depends on what we find in the Discover phase. Think of it as a restaurant menu: the kitchen has everything, the client orders what fits their appetite.</p>
+
+  <div class="panel-window">
+    <div class="panel-window__header">AI Transformation Menu Matrix</div>
+    <div class="panel-window__body" style="overflow-x: auto;">
+      <table class="portfolio-table">
+        <thead>
+          <tr>
+            <th>Level</th>
+            <th>Strategy & Governance</th>
+            <th>Execution & Enablement</th>
+            <th>Capability Building</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-primary" style="color: var(--accent);">Organization<br><span style="font-size: var(--text-2xs); color: var(--fg-dim); font-weight: 400;">AI Chapter</span></td>
+            <td>Maturity scan, Strategy & roadmap, Steering committee, AI Chapter setup, Operating model, Governance framework, Risk & compliance, Responsible AI policy, Licensing strategy</td>
+            <td>Tech capabilities assessment, Portfolio board, Use case funnel, Classification system, Tollgates, Change approach</td>
+            <td>AI leadership programs, Chapter training, Governance workshops</td>
+          </tr>
+          <tr>
+            <td class="cell-primary" style="color: var(--accent);">Multi-team<br><span style="font-size: var(--text-2xs); color: var(--fg-dim); font-weight: 400;">Cross-cutting</span></td>
+            <td>Community of practice, AI squads, Governance check-ins, Portfolio alignment, Architecture sessions</td>
+            <td>Use case funnel implementation, Cross-team reviews, Peer sessions, Innovation sprints, Multi-team pilots, Demos</td>
+            <td>Prompt library, Hackathons, KPI alignment workshops</td>
+          </tr>
+          <tr>
+            <td class="cell-primary" style="color: var(--accent);">Department<br><span style="font-size: var(--text-2xs); color: var(--fg-dim); font-weight: 400;">AI Chapter</span></td>
+            <td>Department roadmap, Use case funnel, Impact assessment, Business cases, Light governance</td>
+            <td>Process analysis, AI in backlog, Agent identification, Prompt structure, AI retros, Demo days, Innovation budget</td>
+            <td>Team coaching, AI champions program, KPI setting</td>
+          </tr>
+          <tr>
+            <td class="cell-primary" style="color: var(--accent);">Use Case<br><span style="font-size: var(--text-2xs); color: var(--fg-dim); font-weight: 400;">Individual</span></td>
+            <td>Impact hypotheses, Classification (low/mid/high code), Scaling decision, Adoption support</td>
+            <td>MVP development, PoCs, Impact measurement, Agent building, Model refinement, RAG implementation, Core system connections, API building, UI development, Cloud deployment</td>
+            <td>AI in SDLC training, Secure AI development</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 5. AI ACADEMY ════════════════════ -->
+<section id="academy">
+  <h3 class="section-title">AI Academy &mdash; Capability Building Per Persona</h3>
+  <p class="section-intro"><strong>Stas's slide</strong> &mdash; the training side. Each persona from the transformation approach has a dedicated learning path. Same four roles, viewed through an L&D lens. This is how we show that training and transformation aren't separate offerings &mdash; they serve the same people. The trainings listed per persona are what we've actually built and delivered to paying clients.</p>
+
+  <div class="grid grid-4" style="gap: var(--sp-3);">
+    <!-- BUSINESS -->
+    <div class="persona-col">
+      <div class="persona-col__header" style="background: rgba(236,102,8,0.08); border-bottom-color: rgba(236,102,8,0.2);">
+        <div class="icon">&#x1F4BC;</div>
+        <h4 style="color: var(--pw-orange);">Business</h4>
+        <div class="dutch">AI Toepasser &mdash; Applies AI in their domain</div>
+      </div>
+      <div class="persona-col__body">
+        <ul>
+          <li>AI Fundamentals</li>
+          <li>Copilot Fundamentals</li>
+          <li>Copilot Prompting L1 & L2</li>
+          <li>Use Case Identification</li>
+          <li>Work Smarter with AI</li>
+        </ul>
+      </div>
+      <div class="persona-col__client"><strong>Bol.com</strong> &mdash; 200+ trained</div>
+    </div>
+    <!-- TECH -->
+    <div class="persona-col">
+      <div class="persona-col__header" style="background: rgba(0,108,164,0.08); border-bottom-color: rgba(0,108,164,0.2);">
+        <div class="icon">&#x2699;</div>
+        <h4 style="color: var(--pw-blue);">Tech</h4>
+        <div class="dutch">AI Bouwer &mdash; Builds & integrates solutions</div>
+      </div>
+      <div class="persona-col__body">
+        <ul>
+          <li>Azure AI (AI-900, AI-102)</li>
+          <li>GenAI Engineering</li>
+          <li>Secure AI Development</li>
+          <li>RAG Architecture</li>
+          <li>Copilot Agents (Studio & SDK)</li>
+        </ul>
+      </div>
+      <div class="persona-col__client"><strong>Stedin</strong> &mdash; AI in SDLC</div>
+    </div>
+    <!-- GOVERNANCE -->
+    <div class="persona-col">
+      <div class="persona-col__header" style="background: rgba(107,219,107,0.08); border-bottom-color: rgba(107,219,107,0.2);">
+        <div class="icon">&#x1F6E1;</div>
+        <h4 style="color: var(--success);">Governance</h4>
+        <div class="dutch">AI Kadersteller &mdash; Safeguards & governs</div>
+      </div>
+      <div class="persona-col__body">
+        <ul>
+          <li>AI Act Masterclass</li>
+          <li>Responsible AI Framework</li>
+          <li>ISO 42001</li>
+          <li>Risk & Compliance Workshop</li>
+          <li>Bias, Ethics & Audit</li>
+        </ul>
+      </div>
+      <div class="persona-col__client"><strong>CZ</strong> &mdash; governance first</div>
+    </div>
+    <!-- PROCESS & CULTURE -->
+    <div class="persona-col">
+      <div class="persona-col__header" style="background: rgba(240,184,64,0.08); border-bottom-color: rgba(240,184,64,0.2);">
+        <div class="icon">&#x1F310;</div>
+        <h4 style="color: var(--warning);">Process & Culture</h4>
+        <div class="dutch">AI Versneller &mdash; Drives adoption & change</div>
+      </div>
+      <div class="persona-col__body">
+        <ul>
+          <li>AI Leadership</li>
+          <li>Change Management in AI</li>
+          <li>AI in Agile Teams</li>
+          <li>Community of Practice Setup</li>
+          <li>AI Adoption Programs</li>
+        </ul>
+      </div>
+      <div class="persona-col__client"><strong>Delta Fiber</strong> &mdash; adoption</div>
+    </div>
+  </div>
+
+  <!-- Stats bar -->
+  <div class="stats-bar">
+    <div class="stat"><span class="num">30+</span> trainings</div>
+    <div class="stat"><span class="num">9.2+</span> avg rating</div>
+    <div class="stat"><span class="num">6</span> learning paths</div>
+    <div class="stat">Vendor-certified + proprietary</div>
+    <div class="stat">Tool-agnostic</div>
+    <div class="stat">EU compliant</div>
+  </div>
+</section>
+
+<!-- ════════════════════ 6. TOLLGATES ════════════════════ -->
+<section id="tollgates">
+  <h3 class="section-title">The Flight of a Use Case &mdash; Tollgates</h3>
+  <p class="section-intro"><strong>Roos's slide 3</strong> &mdash; the use case flight path. This is the <strong>bridge to the double diamond</strong>. It shows how a use case moves through phases internally (our process). The next section (4D) then shows how the <em>customer</em> experiences the same engagement. Together they tell the complete story: our internal rigor meets the customer's journey.</p>
+
+  <div class="panel-window">
+    <div class="panel-window__header">Use Case Lifecycle</div>
+    <div class="panel-window__body">
+      <div class="tollgate-flow">
+        <!-- Phase 1 -->
+        <div class="tollgate-phase">
+          <div class="phase-box">
+            <div class="phase-title">Intake &<br>Classification</div>
+            <div class="phase-desc">Identify, classify, prioritize</div>
+          </div>
+          <div class="stop-label">STOP &rarr; Learn & Archive</div>
+        </div>
+        <!-- TG1 -->
+        <div class="tollgate-gate">
+          <div class="arrow">&rarr;</div>
+          <div class="gate-label">TG1</div>
+          <div class="gate-desc">Go to Experiment</div>
+        </div>
+        <!-- Phase 2 -->
+        <div class="tollgate-phase">
+          <div class="phase-box">
+            <div class="phase-title">Experiment<br>(MVP)</div>
+            <div class="phase-desc">Build, test, learn fast</div>
+          </div>
+          <div class="stop-label">STOP &rarr; Learn & Archive</div>
+        </div>
+        <!-- TG2 -->
+        <div class="tollgate-gate">
+          <div class="arrow">&rarr;</div>
+          <div class="gate-label">TG2</div>
+          <div class="gate-desc">Validation: works, safe & compliant</div>
+        </div>
+        <!-- Phase 3 -->
+        <div class="tollgate-phase">
+          <div class="phase-box">
+            <div class="phase-title">Pilot</div>
+            <div class="phase-desc">Real teams, real data</div>
+          </div>
+          <div class="stop-label">STOP &rarr; Learn & Archive</div>
+        </div>
+        <!-- TG3 -->
+        <div class="tollgate-gate">
+          <div class="arrow">&rarr;</div>
+          <div class="gate-label">TG3</div>
+          <div class="gate-desc">Scale decision: business case confirmed</div>
+        </div>
+        <!-- Phase 4 -->
+        <div class="tollgate-phase">
+          <div class="phase-box">
+            <div class="phase-title">Scale</div>
+            <div class="phase-desc">Standardize, roll out</div>
+          </div>
+          <div class="stop-label">STOP &rarr; Learn & Archive</div>
+        </div>
+        <!-- TG4 -->
+        <div class="tollgate-gate">
+          <div class="arrow">&rarr;</div>
+          <div class="gate-label">TG4</div>
+          <div class="gate-desc">Ownership: structural owner assigned</div>
+        </div>
+        <!-- Phase 5 -->
+        <div class="tollgate-phase">
+          <div class="phase-box">
+            <div class="phase-title">Operate &<br>Optimize</div>
+            <div class="phase-desc">Embed, measure, improve</div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align: center; margin-top: var(--sp-6);">
+        <p class="text-accent" style="font-weight: 700; font-size: var(--text-base);">"The greater the impact, the heavier the governance &mdash; not the technology."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 7. THE 4D ENGAGEMENT MODEL ════════════════════ -->
+<section id="4d">
+  <h3 class="section-title">The 4D Engagement Model &mdash; Double Diamond</h3>
+  <p class="subtitle mb-2">How We Bring It Together</p>
+  <p class="section-intro">This is the centerpiece &mdash; <strong>the slide we present together</strong>. The double diamond (from our PPDV training) maps the customer lifecycle. Left diamond = <strong>Problem Space</strong> (Discover + Define). Right diamond = <strong>Solution Space</strong> (Develop + Deliver). Each phase is serviced by different parts of our portfolio. The key insight: <strong>customers enter where they need us most</strong> &mdash; not every engagement starts at Discover. Bol.com went through all four phases. Stedin entered at Develop. Delta Fiber entered at Deliver. This proves the model isn't theoretical &mdash; it's how real engagements already work.</p>
+
+  <div class="panel-accent">
+    <!-- Double Diamond SVG/CSS -->
+    <div class="diamond-wrapper">
+      <div class="diamond-container">
+        <!-- Left pair: Problem Space (orange) -->
+        <div class="diamond-shape diamond-left"></div>
+        <div class="diamond-shape diamond-right"></div>
+        <!-- Right pair: Solution Space (blue) -->
+        <div class="diamond-shape diamond-left-2"></div>
+        <div class="diamond-shape diamond-right-2"></div>
+        <!-- Dashed divider -->
+        <div class="d-divider"></div>
+        <!-- Labels -->
+        <div class="diamond-labels">
+          <div class="d-label d-label-discover">Discover</div>
+          <div class="d-label d-label-define">Define</div>
+          <div class="d-label d-label-develop">Develop</div>
+          <div class="d-label d-label-deliver">Deliver</div>
+          <div class="d-label d-label-problem-space">Problem Space</div>
+          <div class="d-label d-label-solution-space">Solution Space</div>
+          <div class="d-label d-label-problem-anchor">Problem</div>
+          <div class="d-label d-label-solution-anchor">Solution</div>
+          <div class="d-divider-label">Problem Definition</div>
+          <div class="d-sublabel d-sub-diverge1">diverge</div>
+          <div class="d-sublabel d-sub-converge1">converge</div>
+          <div class="d-sublabel d-sub-diverge2">diverge</div>
+          <div class="d-sublabel d-sub-converge2">converge</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4D Columns -->
+    <div class="dd-columns">
+      <!-- Discover -->
+      <div class="dd-col dd-col--orange">
+        <div class="dd-col__header">Discover</div>
+        <div class="dd-col__body">
+          <ul>
+            <li>AI Maturity Scan</li>
+            <li>Stakeholder workshops</li>
+            <li>Map four personas</li>
+            <li>Current state analysis</li>
+          </ul>
+          <div class="dd-col__service">
+            <div class="dd-col__service-label">Service type</div>
+            <div class="dd-col__service-value">Consultancy & Transformation</div>
+          </div>
+          <div class="dd-col__training">
+            <div class="dd-col__training-label">Training</div>
+            <div class="dd-col__training-value">AI Fundamentals, Leadership workshops</div>
+          </div>
+        </div>
+      </div>
+      <!-- Define -->
+      <div class="dd-col dd-col--orange">
+        <div class="dd-col__header">Define</div>
+        <div class="dd-col__body">
+          <ul>
+            <li>Problem hypotheses</li>
+            <li>Use case classification (Low/Mid/High code)</li>
+            <li>Success criteria & KPIs</li>
+          </ul>
+          <div class="dd-col__service">
+            <div class="dd-col__service-label">Service type</div>
+            <div class="dd-col__service-value">Consultancy & Transformation</div>
+          </div>
+          <div class="dd-col__training">
+            <div class="dd-col__training-label">Training</div>
+            <div class="dd-col__training-value">Use Case Canvas, Process Mapping</div>
+          </div>
+        </div>
+      </div>
+      <!-- Develop -->
+      <div class="dd-col dd-col--blue">
+        <div class="dd-col__header">Develop</div>
+        <div class="dd-col__body">
+          <ul>
+            <li>Technical solutions</li>
+            <li>Platform & integration</li>
+            <li>Agents / APIs / custom dev</li>
+            <li>Experiment &rarr; Pilot &rarr; Scale</li>
+          </ul>
+          <div class="dd-col__service">
+            <div class="dd-col__service-label">Service type</div>
+            <div class="dd-col__service-value">Technical Solutions & Platform</div>
+          </div>
+          <div class="dd-col__training">
+            <div class="dd-col__training-label">Training</div>
+            <div class="dd-col__training-value">Azure AI, GenAI Engineering, Secure AI Dev</div>
+          </div>
+        </div>
+      </div>
+      <!-- Deliver -->
+      <div class="dd-col dd-col--blue">
+        <div class="dd-col__header">Deliver</div>
+        <div class="dd-col__body">
+          <ul>
+            <li>Training & coaching</li>
+            <li>Change management</li>
+            <li>Governance activation</li>
+            <li>Operate & optimize</li>
+          </ul>
+          <div class="dd-col__service">
+            <div class="dd-col__service-label">Service type</div>
+            <div class="dd-col__service-value">Training & Adoption</div>
+          </div>
+          <div class="dd-col__training">
+            <div class="dd-col__training-label">Training</div>
+            <div class="dd-col__training-value">Full AI Academy portfolio, Adoption programs</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Client journey examples -->
+    <div class="journey-list">
+      <p style="font-size: var(--text-xs); font-weight: 700; letter-spacing: var(--tracking-wider); text-transform: uppercase; color: var(--fg-dim); margin-bottom: var(--sp-2);">Client journey examples</p>
+      <div class="journey-item">
+        <div class="client-name">Bol.com</div>
+        <div class="phases">
+          <span class="phase-pill phase-pill--orange">Discover</span>
+          <span class="phase-pill phase-pill--orange">Define</span>
+          <span class="phase-pill phase-pill--blue">Develop</span>
+          <span class="phase-pill phase-pill--blue">Deliver</span>
+        </div>
+        <span class="text-dim" style="font-size: var(--text-xs); margin-left: auto;">Full lifecycle</span>
+      </div>
+      <div class="journey-item">
+        <div class="client-name">CZ</div>
+        <div class="phases">
+          <span class="phase-pill phase-pill--orange">Discover</span>
+          <span class="phase-pill phase-pill--orange">Define</span>
+          <span class="phase-pill phase-pill--dim">Develop</span>
+          <span class="phase-pill phase-pill--dim">Deliver</span>
+        </div>
+        <span class="text-dim" style="font-size: var(--text-xs); margin-left: auto;">Entered at vision</span>
+      </div>
+      <div class="journey-item">
+        <div class="client-name">Stedin</div>
+        <div class="phases">
+          <span class="phase-pill phase-pill--dim">Discover</span>
+          <span class="phase-pill phase-pill--dim">Define</span>
+          <span class="phase-pill phase-pill--blue">Develop</span>
+          <span class="phase-pill phase-pill--blue">Deliver</span>
+        </div>
+        <span class="text-dim" style="font-size: var(--text-xs); margin-left: auto;">Knew the problem</span>
+      </div>
+      <div class="journey-item">
+        <div class="client-name">Delta Fiber</div>
+        <div class="phases">
+          <span class="phase-pill phase-pill--dim">Discover</span>
+          <span class="phase-pill phase-pill--dim">Define</span>
+          <span class="phase-pill phase-pill--dim">Develop</span>
+          <span class="phase-pill phase-pill--blue">Deliver</span>
+        </div>
+        <span class="text-dim" style="font-size: var(--text-xs); margin-left: auto;">Needed embedding</span>
+      </div>
+    </div>
+    <p class="text-muted text-center mt-6" style="font-size: var(--text-sm); font-style: italic;">Customers enter where they need us most &mdash; not every engagement starts at Discover.</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 8. THREE-BRAIN MODEL ════════════════════ -->
+<section id="brains">
+  <h3 class="section-title">Three-Brain Model</h3>
+  <p class="section-intro">This section is <strong>NOT on the slides</strong> &mdash; it's for the verbal conversation with Christian (via Teams). The idea: every individual gets a persistent AI assistant (personal brain), teams share knowledge through a team brain, and the organization governs it all through a platform like Ignition. This is how our adoption story connects to Christian's governance framework. We only bring this up if he asks or if the conversation naturally goes there.</p>
+
+  <div class="brain-stack">
+    <!-- Personal Brain -->
+    <div class="brain-card">
+      <div class="level-icon" style="background: var(--success-soft); border: 1px solid rgba(107,219,107,0.3);">&#x1F9E0;</div>
+      <div class="bc-content">
+        <div class="bc-title">
+          Personal Brain
+          <span class="badge badge-success">Production</span>
+        </div>
+        <div class="bc-desc">Daily AI assistant, role-specific, compounds experience. Memory-persistent. Gets smarter every day you use it.</div>
+        <div class="bc-columns">
+          <div>
+            <div class="bc-col-label">Product</div>
+            <div class="bc-col-value">Role-specific brain template (4 persona variants)</div>
+          </div>
+          <div>
+            <div class="bc-col-label">Service</div>
+            <div class="bc-col-value">AI Academy: adoption training, brain setup</div>
+          </div>
+          <div>
+            <div class="bc-col-label">Governance</div>
+            <div class="bc-col-value">Self-governed by employee</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Team Brain -->
+    <div class="brain-card">
+      <div class="level-icon" style="background: var(--info-soft); border: 1px solid rgba(91,168,255,0.3);">&#x1F465;</div>
+      <div class="bc-content">
+        <div class="bc-title">
+          Team Brain
+          <span class="badge badge-info">Validating</span>
+        </div>
+        <div class="bc-desc">Shared domain knowledge, client context, project patterns. Teams share what works without leaking sensitive data.</div>
+        <div class="bc-columns">
+          <div>
+            <div class="bc-col-label">Product</div>
+            <div class="bc-col-value">Team brain template + shared memory architecture</div>
+          </div>
+          <div>
+            <div class="bc-col-label">Service</div>
+            <div class="bc-col-value">AI Transformation consulting</div>
+          </div>
+          <div>
+            <div class="bc-col-label">Governance</div>
+            <div class="bc-col-value">Team lead + AI consultant</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Organizational Brain -->
+    <div class="brain-card">
+      <div class="level-icon" style="background: var(--warning-soft); border: 1px solid rgba(240,184,64,0.3);">&#x1F3DB;</div>
+      <div class="bc-content">
+        <div class="bc-title">
+          Organizational Brain
+          <span class="badge badge-warning">Conceptual</span>
+        </div>
+        <div class="bc-desc">Policies, standards, cross-cutting intelligence. Structural isolation. Connects to Ignition.</div>
+        <div class="bc-columns">
+          <div>
+            <div class="bc-col-label">Product</div>
+            <div class="bc-col-value">Ignition platform (AKB instances)</div>
+          </div>
+          <div>
+            <div class="bc-col-label">Service</div>
+            <div class="bc-col-value">Governance consulting + deployment</div>
+          </div>
+          <div>
+            <div class="bc-col-label">Governance</div>
+            <div class="bc-col-value">CISO / C-suite via Ignition</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 9. ENTITY MAP ════════════════════ -->
+<section id="entities">
+  <h3 class="section-title">Entity Map</h3>
+  <p class="text-muted mb-4">Who owns what across the emagine group.</p>
+
+  <div class="panel-window">
+    <div class="panel-window__header">emagine Entity Ownership</div>
+    <div class="panel-window__body">
+      <table>
+        <thead>
+          <tr>
+            <th>Entity</th>
+            <th>Role</th>
+            <th>What They Own</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-primary">Prowareness<br><span style="font-size: var(--text-2xs); color: var(--fg-dim);">(Stas / Academy)</span></td>
+            <td>Product + Adoption</td>
+            <td>Personal brain templates, AI Academy training, brain setup, 4D methodology</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Prowareness<br><span style="font-size: var(--text-2xs); color: var(--fg-dim);">(Roy / Roos)</span></td>
+            <td>Transformation</td>
+            <td>AI Transformation consulting (Vision-Execution-Embedding), team brain implementation, organizational change</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">DevOn<br><span style="font-size: var(--text-2xs); color: var(--fg-dim);">(Shaun / Sachin)</span></td>
+            <td>Technical Integration</td>
+            <td>Connect brains to client systems, AI in SDLC, custom agents</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">emagine<br><span style="font-size: var(--text-2xs); color: var(--fg-dim);">(Christian)</span></td>
+            <td>Governance Platform</td>
+            <td>Ignition as org brain, cross-brain governance, structural isolation</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="text-dim mt-4" style="font-size: var(--text-xs); font-style: italic;">No market ownership claims &mdash; the 4D model works in any country.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 10. SOLUTION MAPPING ════════════════════ -->
+<section id="solutions">
+  <h3 class="section-title">Solution Mapping</h3>
+  <p class="text-muted mb-4">"What Emerges from 4D" &mdash; problem patterns mapped to solutions.</p>
+
+  <div class="panel-window">
+    <div class="panel-window__header">Problem &rarr; Solution Matrix</div>
+    <div class="panel-window__body" style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Problem Pattern</th>
+            <th>Solution That Emerges</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-primary">People don't know how to use AI</td>
+            <td>AI Academy training (role-specific, per persona)</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Knowledge walks out the door</td>
+            <td>AI Second Brain (team level)</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Every employee starts from zero</td>
+            <td>AI Second Brain (personal level)</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">AI pilots everywhere, nothing scales</td>
+            <td>AI Transformation (Vision-Execution-Embedding)</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Need custom AI in products</td>
+            <td>Technical AI development (DevOn)</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Can't govern AI across the organization</td>
+            <td>Ignition (organizational brain)</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Want to replace SaaS with custom tools</td>
+            <td>Custom development via connected brains</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Need teams connected, data separated</td>
+            <td>Connected Brain Practice (full stack)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 11. EVIDENCE ════════════════════ -->
+<section id="evidence">
+  <h3 class="section-title">Evidence</h3>
+
+  <div class="grid grid-4" style="gap: var(--sp-4);">
+    <div class="metric-card">
+      <div class="metric-value">40 min</div>
+      <div class="metric-label">Deck remix time<br><span class="text-dim">(vs. 5 days manually)</span></div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">500+</div>
+      <div class="metric-label">Professionals trained</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">9.2+</div>
+      <div class="metric-label">Average training rating</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value">$68B</div>
+      <div class="metric-label">AI governance market by 2030<br><span class="text-dim">($2.5B &rarr; $68B, 39% CAGR)</span></div>
+    </div>
+  </div>
+
+  <div class="quote-block">
+    <div class="quote-text">"Game changer."</div>
+    <div class="quote-attr">&mdash; Christian Pedersen, Chief AI Officer, emagine &mdash; on the AI Second Brain demo, March 2026</div>
+  </div>
+
+  <div class="panel mt-6" style="text-align: center;">
+    <p class="text-muted" style="font-size: var(--text-sm);">
+      <strong>Competitive context:</strong> No player combines memory-persistent AI assistants + role-specific training + organizational governance. Microsoft Copilot + SharePoint + Purview is building toward this but uses config-based permissions (not structural isolation) and is locked to M365. Glean ($7.2B) does enterprise search but not governance. Forte Labs identified "Second Brain Enterprise" but delivers methodology, not a platform.
+    </p>
+  </div>
+</section>
+
+<!-- ════════════════════ 12. ASSUMPTIONS TO VALIDATE ════════════════════ -->
+<section id="assumptions">
+  <h3 class="section-title">Assumptions to Validate</h3>
+  <p class="text-muted mb-4">Seven hypotheses that must hold true. Ranked by risk.</p>
+
+  <div class="grid grid-2" style="gap: var(--sp-4);">
+    <!-- 1 -->
+    <div class="assumption-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">01</div>
+        <span class="badge badge-danger">HIGH</span>
+      </div>
+      <div class="assumption-text">Christian sees Ignition as the org brain governance platform</div>
+      <div class="validation">Validation: Test narrative on March 27, ask directly</div>
+    </div>
+    <!-- 2 -->
+    <div class="assumption-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">02</div>
+        <span class="badge badge-danger">HIGH</span>
+      </div>
+      <div class="assumption-text">Enterprise clients pay for AI brains vs. just buying Copilot</div>
+      <div class="validation">Validation: Research Copilot governance consulting spend, enterprise pain with Copilot adoption</div>
+    </div>
+    <!-- 3 -->
+    <div class="assumption-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">03</div>
+        <span class="badge badge-danger">HIGH</span>
+      </div>
+      <div class="assumption-text">Personal brain can be delivered at non-CLI scale</div>
+      <div class="validation">Validation: Prototype Copilot-wrapped or Notion-based brain at 60% value</div>
+    </div>
+    <!-- 4 -->
+    <div class="assumption-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">04</div>
+        <span class="badge badge-warning">MEDIUM</span>
+      </div>
+      <div class="assumption-text">Team brains are technically feasible today</div>
+      <div class="validation">Validation: Technical spike &mdash; shared Git repo, Ignition AKB, Supabase + permissions</div>
+    </div>
+    <!-- 5 -->
+    <div class="assumption-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">05</div>
+        <span class="badge badge-warning">MEDIUM</span>
+      </div>
+      <div class="assumption-text">Prowareness and DevOn can collaborate on joint offering</div>
+      <div class="validation">Validation: Use March 27 to test; if narrative lands with Christian, alignment follows</div>
+    </div>
+    <!-- 6 -->
+    <div class="assumption-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">06</div>
+        <span class="badge badge-warning">MEDIUM</span>
+      </div>
+      <div class="assumption-text">Market ready for connected brain governance</div>
+      <div class="validation">Validation: Lead with problems buyers already have (shadow AI, knowledge silos, training that fades)</div>
+    </div>
+    <!-- 7 -->
+    <div class="assumption-card" style="grid-column: span 2;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+        <div class="number">07</div>
+        <span class="badge badge-warning">MEDIUM</span>
+      </div>
+      <div class="assumption-text">4D model differentiates from standard consulting frameworks</div>
+      <div class="validation">Validation: Differentiation is in what emerges (brain product), not in the framework itself. Design thinking is well-known; the output must feel novel.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════ 13. MARCH 27 SESSION PLAN ════════════════════ -->
+<section id="session">
+  <h3 class="section-title">March 27 Session Plan</h3>
+
+  <div class="panel mb-6">
+    <p class="text-muted" style="font-size: var(--text-sm);">
+      <strong class="text-bright">Context:</strong> 90-minute session, 15+ people, online. Prowareness leaves at 13:00 (Company Parade). This is a <strong>signal test</strong>, not a decision meeting.
+    </p>
+  </div>
+
+  <div class="panel-window">
+    <div class="panel-window__header">Session Timeline (Prowareness Block: ~30 min)</div>
+    <div class="panel-window__body">
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="tl-time">5 min</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-title">What we deliver &mdash; AI Academy + Transformation</div>
+            <div class="tl-desc">Factual summary of what exists, what's been sold and delivered. No speculation.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">10 min</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-title">How we work &mdash; 4D Engagement Model + Double Diamond</div>
+            <div class="tl-desc">The methodology that connects all our offerings to the customer lifecycle.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">10 min</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-title">How it connects &mdash; Customer lifecycle mapping</div>
+            <div class="tl-desc">Client examples (Bol.com, CZ, Stedin, Delta Fiber). Where different customers enter the 4D model.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="tl-time">5 min</div>
+          <div class="tl-dot"></div>
+          <div class="tl-content">
+            <div class="tl-title">Discussion &mdash; Where does this connect to what emagine has?</div>
+            <div class="tl-desc">Open question to Christian. Listen for signals on Ignition, governance, and scaling appetite.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel mt-4" style="border-left: 3px solid var(--danger);">
+    <p style="font-size: var(--text-xs); font-weight: 700; color: var(--danger); letter-spacing: var(--tracking-wider); text-transform: uppercase; margin-bottom: var(--sp-2);">What NOT to present</p>
+    <p class="text-muted" style="font-size: var(--text-sm);">Pricing &bull; Market ownership per country &bull; Detailed training curriculum (pre-read covers this)</p>
+  </div>
+</section>
+
+<!-- ════════════════════ 14. NEXT STEPS ════════════════════ -->
+<section id="next" style="margin-bottom: 72px;">
+  <h3 class="section-title">Next Steps</h3>
+
+  <div class="panel-window">
+    <div class="panel-window__header">Action Items</div>
+    <div class="panel-window__body">
+      <table>
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Owner</th>
+            <th>When</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="cell-primary">Validate approach at LT offsite Thursday</td>
+            <td>Stas + Roos</td>
+            <td>This week</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Send pre-reads to Christian (CC Shaun)</td>
+            <td>Stas</td>
+            <td>After LT offsite</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Teams message to Christian re: Ignition connection</td>
+            <td>Stas</td>
+            <td>This week</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Second slide iteration</td>
+            <td>Roos</td>
+            <td>Friday</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">March 27 workshop</td>
+            <td>All</td>
+            <td class="cell-dim">March 27</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Technical spike: non-CLI brain prototype</td>
+            <td>Stas</td>
+            <td class="cell-dim">Q2 2026</td>
+          </tr>
+          <tr>
+            <td class="cell-primary">Technical spike: team brain architecture</td>
+            <td>Stas</td>
+            <td class="cell-dim">Q2 2026</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.container -->
+
+<!-- ════════════════════ STATUS BAR ════════════════════ -->
+<div class="status-bar">
+  <span>// stas.brain &mdash; AI Approach Concept v2.0</span>
+  <span>Draft &bull; Internal Only &bull; March 2026</span>
+  <span>Prowareness & DevOn // Part of emagine</span>
+</div>
+
+</body>
+</html>
