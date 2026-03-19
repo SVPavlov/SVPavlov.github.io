@@ -314,12 +314,12 @@
         <div class="card ring-card callout-purple">
           <span class="ring-icon">&#128218;</span>
           <div class="ring-title">Ring 2: Knowledge</div>
-          <div class="ring-desc">What you know. Client histories, meeting notes, research reports, contact details, market analysis. 192 markdown files organized by domain &mdash; all searchable, all version-controlled.</div>
+          <div class="ring-desc">What you know. Client histories, meeting notes, research reports, contact details, market analysis. 520+ markdown files organized by domain &mdash; all searchable, all version-controlled.</div>
         </div>
         <div class="card ring-card callout-green">
           <span class="ring-icon">&#9889;</span>
           <div class="ring-title">Ring 3: Capability</div>
-          <div class="ring-desc">What you can do. 50 slash commands, 29 specialized agents, 73 skills, and 11 MCP integrations that connect to Outlook, WhatsApp, LinkedIn, Notion, Google Workspace, Todoist, and more.</div>
+          <div class="ring-desc">What you can do. 56 slash commands, 6 specialized agents, 35 project skills, and 11 MCP integrations that connect to Outlook, WhatsApp, LinkedIn, Notion, Google Workspace, Todoist, and more.</div>
         </div>
       </div>
 
@@ -389,22 +389,21 @@
         <div class="mermaid">
 graph TB
     subgraph "Layer 5: User Interface"
-        CMD["/commands (50)"]
-        NOTION["Notion Dashboard"]
+        CMD["/commands (56)"]
+        DASH["GitHub Pages Dashboard"]
     end
     subgraph "Layer 4: Automation"
         PIPE["Headless Pipelines"]
     end
     subgraph "Layer 3: Intelligence"
-        SK["Skills (73)"]
-        AG["Agents (29)"]
-        APEX["Apex OS (46)"]
+        SK["Skills (35)"]
+        AG["Agents (6)"]
     end
     subgraph "Layer 2: Integration"
         MCP["MCP Servers (11)"]
     end
     subgraph "Layer 1: Storage"
-        MD["Markdown (192 files)"]
+        MD["Markdown (520+ files)"]
         SB["Supabase (9 tables)"]
         AM["Auto-Memory"]
     end
@@ -415,10 +414,9 @@ graph TB
     MCP --> MD
     MCP --> SB
     PIPE --> CMD
-    NOTION --> SB
+    DASH --> SB
     SK --> MD
     AG --> MD
-    APEX --> SK
         </div>
       </div>
 
@@ -426,7 +424,7 @@ graph TB
       <div class="grid-3 gap-4 mt-4">
         <div class="callout callout-blue">
           <p class="eyebrow">&#128193; Markdown Files</p>
-          <p class="card-desc mt-2">192 files in <code>memory/</code> organized by domain. Plain text, version-controlled in Git, human-readable. This is where all knowledge lives.</p>
+          <p class="card-desc mt-2">520+ files in <code>memory/</code> organized by domain. Plain text, version-controlled in Git, human-readable. This is where all knowledge lives.</p>
         </div>
         <div class="callout callout-purple">
           <p class="eyebrow">&#128452;&#65039; Supabase</p>
@@ -460,21 +458,17 @@ graph TB
           </table>
         </div>
       </div>
-      <blockquote class="mt-4"><strong>Design principle:</strong> Global servers (6) load in every Claude Code project. Project servers (4) only load in the Second Brain. This reduces startup time and limits blast radius.</blockquote>
+      <blockquote class="mt-4"><strong>Design principle:</strong> Global servers (7) load in every Claude Code project. Project servers (4) only load in the Second Brain. This reduces startup time and limits blast radius.</blockquote>
 
       <h3 class="mt-8">Layer 3: Intelligence</h3>
-      <div class="grid-3 gap-4 mt-4">
+      <div class="grid-2 gap-4 mt-4">
         <div class="callout callout-yellow">
-          <p class="eyebrow">&#9889; 27 Project Skills</p>
-          <p class="card-desc mt-2">Business skills that define <em>how</em> to do things: email triage, LinkedIn posting, meeting processing, market research, WhatsApp management, kanban board, training creation. Each is a <code>SKILL.md</code> file.</p>
-        </div>
-        <div class="callout callout-orange">
-          <p class="eyebrow">&#128295; 46 Global Skills (Apex OS)</p>
-          <p class="card-desc mt-2">Engineering reference skills: Supabase, Next.js, Docker, security, debugging, agent orchestration, TDD. Available in all Claude Code projects.</p>
+          <p class="eyebrow">&#9889; 35 Project Skills</p>
+          <p class="card-desc mt-2">Business skills that define <em>how</em> to do things: email triage, LinkedIn posting, meeting processing, market research, WhatsApp management, kanban board, training creation, PDF/PPTX handling. Each is a <code>SKILL.md</code> file in <code>.claude/skills/</code>.</p>
         </div>
         <div class="callout callout-pink">
-          <p class="eyebrow">&#129302; 29 Agents</p>
-          <p class="card-desc mt-2">Specialized personas: chief-of-staff, email-agent, content-creator, market-researcher, essay-writer, linkedin-responder, product-expert, QA-validator, and more.</p>
+          <p class="eyebrow">&#129302; 6 Agents</p>
+          <p class="card-desc mt-2">Specialized personas in <code>.claude/agents/</code>: chief-of-staff, email-agent, content-creator, market-researcher, research-depth-analyzer, claude-code-specialist.</p>
         </div>
       </div>
 
@@ -490,7 +484,7 @@ graph TB
 
       <h3 class="mt-8">Layer 5: User Interface</h3>
       <div class="callout callout-red mt-4">
-        <p><span class="callout-icon">&#127919;</span> <strong>50 slash commands</strong> are the primary UI. You type <code>/command</code> and the brain executes. This dashboard provides a visual overview. Supabase will eventually power a React admin panel.</p>
+        <p><span class="callout-icon">&#127919;</span> <strong>56 slash commands</strong> are the primary UI. You type <code>/command</code> and the brain executes. This <a href="https://svpavlov.github.io/">GitHub Pages dashboard</a> provides a visual overview. Supabase powers structured data storage and queries.</p>
       </div>
     </section>
 
@@ -503,15 +497,15 @@ graph TB
 
       <div class="grid-4 gap-4 mt-4">
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">50</div>
+          <div class="stat-number">56</div>
           <div class="stat-label">Slash Commands</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">73</div>
-          <div class="stat-label">Skills</div>
+          <div class="stat-number">35</div>
+          <div class="stat-label">Project Skills</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">29</div>
+          <div class="stat-number">6</div>
           <div class="stat-label">Agents</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
@@ -521,7 +515,7 @@ graph TB
       </div>
       <div class="grid-4 gap-4 mt-4">
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">192</div>
+          <div class="stat-number">520+</div>
           <div class="stat-label">Memory Files</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
@@ -544,12 +538,11 @@ graph TB
           <table>
             <thead><tr><th>Component</th><th>Count</th><th>Details</th></tr></thead>
             <tbody>
-              <tr><td class="cell-primary">Slash Commands</td><td><strong style="color:var(--accent)">50</strong></td><td class="text-muted">Core workflow, planning, content, communication, client, system</td></tr>
-              <tr><td class="cell-primary">Project Skills</td><td><strong style="color:var(--accent)">27</strong></td><td class="text-muted">Business skills in <code>.claude/skills/</code></td></tr>
-              <tr><td class="cell-primary">Global Skills</td><td><strong style="color:var(--accent)">46</strong></td><td class="text-muted">Apex OS engineering skills in <code>~/.claude/skills/</code></td></tr>
-              <tr><td class="cell-primary">Agents</td><td><strong style="color:var(--accent)">14 active</strong></td><td class="text-muted">Specialized personas in <code>.claude/agents/</code></td></tr>
-              <tr><td class="cell-primary">MCP Servers</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">6 global + 4 project + 1 plugin (Notion)</td></tr>
-              <tr><td class="cell-primary">Memory Files</td><td><strong style="color:var(--accent)">192</strong></td><td class="text-muted">In <code>memory/</code> &mdash; clients, research, patterns, workflows</td></tr>
+              <tr><td class="cell-primary">Slash Commands</td><td><strong style="color:var(--accent)">56</strong></td><td class="text-muted">Core workflow, planning, content, communication, client, system</td></tr>
+              <tr><td class="cell-primary">Project Skills</td><td><strong style="color:var(--accent)">35</strong></td><td class="text-muted">Business skills in <code>.claude/skills/</code></td></tr>
+              <tr><td class="cell-primary">Agents</td><td><strong style="color:var(--accent)">6</strong></td><td class="text-muted">Specialized personas in <code>.claude/agents/</code></td></tr>
+              <tr><td class="cell-primary">MCP Servers</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">7 global + 4 project</td></tr>
+              <tr><td class="cell-primary">Memory Files</td><td><strong style="color:var(--accent)">520+</strong></td><td class="text-muted">In <code>memory/</code> &mdash; clients, research, patterns, workflows, contacts, training</td></tr>
               <tr><td class="cell-primary">Clients Tracked</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">ABN AMRO, ASML, Achmea, Equalit, Fancom, and more</td></tr>
               <tr><td class="cell-primary">Research Reports</td><td><strong style="color:var(--accent)">40</strong></td><td class="text-muted">Market analysis, competitor research, technology evaluations</td></tr>
               <tr><td class="cell-primary">Kanban Cards</td><td><strong style="color:var(--accent)">12</strong></td><td class="text-muted">3 in_progress, 6 planned, 3 ideas</td></tr>
@@ -607,7 +600,7 @@ graph TB
 
         <!-- Email & Communication -->
         <details>
-          <summary><span class="badge badge-danger" style="margin-right:8px">16</span> Email & Communication</summary>
+          <summary><span class="badge badge-danger" style="margin-right:8px">18</span> Email & Communication</summary>
           <div class="details-content">
             <table>
               <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
@@ -628,6 +621,8 @@ graph TB
                 <tr><td><code>/personal-follow-up</code></td><td>Track personal sent emails without replies</td></tr>
                 <tr><td><code>/personal-contact-intel</code></td><td>Relationship intelligence from personal MS365</td></tr>
                 <tr><td><code>/personal-meeting-prep</code></td><td>Meeting prep from personal calendar</td></tr>
+                <tr><td><code>/work-search</code></td><td>Search emails, calendar, and contacts in local Outlook</td></tr>
+                <tr><td><code>/personal-search</code></td><td>Search emails and calendar in personal MS365</td></tr>
               </tbody>
             </table>
           </div>
@@ -687,7 +682,7 @@ graph TB
 
         <!-- Meetings & Clients -->
         <details>
-          <summary><span class="badge badge-danger" style="margin-right:8px">8</span> Meetings & Clients</summary>
+          <summary><span class="badge badge-danger" style="margin-right:8px">9</span> Meetings & Clients</summary>
           <div class="details-content">
             <table>
               <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
@@ -699,6 +694,7 @@ graph TB
                 <tr><td><code>/scan-action-items</code></td><td>Scan transcripts for action items, add to Todoist</td></tr>
                 <tr><td><code>/action-harvest</code></td><td>Scan meetings, WhatsApp, email for action items</td></tr>
                 <tr><td><code>/client-status</code></td><td>Quick overview of all active client projects</td></tr>
+                <tr><td><code>/client-map</code></td><td>Show a unified map of all files related to a specific client</td></tr>
                 <tr><td><code>/follow-up-radar</code></td><td>Track pending responses and overdue follow-ups</td></tr>
               </tbody>
             </table>
@@ -749,7 +745,7 @@ graph TB
 
         <!-- System -->
         <details>
-          <summary><span class="badge" style="margin-right:8px">9</span> System & Admin</summary>
+          <summary><span class="badge" style="margin-right:8px">10</span> System & Admin</summary>
           <div class="details-content">
             <table>
               <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
@@ -757,12 +753,13 @@ graph TB
                 <tr><td><code>/start</code></td><td>Launch the Second Brain onboarding experience</td></tr>
                 <tr><td><code>/setup</code></td><td>Guided setup to personalize your brain (10 min)</td></tr>
                 <tr><td><code>/import-memories</code></td><td>Import ChatGPT and Claude conversation history</td></tr>
-                <tr><td><code>/sync-notion</code></td><td>Sync inventory to the Notion dashboard</td></tr>
+                <tr><td><code>/sync-notion</code></td><td>Sync inventory to the GitHub Pages dashboard</td></tr>
                 <tr><td><code>/file-changes</code></td><td>Track files modified this session</td></tr>
                 <tr><td><code>/level-up</code></td><td>Assess your Claude Code level (0-10) and get upgrade roadmap</td></tr>
                 <tr><td><code>/friday-upgrade-research</code></td><td>Deep research for Second Brain upgrades</td></tr>
                 <tr><td><code>/synergy-hours</code></td><td>Fill in weekly hours in Exact Synergy via browser automation</td></tr>
                 <tr><td><code>/find-training-file</code></td><td>Search OneDrive for training materials and documents</td></tr>
+                <tr><td><code>/brain-manifest</code></td><td>Generate anonymized brain manifest for the hive mind repo</td></tr>
               </tbody>
             </table>
           </div>
@@ -908,14 +905,7 @@ graph TB
               <tr><td class="cell-primary">content-creator</td><td class="text-muted">Creates content across platforms in Stas's voice</td><td><code>/linkedin-post</code>, <code>/content-pipeline</code></td></tr>
               <tr><td class="cell-primary">market-researcher</td><td class="text-muted">Autonomous market research from a free-form brief</td><td><code>/market-research</code></td></tr>
               <tr><td class="cell-primary">research-depth-analyzer</td><td class="text-muted">Multi-AI-source research using Claude, Gemini, Codex</td><td>Deep research tasks</td></tr>
-              <tr><td class="cell-primary">essay-writer</td><td class="text-muted">Long-form essay specialist</td><td>Book chapters, articles</td></tr>
-              <tr><td class="cell-primary">linkedin-responder</td><td class="text-muted">Drafts LinkedIn message responses</td><td><code>/linkedin-engage</code></td></tr>
-              <tr><td class="cell-primary">product-expert</td><td class="text-muted">Knows Prowareness vision, pricing, features, positioning</td><td>Proposals, client calls</td></tr>
               <tr><td class="cell-primary">claude-code-specialist</td><td class="text-muted">Expert on Second Brain architecture and context engineering</td><td><code>/friday-upgrade-research</code></td></tr>
-              <tr><td class="cell-primary">daily-accountability-coach</td><td class="text-muted">Suggests daily plans based on calendar and goals</td><td><code>/morning</code></td></tr>
-              <tr><td class="cell-primary">pmo-advisor</td><td class="text-muted">Strategic priority coaching and task prioritization</td><td><code>/priority-stack</code></td></tr>
-              <tr><td class="cell-primary">meeting-scheduler</td><td class="text-muted">Extracts meeting details from screenshots &rarr; Google Calendar</td><td><code>/personal-schedule</code></td></tr>
-              <tr><td class="cell-primary">qa-validator</td><td class="text-muted">Verifies features through browser testing and DB validation</td><td><code>/review</code></td></tr>
             </tbody>
           </table>
         </div>
@@ -1005,12 +995,13 @@ graph TB
   <!-- Status Bar -->
   <div class="status-bar">
     <div style="display:flex;align-items:center;gap:8px">
-      <span style="color:var(--accent)">&#9679;</span> stas.brain v1.1
+      <span style="color:var(--accent)">&#9679;</span> stas.brain v1.2
     </div>
     <div style="display:flex;align-items:center;gap:16px">
-      <span>50 <span class="text-dim">commands</span></span>
-      <span>73 <span class="text-dim">skills</span></span>
-      <span>192 <span class="text-dim">memory files</span></span>
+      <span>56 <span class="text-dim">commands</span></span>
+      <span>35 <span class="text-dim">skills</span></span>
+      <span>520+ <span class="text-dim">memory files</span></span>
+      <span class="text-dim">updated 2026-03-19</span>
     </div>
   </div>
 
