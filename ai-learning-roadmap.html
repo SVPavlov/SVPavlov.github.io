@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Je Bent Al Expert — AI Learning Roadmap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #141914; --bg-panel: #1C211C; --bg-elevated: #252B25; --bg-inset: #111411; --bg-deep: #0D100D;
+      --fg: #F2F2F2; --fg-bright: #FFFFFF; --fg-muted: #9DA19B; --fg-dim: #5C5C55;
+      --accent: #C4FF57; --accent-hover: #D0FF77; --accent-soft: rgba(196,255,87,0.12);
+      --accent-glow: rgba(196,255,87,0.06); --accent-text: #111411;
+      --danger: #F0787D; --danger-soft: rgba(240,120,125,0.15);
+      --warning: #FACC15; --warning-soft: rgba(250,204,21,0.15);
+      --info: #60A5FA; --info-soft: rgba(96,165,250,0.15);
+      --success: #6BDB6B; --success-soft: rgba(107,219,107,0.15);
+      --border: #2A302A; --border-hover: #3A423A; --border-accent: #C4FF57;
+      --radius: 6px; --radius-md: 8px; --radius-lg: 12px; --radius-sm: 4px; --radius-pill: 100px;
+      --shadow-panel: 0 2px 6px rgba(0,0,0,0.4), 0 0 0 1px var(--border);
+      --shadow-elevated: 0 4px 16px rgba(0,0,0,0.5), 0 0 0 1px var(--border-hover);
+      --shadow-inset: inset 0 1px 4px rgba(0,0,0,0.4);
+      --shadow-glow: 0 0 24px var(--accent-soft), 0 0 0 1px var(--border-accent);
+      --shadow-badge: inset 1px 1px 2px rgba(0,0,0,0.2);
+      --shadow-btn: 0 2px 4px rgba(0,0,0,0.3);
+      --font-heading: 'Space Grotesk', sans-serif;
+      --font-body: 'Inter', -apple-system, system-ui, sans-serif;
+      --font-mono: 'JetBrains Mono', 'Fira Code', 'SF Mono', ui-monospace, monospace;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: var(--bg); color: var(--fg); font-family: var(--font-body);
+      font-size: 15px; font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale; padding-bottom: 60px;
+    }
+    h1, h2, h3, h4 { font-family: var(--font-heading); letter-spacing: -0.02em; line-height: 1.0; color: var(--fg-bright); }
+    h1 { font-size: 72px; font-weight: 700; }
+    h2 { font-size: 36px; font-weight: 700; }
+    h3 { font-size: 22px; font-weight: 600; }
+    h4 { font-size: 18px; font-weight: 600; color: var(--fg); }
+    .subtitle { font-family: var(--font-body); font-size: 18px; font-weight: 400; color: var(--fg-muted); letter-spacing: 0.01em; }
+    .text-muted { color: var(--fg-muted); } .text-dim { color: var(--fg-dim); }
+    .text-accent { color: var(--accent); } .text-bright { color: var(--fg-bright); }
+    strong { color: var(--fg-bright); font-weight: 700; }
+    .label { font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--fg-dim); }
+    .eyebrow { font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
+    .section-title { font-family: var(--font-heading); font-size: 11px; font-weight: 600; letter-spacing: 1.2px; text-transform: uppercase; color: var(--fg-muted); display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+    .section-title::before { content: ''; display: inline-block; width: 3px; height: 14px; background: var(--accent); border-radius: 2px; }
+
+    .nav {
+      background: rgba(17, 20, 17, 0.95); backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border); padding: 0 24px; height: 56px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 50;
+    }
+    .nav__brand { font-family: var(--font-heading); color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .panel { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-panel); padding: 24px; }
+    .panel-inset { background: var(--bg-inset); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-inset); padding: 16px; }
+    .panel-accent { background: var(--bg-panel); border: 1px solid var(--border-accent); border-radius: 6px; box-shadow: var(--shadow-glow); padding: 24px; }
+    .panel-window { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-panel); overflow: hidden; }
+    .panel-window__header { background: var(--bg-inset); border-bottom: 1px solid var(--border); padding: 8px 16px; display: flex; align-items: center; gap: 12px; font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--fg-dim); }
+    .panel-window__header::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 6px var(--accent-soft); }
+    .panel-window__body { padding: 24px; }
+
+    .badge { display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 10px; border-radius: 100px; border: 1px solid var(--border); background: var(--bg-elevated); color: var(--fg-muted); box-shadow: var(--shadow-badge); }
+    .badge-accent { color: var(--accent); border-color: rgba(196,255,87,0.3); background: rgba(196,255,87,0.08); }
+    .badge-danger { color: var(--danger); border-color: rgba(240,120,125,0.3); background: rgba(240,120,125,0.15); }
+    .badge-warning { color: var(--warning); border-color: rgba(250,204,21,0.3); background: rgba(250,204,21,0.15); }
+    .badge-info { color: var(--info); border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.15); }
+    .badge-success { color: var(--success); border-color: rgba(107,219,107,0.3); background: rgba(107,219,107,0.15); }
+
+    .flex { display: flex; } .flex-col { flex-direction: column; } .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; } .justify-between { justify-content: space-between; }
+    .gap-2 { gap: 8px; } .gap-3 { gap: 12px; } .gap-4 { gap: 16px; } .gap-6 { gap: 24px; } .gap-8 { gap: 32px; }
+    .grid { display: grid; }
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 768px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } h1 { font-size: 40px; } .hero-quote { font-size: 22px; } .cycle-step { padding: 16px; min-width: 120px; } .cycle-arrow { font-size: 18px; } }
+    .mt-1 { margin-top: 4px; } .mt-2 { margin-top: 8px; } .mt-4 { margin-top: 16px; } .mt-6 { margin-top: 24px; } .mt-8 { margin-top: 32px; }
+    .mb-2 { margin-bottom: 8px; } .mb-4 { margin-bottom: 16px; } .mb-6 { margin-bottom: 24px; }
+    hr { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+    .divider-accent { border: none; border-top: 2px solid var(--accent); opacity: 0.2; margin: 24px 0; }
+    .status-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 28px; background: var(--bg-inset); border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-family: var(--font-body); font-size: 10px; font-weight: 500; color: var(--fg-dim); z-index: 100; }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-inset); }
+    ::-webkit-scrollbar-thumb { background: var(--border-hover); border-radius: 4px; }
+
+    section { margin-top: 56px; }
+
+    .bullet-list { list-style: none; padding: 0; }
+    .bullet-list li { position: relative; padding-left: 16px; font-family: var(--font-body); font-size: 13px; font-weight: 400; color: var(--fg); margin-bottom: 6px; }
+    .bullet-list li::before { content: '>'; position: absolute; left: 0; color: var(--accent); font-family: var(--font-mono); font-weight: 700; }
+    .bullet-list li span.text-muted { font-weight: 300; }
+
+    .hero-quote {
+      font-family: var(--font-heading); font-size: 28px; font-weight: 700;
+      color: var(--fg-bright); line-height: 1.25; max-width: 700px; margin-top: 24px;
+    }
+    .hero-quote span { color: var(--accent); }
+
+    .reality-number { font-family: var(--font-heading); font-size: 48px; font-weight: 700; color: var(--accent); line-height: 1; letter-spacing: -0.02em; }
+    .reality-label { font-family: var(--font-heading); font-size: 10px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: var(--fg-dim); margin-top: 4px; }
+    .reality-desc { font-family: var(--font-body); font-size: 13px; font-weight: 300; color: var(--fg-muted); margin-top: 8px; line-height: 1.7; }
+
+    .cycle { display: flex; align-items: center; justify-content: center; gap: 0; margin: 32px 0; flex-wrap: wrap; }
+    .cycle-step { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 24px 32px; min-width: 160px; }
+    .cycle-icon { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-heading); font-size: 24px; font-weight: 700; }
+    .cycle-icon--learn { background: rgba(96,165,250,0.15); color: var(--info); border: 2px solid rgba(96,165,250,0.4); }
+    .cycle-icon--do { background: rgba(196,255,87,0.12); color: var(--accent); border: 2px solid rgba(196,255,87,0.4); }
+    .cycle-icon--share { background: rgba(250,204,21,0.15); color: var(--warning); border: 2px solid rgba(250,204,21,0.4); }
+    .cycle-name { font-family: var(--font-heading); font-size: 18px; font-weight: 700; color: var(--fg-bright); }
+    .cycle-desc { font-family: var(--font-body); font-size: 11px; font-weight: 300; color: var(--fg-muted); text-align: center; max-width: 140px; }
+    .cycle-arrow { font-size: 24px; color: var(--fg-dim); font-weight: 300; padding: 0 8px; }
+
+    .domain-card { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 6px; box-shadow: var(--shadow-panel); overflow: hidden; transition: all 0.15s; }
+    .domain-card:hover { border-color: var(--border-hover); box-shadow: var(--shadow-elevated); transform: translateY(-1px); }
+    .domain-card__header { padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .domain-card__body { padding: 20px; }
+    .domain-card__number { font-family: var(--font-heading); font-size: 36px; font-weight: 700; line-height: 1; color: var(--accent); opacity: 0.3; }
+
+    .canvas-layer { display: flex; align-items: stretch; gap: 0; border: 1px solid var(--border); border-radius: 6px; overflow: hidden; box-shadow: var(--shadow-panel); }
+    .canvas-layer__label { writing-mode: vertical-lr; text-orientation: mixed; transform: rotate(180deg); padding: 16px 12px; font-family: var(--font-heading); font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; min-width: 44px; }
+    .canvas-layer__content { padding: 20px; flex: 1; background: var(--bg-panel); }
+    .canvas-layer--stable .canvas-layer__label { background: rgba(196,255,87,0.1); color: var(--accent); border-right: 2px solid var(--accent); }
+    .canvas-layer--moving .canvas-layer__label { background: rgba(250,204,21,0.1); color: var(--warning); border-right: 2px solid var(--warning); }
+    .canvas-layer--volatile .canvas-layer__label { background: rgba(96,165,250,0.1); color: var(--info); border-right: 2px solid var(--info); }
+
+    .change-rate { font-family: var(--font-heading); font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 100px; display: inline-flex; align-items: center; }
+    .change-rate--slow { background: rgba(196,255,87,0.08); color: var(--accent); border: 1px solid rgba(196,255,87,0.2); }
+    .change-rate--medium { background: rgba(250,204,21,0.08); color: var(--warning); border: 1px solid rgba(250,204,21,0.2); }
+    .change-rate--fast { background: rgba(96,165,250,0.08); color: var(--info); border: 1px solid rgba(96,165,250,0.2); }
+
+    .big-text { font-family: var(--font-heading); font-size: 22px; font-weight: 600; color: var(--fg-bright); line-height: 1.3; }
+    .pull-quote { border-left: 3px solid var(--accent); padding-left: 20px; margin: 24px 0; font-family: var(--font-body); font-size: 15px; font-weight: 300; color: var(--fg-muted); line-height: 1.7; font-style: italic; }
+  </style>
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav__brand">// prowareness</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <span class="badge badge-accent">Concept v0.3</span>
+      <span class="label">Maart 2026</span>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- HERO -->
+    <section>
+      <p class="eyebrow">AI Learning Roadmap</p>
+      <h1>Je bent al expert.</h1>
+      <div class="hero-quote">
+        AI gaat je werk fundamenteel veranderen. <span>Op manieren die we niet kunnen voorspellen.</span> De vraag is niet of je genoeg weet. De vraag is of je bereid bent om continu te inspecteren en aan te passen.
+      </div>
+      <p class="subtitle mt-6" style="max-width:640px">
+        Dit is geen curriculum. Dit is een manier van werken.
+        <strong>Learn. Do. Share.</strong> Elke week opnieuw. Zolang als nodig.
+      </p>
+    </section>
+
+    <!-- THE REALITY -->
+    <section>
+      <div class="section-title">De realiteit</div>
+
+      <div class="grid-3 gap-6 mt-4">
+        <div class="panel">
+          <div class="reality-number">83%</div>
+          <div class="reality-label">Gebruikt al AI</div>
+          <div class="reality-desc">Van alle professionals in ons vakgebied gebruikt 83% al AI-tools. Maar slechts 15% heeft enige vorm van begeleiding gehad. Ze doen het al — ze doen het alleen.</div>
+          <div class="mt-4"><span class="badge">Scrum.org AI4Agile 2026</span></div>
+        </div>
+        <div class="panel">
+          <div class="reality-number">70%</div>
+          <div class="reality-label">Content verouderd in 6 maanden</div>
+          <div class="reality-desc">Mijn eigen leerroadmap update iedere week. Een whitepaper van 2 maanden terug is niet meer relevant. Een curriculum bouwen is zinloos — het is verouderd voor het live gaat.</div>
+          <div class="mt-4"><span class="badge">Industry research</span></div>
+        </div>
+        <div class="panel">
+          <div class="reality-number">62%</div>
+          <div class="reality-label">Peer learning effectiever</div>
+          <div class="reality-desc">Samen leren is 62% effectiever dan individuele training. Niet een cursus volgen, maar samen experimenteren en delen wat je hebt ontdekt. De lesstof IS wat je collega vorige week deed.</div>
+          <div class="mt-4"><span class="badge">McKinsey 2026</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- KEY MESSAGE -->
+    <section>
+      <div class="panel-accent" style="max-width:800px">
+        <p class="eyebrow mb-4">Kern-boodschap</p>
+        <div class="big-text">
+          Je hoeft geen AI-expert te worden. Je bent al expert in verandering begeleiden, problemen structureren, en organisaties helpen verbeteren.
+        </div>
+        <div class="pull-quote">
+          AI verandert niet wat je doet. Het verandert hoe je het doet. En het hoe verandert elke week. Dat is niet eng — dat is precies de wereld waarin jij al opereert. Je helpt organisaties al jaren om te navigeren in onzekerheid. Nu ga je dat ook voor jezelf doen.
+        </div>
+        <div class="flex gap-4 flex-wrap">
+          <span class="badge badge-accent">Change management</span>
+          <span class="badge badge-accent">Consultancy</span>
+          <span class="badge badge-accent">Product management</span>
+          <span class="badge">= je bestaande toolkit</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LEARN — DO — SHARE -->
+    <section>
+      <div class="section-title">Learn. Do. Share.</div>
+      <p class="text-muted mb-2" style="font-size:13px;font-weight:300;max-width:600px">Geen roadmap. Geen eindpunt. Een continu ritme van inspecteren en aanpassen — toegepast op je eigen professionele ontwikkeling.</p>
+
+      <div class="cycle">
+        <div class="cycle-step">
+          <div class="cycle-icon cycle-icon--learn">L</div>
+          <div class="cycle-name">Learn</div>
+          <div class="cycle-desc">Ontdek iets nieuws. Lees, luister, kijk mee bij een collega.</div>
+        </div>
+        <div class="cycle-arrow">&rarr;</div>
+        <div class="cycle-step">
+          <div class="cycle-icon cycle-icon--do">D</div>
+          <div class="cycle-name">Do</div>
+          <div class="cycle-desc">Probeer het in je echte werk. Bij je klant, in je project. Niet in een sandbox.</div>
+        </div>
+        <div class="cycle-arrow">&rarr;</div>
+        <div class="cycle-step">
+          <div class="cycle-icon cycle-icon--share">S</div>
+          <div class="cycle-name">Share</div>
+          <div class="cycle-desc">Deel wat je deed. Wat werkte, wat niet. Dat wordt de leerstof voor de ander.</div>
+        </div>
+        <div class="cycle-arrow" style="opacity:0.4">&rarr;</div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:0 8px">
+          <div style="font-family:var(--font-heading);font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--fg-dim)">Herhaal</div>
+          <div style="font-size:28px;color:var(--accent);font-weight:300">&infin;</div>
+        </div>
+      </div>
+
+      <div class="grid-3 gap-4 mt-4">
+        <div class="panel-inset">
+          <p class="eyebrow mb-2">Learn</p>
+          <ul class="bullet-list">
+            <li>Korte experimenten van collega's bekijken</li>
+            <li>Een artikel, een podcast, een demo</li>
+            <li>Niet een hele cursus <span class="text-muted">— 15 minuten is genoeg</span></li>
+            <li>Vraag: <strong>"Wat is er deze week veranderd?"</strong></li>
+          </ul>
+        </div>
+        <div class="panel-inset">
+          <p class="eyebrow mb-2">Do</p>
+          <ul class="bullet-list">
+            <li>Pas het toe in je echte werk, deze week</li>
+            <li>Eén ding per keer <span class="text-muted">— niet alles tegelijk</span></li>
+            <li>Falen is prima, niet proberen niet</li>
+            <li>Vraag: <strong>"Waar kan AI mij nu helpen?"</strong></li>
+          </ul>
+        </div>
+        <div class="panel-inset">
+          <p class="eyebrow mb-2">Share</p>
+          <ul class="bullet-list">
+            <li>30 seconden in een standup, 5 minuten in een sessie</li>
+            <li>Niet gepolijst <span class="text-muted">— ruw en eerlijk is beter</span></li>
+            <li>Failures zijn waardevoller dan successen</li>
+            <li>Vraag: <strong>"Wat moet iedereen weten?"</strong></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT AI CHANGES -->
+    <section>
+      <div class="section-title">Wat verandert er echt</div>
+      <p class="text-muted mb-6" style="font-size:13px;font-weight:300;max-width:700px">AI verandert niet je vakgebied. Het verandert hoe je je vakgebied uitoefent. In drie domeinen waar je al sterk in bent.</p>
+
+      <div class="flex-col gap-4">
+        <div class="domain-card">
+          <div class="domain-card__header">
+            <div>
+              <p class="eyebrow">Domein 1</p>
+              <h3 style="font-size:18px;margin-top:4px">Verandering begeleiden</h3>
+            </div>
+            <div class="domain-card__number">01</div>
+          </div>
+          <div class="domain-card__body">
+            <div class="grid-2 gap-6">
+              <div>
+                <h4 style="font-size:14px;color:var(--fg-dim)">Wat je al kunt</h4>
+                <ul class="bullet-list mt-2">
+                  <li>Weerstand herkennen en bespreekbaar maken</li>
+                  <li>Mensen meenemen in onzekerheid</li>
+                  <li>Nieuwe werkwijzen introduceren in teams</li>
+                  <li>Vertrouwen bouwen in veranderprocessen</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="font-size:14px;color:var(--accent)">Wat AI eraan verandert</h4>
+                <ul class="bullet-list mt-2">
+                  <li>Angst voor baanverlies is reeel en nieuw <span class="text-muted">— dit hadden we bij eerdere transities niet zo</span></li>
+                  <li>Shadow AI: mensen doen het stiekem <span class="text-muted">— net als shadow IT, maar sneller</span></li>
+                  <li>Automation bias: teams vertrouwen AI-output blind <span class="text-muted">— jij moet het kritisch denken bewaken</span></li>
+                  <li>Het tempo is ongekend <span class="text-muted">— de verandering stopt nooit</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-inset mt-4">
+              <p style="font-size:13px;font-weight:300;color:var(--fg-muted)"><strong style="color:var(--accent)">Learn-Do-Share:</strong> Observeer hoe je klant nu met AI omgaat. Waar zie je angst, enthousiasme, schaduw-gebruik? Deel die observatie met je collega's. Dat is al waardevolle kennis.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="domain-card">
+          <div class="domain-card__header">
+            <div>
+              <p class="eyebrow">Domein 2</p>
+              <h3 style="font-size:18px;margin-top:4px">Klanten adviseren</h3>
+            </div>
+            <div class="domain-card__number">02</div>
+          </div>
+          <div class="domain-card__body">
+            <div class="grid-2 gap-6">
+              <div>
+                <h4 style="font-size:14px;color:var(--fg-dim)">Wat je al kunt</h4>
+                <ul class="bullet-list mt-2">
+                  <li>Problemen structureren en prioriteren</li>
+                  <li>De juiste vragen stellen bij vaag verzoek</li>
+                  <li>Workshops faciliteren die tot actie leiden</li>
+                  <li>Organisatiecontext lezen en meewegen</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="font-size:14px;color:var(--accent)">Wat AI eraan verandert</h4>
+                <ul class="bullet-list mt-2">
+                  <li>Klanten vragen "we willen iets met AI" <span class="text-muted">— jij helpt van vaag naar concreet</span></li>
+                  <li>AI-readiness beoordelen wordt een kernvraag <span class="text-muted">— cultuur, data, processen</span></li>
+                  <li>Governance ontwerpen zonder snelheid te doden <span class="text-muted">— EU AI Act maakt dit urgent</span></li>
+                  <li>Je eigen AI-gebruik IS je visitekaartje <span class="text-muted">— demonstreer, niet presenteer</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-inset mt-4">
+              <p style="font-size:13px;font-weight:300;color:var(--fg-muted)"><strong style="color:var(--accent)">Learn-Do-Share:</strong> Gebruik AI in je eigen advieswerk. Bereid een klantsessie voor met AI. Analyseer een probleem met AI. Deel met collega's: wat ging beter, wat was onzin?</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="domain-card">
+          <div class="domain-card__header">
+            <div>
+              <p class="eyebrow">Domein 3</p>
+              <h3 style="font-size:18px;margin-top:4px">Waarde leveren met producten</h3>
+            </div>
+            <div class="domain-card__number">03</div>
+          </div>
+          <div class="domain-card__body">
+            <div class="grid-2 gap-6">
+              <div>
+                <h4 style="font-size:14px;color:var(--fg-dim)">Wat je al kunt</h4>
+                <ul class="bullet-list mt-2">
+                  <li>Gebruikersbehoeften ontdekken en valideren</li>
+                  <li>Werk prioriteren op basis van waarde</li>
+                  <li>Hypothese-gedreven werken</li>
+                  <li>Stakeholders alignen rond productbeslissingen</li>
+                </ul>
+              </div>
+              <div>
+                <h4 style="font-size:14px;color:var(--accent)">Wat AI eraan verandert</h4>
+                <ul class="bullet-list mt-2">
+                  <li>AI-features zijn probabilistisch <span class="text-muted">— "95% accuraat" is anders dan "de knop is blauw"</span></li>
+                  <li>Product discovery versnelt enorm <span class="text-muted">— synthetische persona's, sentimentanalyse, snelle prototypes</span></li>
+                  <li>Build vs buy vs fine-tune is een nieuwe afweging <span class="text-muted">— je hoeft het niet zelf te bouwen</span></li>
+                  <li>Data-kwaliteit IS product-kwaliteit <span class="text-muted">— garbage in, garbage out</span></li>
+                </ul>
+              </div>
+            </div>
+            <div class="panel-inset mt-4">
+              <p style="font-size:13px;font-weight:300;color:var(--fg-muted)"><strong style="color:var(--accent)">Learn-Do-Share:</strong> Probeer AI in product discovery. Gebruik het om een probleem te analyseren, een persona te simuleren, of data te verkennen. Deel je bevinding: was het nuttig of misleidend?</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- THREE LAYERS -->
+    <section>
+      <div class="section-title">Drie lagen, drie snelheden</div>
+      <p class="text-muted mb-6" style="font-size:13px;font-weight:300;max-width:640px">Niet alles verandert even snel. De bovenste laag is stabiel — investeer daar. De onderste laag verandert wekelijks — jaag die niet na met formele training.</p>
+
+      <div class="flex-col gap-4">
+        <div class="canvas-layer canvas-layer--stable">
+          <div class="canvas-layer__label">Hoe je denkt</div>
+          <div class="canvas-layer__content">
+            <div class="flex justify-between items-center mb-4">
+              <h4 style="font-size:15px">Overtuigingen en principes</h4>
+              <div class="change-rate change-rate--slow">Stabiel</div>
+            </div>
+            <ul class="bullet-list">
+              <li>AI versterkt menselijk oordeel, vervangt het niet</li>
+              <li>Je bent al expert — AI verbetert hoe je werkt, niet wat je kunt</li>
+              <li>Experimenteren > plannen <span class="text-muted">— perfectionisme is de vijand</span></li>
+              <li>Organisatiecontext en mensenkennis zijn belangrijker dan toolkennis</li>
+              <li>Onzekerheid is normaal <span class="text-muted">— je helpt klanten hier al jaren mee</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="canvas-layer canvas-layer--moving">
+          <div class="canvas-layer__label">Wat je kunt</div>
+          <div class="canvas-layer__content">
+            <div class="flex justify-between items-center mb-4">
+              <h4 style="font-size:15px">Vaardigheden en toepassingen</h4>
+              <div class="change-rate change-rate--medium">Verschuift per kwartaal</div>
+            </div>
+            <ul class="bullet-list">
+              <li>AI-adoptie weerstand herkennen en begeleiden in teams</li>
+              <li>Use cases ontdekken en prioriteren bij klanten</li>
+              <li>Organisatie AI-readiness beoordelen</li>
+              <li>AI inzetten in je eigen advies- en facilitatiewerk</li>
+              <li>Basis AI-ethiek en compliance risico's signaleren</li>
+              <li>Stakeholders helpen navigeren tussen hype en realiteit</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="canvas-layer canvas-layer--volatile">
+          <div class="canvas-layer__label">Wat je gebruikt</div>
+          <div class="canvas-layer__content">
+            <div class="flex justify-between items-center mb-4">
+              <h4 style="font-size:15px">Tools, prompts, technieken</h4>
+              <div class="change-rate change-rate--fast">Verandert per week</div>
+            </div>
+            <ul class="bullet-list">
+              <li>Welke LLM je gebruikt <span class="text-muted">— verandert continu, niet formaliseren</span></li>
+              <li>Specifieke prompts en workflows <span class="text-muted">— deel ze, train ze niet</span></li>
+              <li>AI-integraties in bestaande tools <span class="text-muted">— elke maand nieuwe opties</span></li>
+              <li><strong>Leerstrategie voor deze laag:</strong> peer sharing, niet curriculum</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HOW WE DO THIS -->
+    <section>
+      <div class="section-title">Hoe we dit doen</div>
+      <p class="text-muted mb-6" style="font-size:13px;font-weight:300;max-width:640px">Geen programma. Een ritme. Simpel genoeg om vol te houden, stevig genoeg om effect te hebben.</p>
+
+      <div class="panel-window">
+        <div class="panel-window__header">het.ritme</div>
+        <div class="panel-window__body">
+          <div class="grid-2 gap-6">
+            <div>
+              <p class="eyebrow mb-2">Elke week</p>
+              <div class="panel-inset">
+                <h4 style="font-size:15px">Probeer 1 ding met AI</h4>
+                <p class="text-muted mt-1" style="font-size:13px;font-weight:300">In je echte werk, bij je klant. Niet ernaast. Bereid een sessie voor met AI. Analyseer iets met AI. Gebruik AI om een advies scherper te maken. Eén ding. Klein beginnen.</p>
+              </div>
+            </div>
+            <div>
+              <p class="eyebrow mb-2">Elke 2 weken</p>
+              <div class="panel-inset">
+                <h4 style="font-size:15px">Deel het met iemand</h4>
+                <p class="text-muted mt-1" style="font-size:13px;font-weight:300">30 minuten, in duo's of klein groepje. Wat probeerde je? Wat gebeurde er? Wat leerde je? Geen slides. Geen presentatie. Gewoon praten.</p>
+              </div>
+            </div>
+            <div>
+              <p class="eyebrow mb-2">Elke maand</p>
+              <div class="panel-inset">
+                <h4 style="font-size:15px">Reflecteer samen</h4>
+                <p class="text-muted mt-1" style="font-size:13px;font-weight:300">Wat veranderde er? Welke experimenten werkten? Welke overtuigingen moeten we bijstellen? Dit is het inspect & adapt moment voor onze eigen AI-reis.</p>
+              </div>
+            </div>
+            <div>
+              <p class="eyebrow mb-2">Elke keer dat iemand vraagt</p>
+              <div class="panel-inset">
+                <h4 style="font-size:15px">Help on-demand</h4>
+                <p class="text-muted mt-1" style="font-size:13px;font-weight:300">Vastgelopen? Vraag een collega. Niet wachten op een training. Niet wachten op een expert. De kennis zit in het netwerk. Pull, niet push.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- WHAT WE DON'T / DO -->
+    <section>
+      <div class="grid-2 gap-6">
+        <div class="panel" style="border-color:rgba(240,120,125,0.3)">
+          <p class="eyebrow mb-4" style="color:var(--danger)">Wat we niet doen</p>
+          <ul class="bullet-list">
+            <li style="color:var(--fg-muted)">Een vast curriculum bouwen dat over 3 maanden verouderd is</li>
+            <li style="color:var(--fg-muted)">Iedereen dezelfde tooltraining laten volgen</li>
+            <li style="color:var(--fg-muted)">Wachten tot we "genoeg weten" om te beginnen</li>
+            <li style="color:var(--fg-muted)">Doen alsof we kunnen voorspellen welke skills er over een jaar nodig zijn</li>
+            <li style="color:var(--fg-muted)">AI behandelen als iets dat je "af leert"</li>
+          </ul>
+        </div>
+        <div class="panel" style="border-color:rgba(196,255,87,0.3)">
+          <p class="eyebrow mb-4">Wat we wel doen</p>
+          <ul class="bullet-list">
+            <li>Elke week iets proberen in ons echte werk</li>
+            <li>Delen wat we leren — ruw, eerlijk, zonder opsmuk</li>
+            <li>Ons afvragen: <strong>"Wat is er deze week veranderd?"</strong></li>
+            <li>Vertrouwen op onze bestaande expertise als fundament</li>
+            <li>Accepteren dat we nooit "klaar" zijn <span class="text-muted">— en dat dat oké is</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- THE ONE QUESTION -->
+    <section style="margin-bottom:80px">
+      <div class="panel-accent" style="text-align:center;padding:48px 32px;max-width:700px;margin:0 auto">
+        <p class="eyebrow mb-6">De enige vraag die ertoe doet</p>
+        <h2 style="font-size:28px;line-height:1.3">
+          "Wat heb je deze week<br>geprobeerd met AI?"
+        </h2>
+        <p class="text-muted mt-6" style="font-size:13px;font-weight:300;max-width:440px;margin:0 auto;line-height:1.7">
+          Stel deze vraag in elke 1-op-1. In elke teammeeting. In elke koffiepauze. Het antwoord hoeft niet indrukwekkend te zijn. Het moet er zijn. Dat is het hele systeem.
+        </p>
+        <div class="flex gap-3 mt-6" style="justify-content:center">
+          <span class="badge badge-info">Learn</span>
+          <span style="color:var(--fg-dim)">&rarr;</span>
+          <span class="badge badge-accent">Do</span>
+          <span style="color:var(--fg-dim)">&rarr;</span>
+          <span class="badge badge-warning">Share</span>
+          <span style="color:var(--fg-dim)">&rarr;</span>
+          <span class="badge">&infin;</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="status-bar">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="color:var(--accent)">&#9679;</span> prowareness — AI Learning Roadmap v0.3
+    </div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <span style="color:var(--fg-dim)">concept — maart 2026</span>
+      <span style="color:var(--fg-dim)">learn. do. share.</span>
+    </div>
+  </div>
+
+</body>
+</html>
