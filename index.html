@@ -314,12 +314,12 @@
         <div class="card ring-card callout-purple">
           <span class="ring-icon">&#128218;</span>
           <div class="ring-title">Ring 2: Knowledge</div>
-          <div class="ring-desc">What you know. Client histories, meeting notes, research reports, contact details, market analysis. 520+ markdown files organized by domain &mdash; all searchable, all version-controlled.</div>
+          <div class="ring-desc">What you know. Client histories, meeting notes, research reports, contact details, market analysis. 775 markdown files organized by domain &mdash; all searchable, all version-controlled.</div>
         </div>
         <div class="card ring-card callout-green">
           <span class="ring-icon">&#9889;</span>
           <div class="ring-title">Ring 3: Capability</div>
-          <div class="ring-desc">What you can do. 56 slash commands, 6 specialized agents, 35 project skills, and 11 MCP integrations that connect to Outlook, WhatsApp, LinkedIn, Notion, Google Workspace, Todoist, and more.</div>
+          <div class="ring-desc">What you can do. 58 slash commands, 5 specialized agents, 46 project skills (plus 53 plugin skills), and 13 MCP integrations that connect to Notion, Canva, Google Workspace, Granola, Slack, Chrome DevTools, and more.</div>
         </div>
       </div>
 
@@ -389,21 +389,21 @@
         <div class="mermaid">
 graph TB
     subgraph "Layer 5: User Interface"
-        CMD["/commands (56)"]
+        CMD["/commands (58)"]
         DASH["GitHub Pages Dashboard"]
     end
     subgraph "Layer 4: Automation"
         PIPE["Headless Pipelines"]
     end
     subgraph "Layer 3: Intelligence"
-        SK["Skills (35)"]
-        AG["Agents (6)"]
+        SK["Skills (46 + 53 plugin)"]
+        AG["Agents (5)"]
     end
     subgraph "Layer 2: Integration"
-        MCP["MCP Servers (11)"]
+        MCP["MCP Servers (13)"]
     end
     subgraph "Layer 1: Storage"
-        MD["Markdown (520+ files)"]
+        MD["Markdown (775 files)"]
         SB["Supabase (9 tables)"]
         AM["Auto-Memory"]
     end
@@ -424,7 +424,7 @@ graph TB
       <div class="grid-3 gap-4 mt-4">
         <div class="callout callout-blue">
           <p class="eyebrow">&#128193; Markdown Files</p>
-          <p class="card-desc mt-2">520+ files in <code>memory/</code> organized by domain. Plain text, version-controlled in Git, human-readable. This is where all knowledge lives.</p>
+          <p class="card-desc mt-2">775 files in <code>memory/</code> organized by domain. Plain text, version-controlled in Git, human-readable. This is where all knowledge lives.</p>
         </div>
         <div class="callout callout-purple">
           <p class="eyebrow">&#128452;&#65039; Supabase</p>
@@ -443,32 +443,34 @@ graph TB
           <table>
             <thead><tr><th>Server</th><th>Connects To</th><th>Scope</th><th>Capabilities</th></tr></thead>
             <tbody>
-              <tr><td><code>todoist</code></td><td class="cell-primary">Task management</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Create/update tasks, sync with kanban</td></tr>
-              <tr><td><code>anysite</code></td><td class="cell-primary">Web scraping & research</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">LinkedIn profiles, company pages, any URL</td></tr>
-              <tr><td><code>google-workspace</code></td><td class="cell-primary">Gmail, Docs, Drive, Calendar, Sheets</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">110 tools &mdash; personal account email, docs, events</td></tr>
-              <tr><td><code>outlook</code></td><td class="cell-primary">Local Outlook (Prowareness)</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Read/send work email, calendar</td></tr>
-              <tr><td><code>ms365</code></td><td class="cell-primary">Microsoft 365 cloud</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Mail, calendar, files, work preset</td></tr>
-              <tr><td><code>supabase</code></td><td class="cell-primary">PostgreSQL database</td><td><span class="badge badge-accent">Global</span></td><td class="text-muted">Structured queries, metadata storage</td></tr>
-              <tr><td><code>granola</code></td><td class="cell-primary">Meeting transcripts</td><td><span class="badge badge-info">Hosted</span></td><td class="text-muted">Fetch transcripts from Granola recordings</td></tr>
-              <tr><td><code>notion</code></td><td class="cell-primary">Notion workspace</td><td><span class="badge badge-warning">Plugin</span></td><td class="text-muted">Search, create, update Notion pages</td></tr>
-              <tr><td><code>whatsapp</code></td><td class="cell-primary">WhatsApp messaging</td><td><span class="badge">Project</span></td><td class="text-muted">Read messages, send replies, group channels</td></tr>
-              <tr><td><code>apify</code></td><td class="cell-primary">Web automation actors</td><td><span class="badge">Project</span></td><td class="text-muted">LinkedIn scraping, data extraction at scale</td></tr>
-              <tr><td><code>workiq</code></td><td class="cell-primary">Microsoft 365 Copilot</td><td><span class="badge">Project</span></td><td class="text-muted">Query M365 data via Copilot agents</td></tr>
+              <tr><td><code>claude.ai Notion</code></td><td class="cell-primary">Notion workspace</td><td><span class="badge badge-accent">Hosted</span></td><td class="text-muted">Search, create, update Notion pages and databases</td></tr>
+              <tr><td><code>claude.ai Canva</code></td><td class="cell-primary">Canva designs</td><td><span class="badge badge-accent">Hosted</span></td><td class="text-muted">Generate, edit, export decks and visuals</td></tr>
+              <tr><td><code>claude.ai Gmail</code></td><td class="cell-primary">Gmail</td><td><span class="badge badge-accent">Hosted</span></td><td class="text-muted">Search threads, draft and label messages</td></tr>
+              <tr><td><code>claude.ai Google Calendar</code></td><td class="cell-primary">Google Calendar</td><td><span class="badge badge-accent">Hosted</span></td><td class="text-muted">List, create, update events; suggest times</td></tr>
+              <tr><td><code>claude.ai Google Drive</code></td><td class="cell-primary">Google Drive</td><td><span class="badge badge-accent">Hosted</span></td><td class="text-muted">Read and search files (auth required)</td></tr>
+              <tr><td><code>claude.ai Linear</code></td><td class="cell-primary">Linear issue tracking</td><td><span class="badge badge-info">Hosted</span></td><td class="text-muted">Issues, projects, cycles (auth required)</td></tr>
+              <tr><td><code>claude.ai Miro</code></td><td class="cell-primary">Miro boards</td><td><span class="badge badge-info">Hosted</span></td><td class="text-muted">Whiteboarding (auth required)</td></tr>
+              <tr><td><code>claude.ai PayPal</code></td><td class="cell-primary">PayPal</td><td><span class="badge badge-info">Hosted</span></td><td class="text-muted">Payments (auth required)</td></tr>
+              <tr><td><code>claude.ai Figma</code></td><td class="cell-primary">Figma</td><td><span class="badge badge-info">Hosted</span></td><td class="text-muted">Design files (currently not connecting)</td></tr>
+              <tr><td><code>granola</code></td><td class="cell-primary">Meeting transcripts</td><td><span class="badge badge-accent">Local</span></td><td class="text-muted">Fetch transcripts from Granola recordings</td></tr>
+              <tr><td><code>chrome-devtools</code></td><td class="cell-primary">Chrome browser control</td><td><span class="badge badge-accent">Local</span></td><td class="text-muted">Navigate, screenshot, evaluate JS, network/console</td></tr>
+              <tr><td><code>canva</code> (local)</td><td class="cell-primary">Canva via local proxy</td><td><span class="badge">Local</span></td><td class="text-muted">Auth required &mdash; superseded by hosted Canva</td></tr>
+              <tr><td><code>plugin:slack:slack</code></td><td class="cell-primary">Slack workspaces</td><td><span class="badge badge-warning">Plugin</span></td><td class="text-muted">Search, post, draft (auth required)</td></tr>
             </tbody>
           </table>
         </div>
       </div>
-      <blockquote class="mt-4"><strong>Design principle:</strong> Global servers (7) load in every Claude Code project. Project servers (4) only load in the Second Brain. This reduces startup time and limits blast radius.</blockquote>
+      <blockquote class="mt-4"><strong>Design principle:</strong> Hosted MCP servers (claude.ai endpoints) authenticate via OAuth and load on demand. Local servers run on this machine. Plugin servers ship with installed Claude Code plugins. This separates blast radius and keeps startup fast.</blockquote>
 
       <h3 class="mt-8">Layer 3: Intelligence</h3>
       <div class="grid-2 gap-4 mt-4">
         <div class="callout callout-yellow">
-          <p class="eyebrow">&#9889; 35 Project Skills</p>
-          <p class="card-desc mt-2">Business skills that define <em>how</em> to do things: email triage, LinkedIn posting, meeting processing, market research, WhatsApp management, kanban board, training creation, PDF/PPTX handling. Each is a <code>SKILL.md</code> file in <code>.claude/skills/</code>.</p>
+          <p class="eyebrow">&#9889; 46 Project Skills + 53 Plugin Skills</p>
+          <p class="card-desc mt-2">Business skills that define <em>how</em> to do things: email triage, LinkedIn posting, meeting processing, market research, WhatsApp management, kanban board, training creation, PDF/PPTX handling. Each is a <code>SKILL.md</code> file in <code>.claude/skills/</code>. Plugin skills ship with Superpowers, Slack, Notion, Playground, Ralph Loop, and memsearch.</p>
         </div>
         <div class="callout callout-pink">
-          <p class="eyebrow">&#129302; 6 Agents</p>
-          <p class="card-desc mt-2">Specialized personas in <code>.claude/agents/</code>: chief-of-staff, email-agent, content-creator, market-researcher, research-depth-analyzer, claude-code-specialist.</p>
+          <p class="eyebrow">&#129302; 5 Agents</p>
+          <p class="card-desc mt-2">Specialized personas in <code>.claude/agents/</code>: claude-code-specialist, content-creator, email-agent, market-researcher, research-depth-analyzer.</p>
         </div>
       </div>
 
@@ -484,7 +486,7 @@ graph TB
 
       <h3 class="mt-8">Layer 5: User Interface</h3>
       <div class="callout callout-red mt-4">
-        <p><span class="callout-icon">&#127919;</span> <strong>56 slash commands</strong> are the primary UI. You type <code>/command</code> and the brain executes. This <a href="https://svpavlov.github.io/">GitHub Pages dashboard</a> provides a visual overview. Supabase powers structured data storage and queries.</p>
+        <p><span class="callout-icon">&#127919;</span> <strong>58 slash commands</strong> are the primary UI. You type <code>/command</code> and the brain executes. This <a href="https://svpavlov.github.io/">GitHub Pages dashboard</a> provides a visual overview. Supabase powers structured data storage and queries.</p>
       </div>
     </section>
 
@@ -497,55 +499,56 @@ graph TB
 
       <div class="grid-4 gap-4 mt-4">
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">56</div>
+          <div class="stat-number">58</div>
           <div class="stat-label">Slash Commands</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">35</div>
+          <div class="stat-number">46</div>
           <div class="stat-label">Project Skills</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">6</div>
+          <div class="stat-number">5</div>
           <div class="stat-label">Agents</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">11</div>
+          <div class="stat-number">13</div>
           <div class="stat-label">MCP Servers</div>
         </div>
       </div>
       <div class="grid-4 gap-4 mt-4">
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">520+</div>
+          <div class="stat-number">775</div>
           <div class="stat-label">Memory Files</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">11</div>
+          <div class="stat-number">14</div>
           <div class="stat-label">Clients Tracked</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">40</div>
+          <div class="stat-number">85</div>
           <div class="stat-label">Research Reports</div>
         </div>
         <div class="panel" style="text-align:center;padding:24px 16px">
-          <div class="stat-number">9</div>
-          <div class="stat-label">Supabase Tables</div>
+          <div class="stat-number">53</div>
+          <div class="stat-label">Plugin Skills</div>
         </div>
       </div>
 
       <div class="panel-window mt-8">
-        <div class="panel-window__header">inventory.overview</div>
+        <div class="panel-window__header">inventory.overview &mdash; updated 2026-04-30
         <div class="panel-window__body" style="padding:0;overflow-x:auto">
           <table>
             <thead><tr><th>Component</th><th>Count</th><th>Details</th></tr></thead>
             <tbody>
-              <tr><td class="cell-primary">Slash Commands</td><td><strong style="color:var(--accent)">56</strong></td><td class="text-muted">Core workflow, planning, content, communication, client, system</td></tr>
-              <tr><td class="cell-primary">Project Skills</td><td><strong style="color:var(--accent)">35</strong></td><td class="text-muted">Business skills in <code>.claude/skills/</code></td></tr>
-              <tr><td class="cell-primary">Agents</td><td><strong style="color:var(--accent)">6</strong></td><td class="text-muted">Specialized personas in <code>.claude/agents/</code></td></tr>
-              <tr><td class="cell-primary">MCP Servers</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">7 global + 4 project</td></tr>
-              <tr><td class="cell-primary">Memory Files</td><td><strong style="color:var(--accent)">520+</strong></td><td class="text-muted">In <code>memory/</code> &mdash; clients, research, patterns, workflows, contacts, training</td></tr>
-              <tr><td class="cell-primary">Clients Tracked</td><td><strong style="color:var(--accent)">11</strong></td><td class="text-muted">ABN AMRO, ASML, Achmea, Equalit, Fancom, and more</td></tr>
-              <tr><td class="cell-primary">Research Reports</td><td><strong style="color:var(--accent)">40</strong></td><td class="text-muted">Market analysis, competitor research, technology evaluations</td></tr>
-              <tr><td class="cell-primary">Kanban Cards</td><td><strong style="color:var(--accent)">12</strong></td><td class="text-muted">3 in_progress, 6 planned, 3 ideas</td></tr>
+              <tr><td class="cell-primary">Slash Commands</td><td><strong style="color:var(--accent)">58</strong></td><td class="text-muted">Core workflow, planning, content, communication, client, system</td></tr>
+              <tr><td class="cell-primary">Project Skills</td><td><strong style="color:var(--accent)">46</strong></td><td class="text-muted">Business skills in <code>.claude/skills/</code></td></tr>
+              <tr><td class="cell-primary">Plugin Skills</td><td><strong style="color:var(--accent)">53</strong></td><td class="text-muted">From Superpowers, Slack, Notion, Playground, Ralph Loop, memsearch</td></tr>
+              <tr><td class="cell-primary">Agents</td><td><strong style="color:var(--accent)">5</strong></td><td class="text-muted">Specialized personas in <code>.claude/agents/</code></td></tr>
+              <tr><td class="cell-primary">MCP Servers</td><td><strong style="color:var(--accent)">13</strong></td><td class="text-muted">9 hosted (claude.ai) + 3 local + 1 plugin</td></tr>
+              <tr><td class="cell-primary">Memory Files</td><td><strong style="color:var(--accent)">775</strong></td><td class="text-muted">In <code>memory/</code> &mdash; clients, research, patterns, workflows, contacts, training</td></tr>
+              <tr><td class="cell-primary">Clients Tracked</td><td><strong style="color:var(--accent)">14</strong></td><td class="text-muted">ABN AMRO, ASML, Achmea, Equalit, Fancom, emagine, and more</td></tr>
+              <tr><td class="cell-primary">Research Reports</td><td><strong style="color:var(--accent)">85</strong></td><td class="text-muted">Market analysis, competitor research, technology evaluations</td></tr>
+              <tr><td class="cell-primary">Kanban Cards</td><td><strong style="color:var(--accent)">16</strong></td><td class="text-muted">Active and planned projects in <code>memory/kanban/</code></td></tr>
               <tr><td class="cell-primary">Supabase Tables</td><td><strong style="color:var(--accent)">9</strong></td><td class="text-muted">clients, contacts, meetings, kanban_cards, action_items, sessions, learning_events, research_reports, follow_ups</td></tr>
               <tr><td class="cell-primary">Headless Pipelines</td><td><strong style="color:var(--accent)">3</strong></td><td class="text-muted">morning-briefing, inbox-zero, multi-agent</td></tr>
             </tbody>
